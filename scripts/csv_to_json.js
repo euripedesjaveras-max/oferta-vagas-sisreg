@@ -1,9 +1,8 @@
 // scripts/csv_to_json.js
-// Script genérico para converter CSV (; ) em JSON
+// Converte arquivos CSV (;) em JSON automaticamente
 // Usado pelo GitHub Actions
 
 const fs = require("fs");
-const path = require("path");
 
 function converter(csvPath, jsonPath) {
   const conteudo = fs.readFileSync(csvPath, "utf-8");
@@ -26,13 +25,8 @@ function converter(csvPath, jsonPath) {
   fs.writeFileSync(jsonPath, JSON.stringify(dados, null, 2), "utf-8");
 }
 
-// ---- CONFIGURAÇÃO ----
-// Aqui você controla o que converte
+// ⚠️ CONFIGURAÇÃO ATUAL
 converter(
   "data/profissionais.csv",
   "data/profissionais.json"
 );
-
-// No futuro:
-// converter("data/unidades.csv", "data/unidades.json");
-// converter("data/procedimentos_exames.csv", "data/procedimentos_exames.json");
