@@ -2,7 +2,7 @@
 // Página ESCALAS
 // - CPF e Nome em campos separados
 // - Busca por CPF preenche Nome
-// - Busca por Nome com NORMALIZAÇÃO (acentos)
+// - Busca por Nome com autocomplete
 // - Inserção em tabela
 // - Exclusão de linhas
 
@@ -14,34 +14,26 @@ const cpfInput = document.getElementById("cpfInput");
 const nomeInput = document.getElementById("nomeInput");
 const listaNomes = document.getElementById("listaNomes");
 
-// --------------------------------------------------
-// FUNÇÃO AUXILIAR
-// Normaliza texto removendo acentos e colocando em minúsculo
-// Ex: "ÁBNER" -> "abner"
-// --------------------------------------------------
-function normalizarTexto(texto) {
-  return texto
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-// --------------------------------------------------
-// Carrega profissionais do JSON
-// --------------------------------------------------
-fetch("data/profissionais.json")
+/*
+  FETCH COM CACHE BUST
+  Adiciona timestamp para forçar o navegador
+  a buscar sempre a versão mais recente do JSON
+*/
+fetch("data/profissionais.json?v=" + Date.now())
   .then(res => res.json())
   .then(data => {
     profissionais = data;
+    console.log("Profissionais carregados:", profissionais.length);
+  })
+  .catch(err => {
+    console.error("Erro ao carregar profissionais.json", err);
   });
 
-// --------------------------------------------------
-// BUSCA POR CPF
-// Ao sair do campo CPF, busca o profissional
-// --------------------------------------------------
+/*
+  BUSCA POR CPF
+*/
 cpfInput.addEventListener("blur", () => {
   const cpf = cpfInput.value.trim();
-
   if (!cpf) return;
 
   const prof = profissionais.find(p => p.cpf === cpf);
@@ -56,11 +48,11 @@ cpfInput.addEventListener("blur", () => {
   }
 });
 
-// --------------------------------------------------
-// BUSCA POR NOME (AUTOCOMPLETE COM NORMALIZAÇÃO)
-// --------------------------------------------------
+/*
+  BUSCA POR NOME (AUTOCOMPLETE)
+*/
 nomeInput.addEventListener("input", () => {
-  const termo = normalizarTexto(nomeInput.value);
+  const termo = nomeInput.value.toLowerCase();
   listaNomes.innerHTML = "";
 
   if (termo.length < 2) {
@@ -69,7 +61,7 @@ nomeInput.addEventListener("input", () => {
   }
 
   const resultados = profissionais.filter(p =>
-    normalizarTexto(p.nome).includes(termo)
+    p.nome.toLowerCase().includes(termo)
   );
 
   resultados.slice(0, 10).forEach(p => {
@@ -89,9 +81,9 @@ nomeInput.addEventListener("input", () => {
   listaNomes.style.display = resultados.length ? "block" : "none";
 });
 
-// --------------------------------------------------
-// INSERÇÃO NA TABELA
-// --------------------------------------------------
+/*
+  INSERÇÃO NA TABELA
+*/
 document.getElementById("formEscala").addEventListener("submit", e => {
   e.preventDefault();
 
@@ -112,14 +104,11 @@ document.getElementById("formEscala").addEventListener("submit", e => {
     <td>${horaInicio.value}</td>
     <td>${horaFim.value}</td>
     <td>${vagas.value}</td>
-    <td>
-      <button onclick="this.closest('tr').remove()">X</button>
-    </td>
+    <td><button onclick="this.closest('tr').remove()">X</button></td>
   `;
 
   tabela.appendChild(tr);
 
-  // Limpa formulário
   e.target.reset();
   profissionalSelecionado = null;
   listaNomes.style.display = "none";
