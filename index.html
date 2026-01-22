@@ -1,1 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Oferta de Vagas</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<h2 id="titulo-unidade">Oferta de Vagas</h2>
+
+<form id="ofertaForm">
+
+  <label>Profissional</label>
+  <select id="profissionalSelect" required></select>
+  <div id="avisoProfissional" class="aviso"></div>
+
+  <label>Procedimento</label>
+  <select id="procedimentoSelect" required></select>
+
+  <label>Exames</label>
+  <select id="examesSelect" multiple disabled></select>
+
+  <label>Dias da Semana</label>
+  <div>
+    <label><input type="checkbox" value="SEG"> SEG</label>
+    <label><input type="checkbox" value="TER"> TER</label>
+    <label><input type="checkbox" value="QUA"> QUA</label>
+    <label><input type="checkbox" value="QUI"> QUI</label>
+    <label><input type="checkbox" value="SEX"> SEX</label>
+  </div>
+
+  <label>Horário Inicial</label>
+  <input type="time" id="horaInicio" required>
+
+  <label>Horário Final</label>
+  <input type="time" id="horaFim" required>
+
+  <label>Vagas</label>
+  <input type="number" id="vagas" min="1" required>
+
+  <label>Data Inicial</label>
+  <input type="date" id="dataInicio" required>
+
+  <label>Data Final</label>
+  <input type="date" id="dataFim" required>
+
+  <button type="submit">Exportar CSV</button>
+</form>
+
+<script src="js/utils.js"></script>
+<script src="js/exportCsv.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
 
