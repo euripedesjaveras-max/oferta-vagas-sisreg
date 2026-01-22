@@ -1,0 +1,31 @@
+name: Converter CSV para JSON
+
+on:
+  push:
+    paths:
+      - "data/*.csv"
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Converter CSV em JSON
+        run: |
+          node scripts/csv_to_json.js
+
+      - name: Commit do JSON atualizado
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data/*.json
+          git commit -m "Atualiza JSON a partir do CSV" || echo "Sem alterações"
+          git push
