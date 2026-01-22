@@ -5,6 +5,33 @@
   <title>Escalas / Oferta de Vagas</title>
 
   <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Estilos específicos desta página */
+    .autocomplete {
+      border: 1px solid #ccc;
+      max-height: 150px;
+      overflow-y: auto;
+      display: none;
+      position: absolute;
+      background: #fff;
+      width: 100%;
+      z-index: 10;
+    }
+
+    .autocomplete div {
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    .autocomplete div:hover {
+      background: #eee;
+    }
+
+    .campo-relativo {
+      position: relative;
+    }
+  </style>
 </head>
 <body>
 
@@ -13,21 +40,28 @@
   <!-- FORMULÁRIO DE OFERTA -->
   <form id="formEscala">
 
-    <!-- BUSCA POR CPF OU NOME -->
-    <label>Profissional (CPF ou Nome)</label>
+    <!-- CPF -->
+    <label>CPF do Profissional</label>
     <input
       type="text"
-      id="buscaProfissional"
-      placeholder="Digite CPF ou nome do profissional"
-      autocomplete="off"
+      id="cpfInput"
+      placeholder="Digite o CPF"
+      maxlength="11"
       required
     >
 
-    <!-- LISTA DINÂMICA DE RESULTADOS -->
-    <div id="listaResultados" style="border:1px solid #ccc; display:none;"></div>
-
-    <input type="hidden" id="cpfSelecionado">
-    <input type="hidden" id="nomeSelecionado">
+    <!-- NOME COM AUTOCOMPLETE -->
+    <label>Nome do Profissional</label>
+    <div class="campo-relativo">
+      <input
+        type="text"
+        id="nomeInput"
+        placeholder="Digite o nome do profissional"
+        autocomplete="off"
+        required
+      >
+      <div id="listaNomes" class="autocomplete"></div>
+    </div>
 
     <label>Procedimento</label>
     <input type="text" id="procedimento" required>
@@ -67,9 +101,7 @@
         <th>Ação</th>
       </tr>
     </thead>
-    <tbody>
-      <!-- linhas inseridas via JS -->
-    </tbody>
+    <tbody></tbody>
   </table>
 
   <script src="js/escalas.js"></script>
