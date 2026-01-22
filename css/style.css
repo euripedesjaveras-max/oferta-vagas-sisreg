@@ -1,1 +1,26 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 700px;
+  margin: auto;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+}
+
+select, input {
+  width: 100%;
+  padding: 6px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.aviso {
+  color: red;
+  font-size: 0.9em;
+}
 
