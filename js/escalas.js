@@ -1,64 +1,84 @@
 // js/escalas.js
 // Página ESCALAS
-// - Busca profissional por CPF ou nome
-// - Insere oferta na tabela
-// - Permite excluir linhas
+// - CPF e Nome em campos separados
+// - Busca por CPF preenche Nome
+// - Busca por Nome (autocomplete) preenche CPF
+// - Inserção em tabela
+// - Exclusão de linhas
 
 let profissionais = [];
 let profissionalSelecionado = null;
 
-/*
-  Carrega lista de profissionais do JSON
-*/
+// Campos
+const cpfInput = document.getElementById("cpfInput");
+const nomeInput = document.getElementById("nomeInput");
+const listaNomes = document.getElementById("listaNomes");
+
+// Carrega profissionais
 fetch("data/profissionais.json")
   .then(res => res.json())
   .then(data => {
     profissionais = data;
   });
 
-const inputBusca = document.getElementById("buscaProfissional");
-const listaResultados = document.getElementById("listaResultados");
+/*
+  BUSCA POR CPF
+  - Quando o usuário sai do campo CPF
+  - Procura o profissional
+  - Preenche o nome automaticamente
+*/
+cpfInput.addEventListener("blur", () => {
+  const cpf = cpfInput.value.trim();
+
+  if (!cpf) return;
+
+  const prof = profissionais.find(p => p.cpf === cpf);
+
+  if (prof) {
+    profissionalSelecionado = prof;
+    nomeInput.value = prof.nome;
+  } else {
+    alert("CPF não encontrado na base de profissionais.");
+    nomeInput.value = "";
+    profissionalSelecionado = null;
+  }
+});
 
 /*
-  Evento de digitação para busca dinâmica
+  BUSCA POR NOME (AUTOCOMPLETE)
 */
-inputBusca.addEventListener("input", () => {
-  const termo = inputBusca.value.toLowerCase();
-  listaResultados.innerHTML = "";
+nomeInput.addEventListener("input", () => {
+  const termo = nomeInput.value.toLowerCase();
+  listaNomes.innerHTML = "";
 
   if (termo.length < 2) {
-    listaResultados.style.display = "none";
+    listaNomes.style.display = "none";
     return;
   }
 
   const resultados = profissionais.filter(p =>
-    p.cpf.includes(termo) ||
     p.nome.toLowerCase().includes(termo)
   );
 
   resultados.slice(0, 10).forEach(p => {
     const div = document.createElement("div");
     div.textContent = `${p.nome} (${p.cpf})`;
-    div.style.cursor = "pointer";
-    div.style.padding = "4px";
 
-    /*
-      Ao clicar, fixa o profissional selecionado
-    */
     div.onclick = () => {
       profissionalSelecionado = p;
-      inputBusca.value = `${p.nome} (${p.cpf})`;
-      listaResultados.style.display = "none";
+      cpfInput.value = p.cpf;
+      nomeInput.value = p.nome;
+      listaNomes.style.display = "none";
     };
 
-    listaResultados.appendChild(div);
+    listaNomes.appendChild(div);
   });
 
-  listaResultados.style.display = resultados.length ? "block" : "none";
+  listaNomes.style.display = resultados.length ? "block" : "none";
 });
 
 /*
-  Inserção na tabela
+  INSERÇÃO NA TABELA
 */
 document.getElementById("formEscala").addEventListener("submit", e => {
   e.preventDefault();
@@ -87,9 +107,8 @@ document.getElementById("formEscala").addEventListener("submit", e => {
 
   tabela.appendChild(tr);
 
-  /*
-    Limpa formulário após inserção
-  */
+  // Limpa formulário
   e.target.reset();
   profissionalSelecionado = null;
+  listaNomes.style.display = "none";
 });
