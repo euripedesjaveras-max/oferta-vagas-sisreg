@@ -2,7 +2,7 @@
 // Página ESCALAS
 // - CPF e Nome em campos separados
 // - Busca por CPF preenche Nome
-// - Busca por Nome (autocomplete) preenche CPF
+// - Busca por Nome com NORMALIZAÇÃO (acentos)
 // - Inserção em tabela
 // - Exclusão de linhas
 
@@ -14,19 +14,31 @@ const cpfInput = document.getElementById("cpfInput");
 const nomeInput = document.getElementById("nomeInput");
 const listaNomes = document.getElementById("listaNomes");
 
-// Carrega profissionais
+// --------------------------------------------------
+// FUNÇÃO AUXILIAR
+// Normaliza texto removendo acentos e colocando em minúsculo
+// Ex: "ÁBNER" -> "abner"
+// --------------------------------------------------
+function normalizarTexto(texto) {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+// --------------------------------------------------
+// Carrega profissionais do JSON
+// --------------------------------------------------
 fetch("data/profissionais.json")
   .then(res => res.json())
   .then(data => {
     profissionais = data;
   });
 
-/*
-  BUSCA POR CPF
-  - Quando o usuário sai do campo CPF
-  - Procura o profissional
-  - Preenche o nome automaticamente
-*/
+// --------------------------------------------------
+// BUSCA POR CPF
+// Ao sair do campo CPF, busca o profissional
+// --------------------------------------------------
 cpfInput.addEventListener("blur", () => {
   const cpf = cpfInput.value.trim();
 
@@ -44,11 +56,11 @@ cpfInput.addEventListener("blur", () => {
   }
 });
 
-/*
-  BUSCA POR NOME (AUTOCOMPLETE)
-*/
+// --------------------------------------------------
+// BUSCA POR NOME (AUTOCOMPLETE COM NORMALIZAÇÃO)
+// --------------------------------------------------
 nomeInput.addEventListener("input", () => {
-  const termo = nomeInput.value.toLowerCase();
+  const termo = normalizarTexto(nomeInput.value);
   listaNomes.innerHTML = "";
 
   if (termo.length < 2) {
@@ -57,7 +69,7 @@ nomeInput.addEventListener("input", () => {
   }
 
   const resultados = profissionais.filter(p =>
-    p.nome.toLowerCase().includes(termo)
+    normalizarTexto(p.nome).includes(termo)
   );
 
   resultados.slice(0, 10).forEach(p => {
@@ -77,9 +89,9 @@ nomeInput.addEventListener("input", () => {
   listaNomes.style.display = resultados.length ? "block" : "none";
 });
 
-/*
-  INSERÇÃO NA TABELA
-*/
+// --------------------------------------------------
+// INSERÇÃO NA TABELA
+// --------------------------------------------------
 document.getElementById("formEscala").addEventListener("submit", e => {
   e.preventDefault();
 
