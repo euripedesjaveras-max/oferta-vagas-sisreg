@@ -2,55 +2,68 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Oferta de Vagas</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <title>Sistema de Oferta de Vagas</title>
+
+  <!-- Estilo simples apenas para layout inicial -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+    }
+
+    header {
+      margin-bottom: 30px;
+    }
+
+    nav a {
+      margin-right: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #0056b3;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .conteudo {
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
 
-<h2 id="titulo-unidade">Oferta de Vagas</h2>
+  <!-- CABEÇALHO -->
+  <header>
+    <h1>Sistema de Oferta de Vagas</h1>
 
-<form id="ofertaForm">
+    <!-- MENU BÁSICO -->
+    <nav>
+      <a href="index.html">INÍCIO</a>
+      <!-- Página que futuramente conterá o formulário -->
+      <a href="escalas.html">ESCALAS</a>
+    </nav>
+  </header>
 
-  <label>Profissional</label>
-  <select id="profissionalSelect" required></select>
-  <div id="avisoProfissional" class="aviso"></div>
+  <!-- CONTEÚDO INICIAL (simples por enquanto) -->
+  <div class="conteudo">
+    <p>
+      Bem-vindo ao sistema de organização da oferta de vagas das unidades executantes.
+    </p>
 
-  <label>Procedimento</label>
-  <select id="procedimentoSelect" required></select>
+    <p>
+      Utilize o menu acima para acessar as funcionalidades disponíveis.
+    </p>
 
-  <label>Exames</label>
-  <select id="examesSelect" multiple disabled></select>
-
-  <label>Dias da Semana</label>
-  <div>
-    <label><input type="checkbox" value="SEG"> SEG</label>
-    <label><input type="checkbox" value="TER"> TER</label>
-    <label><input type="checkbox" value="QUA"> QUA</label>
-    <label><input type="checkbox" value="QUI"> QUI</label>
-    <label><input type="checkbox" value="SEX"> SEX</label>
+    <!--
+      OBS:
+      Esta página será evoluída no futuro para:
+      - resumo das unidades
+      - indicadores
+      - status de envio mensal
+    -->
   </div>
 
-  <label>Horário Inicial</label>
-  <input type="time" id="horaInicio" required>
-
-  <label>Horário Final</label>
-  <input type="time" id="horaFim" required>
-
-  <label>Vagas</label>
-  <input type="number" id="vagas" min="1" required>
-
-  <label>Data Inicial</label>
-  <input type="date" id="dataInicio" required>
-
-  <label>Data Final</label>
-  <input type="date" id="dataFim" required>
-
-  <button type="submit">Exportar CSV</button>
-</form>
-
-<script src="js/utils.js"></script>
-<script src="js/exportCsv.js"></script>
-<script src="js/main.js"></script>
 </body>
 </html>
-
