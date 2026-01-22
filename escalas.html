@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Escalas / Oferta de Vagas</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <h2>Oferta de Vagas – Escalas</h2>
+
+  <!-- FORMULÁRIO DE OFERTA -->
+  <form id="formEscala">
+
+    <!-- BUSCA POR CPF OU NOME -->
+    <label>Profissional (CPF ou Nome)</label>
+    <input
+      type="text"
+      id="buscaProfissional"
+      placeholder="Digite CPF ou nome do profissional"
+      autocomplete="off"
+      required
+    >
+
+    <!-- LISTA DINÂMICA DE RESULTADOS -->
+    <div id="listaResultados" style="border:1px solid #ccc; display:none;"></div>
+
+    <input type="hidden" id="cpfSelecionado">
+    <input type="hidden" id="nomeSelecionado">
+
+    <label>Procedimento</label>
+    <input type="text" id="procedimento" required>
+
+    <label>Exames</label>
+    <input type="text" id="exames" placeholder="Separar por ; se houver">
+
+    <label>Dias da Semana</label>
+    <input type="text" id="dias" placeholder="Ex: SEG TER QUA" required>
+
+    <label>Horário Inicial</label>
+    <input type="time" id="horaInicio" required>
+
+    <label>Horário Final</label>
+    <input type="time" id="horaFim" required>
+
+    <label>Vagas</label>
+    <input type="number" id="vagas" min="1" required>
+
+    <button type="submit">Inserir</button>
+  </form>
+
+  <hr>
+
+  <!-- TABELA DE DADOS INSERIDOS -->
+  <table border="1" width="100%" id="tabelaEscalas">
+    <thead>
+      <tr>
+        <th>CPF</th>
+        <th>Nome</th>
+        <th>Procedimento</th>
+        <th>Exames</th>
+        <th>Dias</th>
+        <th>Hora Início</th>
+        <th>Hora Fim</th>
+        <th>Vagas</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- linhas inseridas via JS -->
+    </tbody>
+  </table>
+
+  <script src="js/escalas.js"></script>
+</body>
+</html>
