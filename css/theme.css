@@ -1,1 +1,176 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+}
+
+/* BASE */
+body {
+  margin: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  background: #f4f6f9;
+  color: #333;
+}
+
+/* HEADER */
+.app-header {
+  background: linear-gradient(90deg, #0d47a1, #1565c0);
+  color: #fff;
+  padding: 16px 24px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 18px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* FORMULÁRIO */
+form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.campo input {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.campo input:focus {
+  outline: none;
+  border-color: #1565c0;
+}
+
+.full {
+  grid-column: span 3;
+}
+
+/* BOTÃO */
+button {
+  background: linear-gradient(90deg, #0d47a1, #1565c0);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* TABELA */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead {
+  background: #e3f2fd;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+  background: #f9f9f9;
+}
+
+/* AUTOCOMPLETE */
+.campo-relativo {
+  position: relative;
+}
+
+.autocomplete {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  max-height: 180px;
+  overflow-y: auto;
+  display: none;
+  z-index: 100;
+}
+
+.autocomplete div {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.autocomplete div:hover {
+  background: #e3f2fd;
+}
+
+/* RESPONSIVO */
+@media (max-width: 1024px) {
+  form {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .full {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: span 1;
+  }
+
+  .app-header h1 {
+    font-size: 16px;
+  }
+}
 
