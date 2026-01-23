@@ -1,5 +1,5 @@
 // js/escalas.js
-// Escalas - autocomplete para PROFISSIONAL e PROCEDIMENTO (AJUSTADO AO CSV REAL)
+// Busca robusta + aviso INATIVO + procedimento funcional
 
 let profissionais = [];
 let procedimentos = [];
@@ -7,54 +7,66 @@ let procedimentos = [];
 let profissionalSelecionado = null;
 let procedimentoSelecionado = null;
 
-// CAMPOS PROFISSIONAL
+// Campos
 const cpfInput = document.getElementById("cpfInput");
 const nomeInput = document.getElementById("nomeInput");
 const listaNomes = document.getElementById("listaNomes");
+const avisoInativo = document.getElementById("avisoInativo");
 
-// CAMPOS PROCEDIMENTO
 const procedimentoInput = document.getElementById("procedimentoInput");
 const listaProcedimentos = document.getElementById("listaProcedimentos");
 const examesInput = document.getElementById("examesInput");
 
 // =======================
-// CARREGAMENTO DE DADOS
+// UTIL
 // =======================
 
-// Profissionais
+function normalizarTexto(txt) {
+  return txt
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+// =======================
+// CARREGAMENTO
+// =======================
+
 fetch("data/profissionais.json?v=" + Date.now())
   .then(r => r.json())
-  .then(data => profissionais = data);
+  .then(d => profissionais = d);
 
-// Procedimentos
 fetch("data/procedimentos_exames.json?v=" + Date.now())
   .then(r => r.json())
-  .then(data => procedimentos = data);
+  .then(d => procedimentos = d);
 
 // =======================
 // PROFISSIONAIS
 // =======================
 
-// Busca por CPF
 cpfInput.addEventListener("blur", () => {
   const cpf = cpfInput.value.trim();
-  if (!cpf) return;
-
   const prof = profissionais.find(p => p.cpf === cpf);
+
+  avisoInativo.style.display = "none";
+
   if (prof) {
     profissionalSelecionado = prof;
     nomeInput.value = prof.nome;
+
+    if (prof.ativo === "INATIVO") {
+      avisoInativo.style.display = "block";
+    }
   } else {
-    alert("CPF não encontrado.");
-    nomeInput.value = "";
     profissionalSelecionado = null;
+    nomeInput.value = "";
   }
 });
 
-// Busca por Nome
 nomeInput.addEventListener("input", () => {
-  const termo = nomeInput.value.toLowerCase();
+  const termo = normalizarTexto(nomeInput.value);
   listaNomes.innerHTML = "";
+  avisoInativo.style.display = "none";
 
   if (termo.length < 2) {
     listaNomes.style.display = "none";
@@ -62,7 +74,7 @@ nomeInput.addEventListener("input", () => {
   }
 
   profissionais
-    .filter(p => p.nome.toLowerCase().includes(termo))
+    .filter(p => normalizarTexto(p.nome).includes(termo))
     .slice(0, 10)
     .forEach(p => {
       const div = document.createElement("div");
@@ -71,6 +83,11 @@ nomeInput.addEventListener("input", () => {
         profissionalSelecionado = p;
         cpfInput.value = p.cpf;
         nomeInput.value = p.nome;
+
+        if (p.ativo === "INATIVO") {
+          avisoInativo.style.display = "block";
+        }
+
         listaNomes.style.display = "none";
       };
       listaNomes.appendChild(div);
@@ -80,11 +97,11 @@ nomeInput.addEventListener("input", () => {
 });
 
 // =======================
-// PROCEDIMENTOS (AUTOCOMPLETE)
+// PROCEDIMENTOS (AGORA FUNCIONA)
 // =======================
 
 procedimentoInput.addEventListener("input", () => {
-  const termo = procedimentoInput.value.toLowerCase();
+  const termo = normalizarTexto(procedimentoInput.value);
   listaProcedimentos.innerHTML = "";
 
   if (termo.length < 2) {
@@ -94,7 +111,7 @@ procedimentoInput.addEventListener("input", () => {
 
   procedimentos
     .filter(p =>
-      p.procedimento.toLowerCase().includes(termo) ||
+      normalizarTexto(p.procedimento).includes(termo) ||
       p.cod_int.includes(termo)
     )
     .slice(0, 10)
@@ -105,7 +122,6 @@ procedimentoInput.addEventListener("input", () => {
         procedimentoSelecionado = p;
         procedimentoInput.value = `${p.cod_int} - ${p.procedimento}`;
 
-        // Habilita exames somente se for GRUPO
         if (p.procedimento.toUpperCase().startsWith("GRUPO")) {
           examesInput.disabled = false;
         } else {
@@ -122,19 +138,14 @@ procedimentoInput.addEventListener("input", () => {
 });
 
 // =======================
-// INSERÇÃO NA TABELA
+// SUBMIT
 // =======================
 
 document.getElementById("formEscala").addEventListener("submit", e => {
   e.preventDefault();
 
-  if (!profissionalSelecionado) {
-    alert("Selecione um profissional válido.");
-    return;
-  }
-
-  if (!procedimentoSelecionado) {
-    alert("Selecione um procedimento válido.");
+  if (!profissionalSelecionado || !procedimentoSelecionado) {
+    alert("Preencha profissional e procedimento corretamente.");
     return;
   }
 
@@ -152,9 +163,9 @@ document.getElementById("formEscala").addEventListener("submit", e => {
   `;
 
   document.querySelector("#tabelaEscalas tbody").appendChild(tr);
-
   e.target.reset();
   examesInput.disabled = true;
+  avisoInativo.style.display = "none";
   profissionalSelecionado = null;
   procedimentoSelecionado = null;
 });
