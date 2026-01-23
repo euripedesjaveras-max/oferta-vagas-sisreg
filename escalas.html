@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Escalas | Agenda</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,19 +14,23 @@
 <header class="app-header">
   <div style="display:flex;justify-content:space-between;align-items:center;">
     <h1>SISREG – Escala agendas</h1>
-    <a href="index.html" style="color:#fff;text-decoration:none;">⬅ Voltar ao Início</a>
+    <a href="index.html" style="color:#fff;text-decoration:none;font-weight:500;">
+      ⬅ Voltar ao Início
+    </a>
   </div>
 </header>
 
 <main class="container">
 
+  <!-- FORMULÁRIO -->
   <section class="card">
     <h2>Nova Escala</h2>
 
     <form id="formEscala">
 
+      <!-- PROFISSIONAL -->
       <div class="campo">
-        <label>CPF</label>
+        <label>CPF do Profissional</label>
         <input type="text" id="cpfInput" maxlength="11" required>
       </div>
 
@@ -33,68 +38,101 @@
         <label>Nome do Profissional</label>
         <input type="text" id="nomeInput" autocomplete="off" required>
         <div id="listaNomes" class="autocomplete"></div>
-        <div id="avisoInativo" style="display:none;color:#d32f2f;font-size:13px;">
+        <div id="avisoInativo" style="display:none;color:#d32f2f;font-size:13px;margin-top:4px;">
           🔔 Profissional INATIVO — solicitar ativação via GLPI
         </div>
       </div>
 
-      <!-- PROCEDIMENTO IGUAL AO NOME -->
+      <!-- PROCEDIMENTO -->
       <div class="campo campo-relativo">
         <label>Procedimento</label>
         <input type="text" id="procedimentoInput" autocomplete="off" required>
         <div id="listaProcedimentos" class="autocomplete"></div>
       </div>
 
+      <!-- EXAMES -->
       <div class="campo">
         <label>Exames</label>
-        <input type="text" id="examesInput" placeholder="Separe por ;" disabled>
+        <input
+          type="text"
+          id="examesInput"
+          placeholder="Separe os exames por ;"
+          disabled
+          required
+        >
       </div>
 
+      <!-- DIAS -->
       <div class="campo">
-        <label>Dias</label>
-        <input type="text" id="dias" placeholder="SEG TER QUA" required>
+        <label>Dias da Semana</label>
+        <input
+          type="text"
+          id="dias"
+          placeholder="SEG TER QUA"
+          required
+        >
       </div>
 
+      <!-- HORÁRIOS -->
       <div class="campo">
-        <label>Vagas</label>
-        <input type="number" id="vagas" required>
-      </div>
-
-      <div class="campo">
-        <label>Hora Início</label>
+        <label>Hora de Entrada</label>
         <input type="time" id="horaInicio" required>
       </div>
 
       <div class="campo">
-        <label>Hora Fim</label>
+        <label>Hora de Saída</label>
         <input type="time" id="horaFim" required>
       </div>
 
+      <!-- VAGAS -->
+      <div class="campo">
+        <label>Vagas</label>
+        <input type="number" id="vagas" min="1" required>
+      </div>
+
+      <!-- VIGÊNCIA -->
+      <div class="campo">
+        <label>Vigência Inicial</label>
+        <input type="date" id="vigenciaInicio" required>
+      </div>
+
+      <div class="campo">
+        <label>Vigência Final</label>
+        <input type="date" id="vigenciaFim" required>
+      </div>
+
+      <!-- SUBMIT -->
       <div class="campo full">
-        <button type="submit">Inserir</button>
+        <button type="submit">Inserir Escala</button>
       </div>
 
     </form>
   </section>
 
+  <!-- TABELA -->
   <section class="card">
-    <h2>Ofertas</h2>
-    <table id="tabelaEscalas">
-      <thead>
-        <tr>
-          <th>CPF</th>
-          <th>Nome</th>
-          <th>Procedimento</th>
-          <th>Exames</th>
-          <th>Dias</th>
-          <th>Início</th>
-          <th>Fim</th>
-          <th>Vagas</th>
-          <th>Ação</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <h2>Escalas Inseridas</h2>
+
+    <div class="table-wrapper">
+      <table id="tabelaEscalas">
+        <thead>
+          <tr>
+            <th>CPF</th>
+            <th>Profissional</th>
+            <th>Procedimento</th>
+            <th>Exames</th>
+            <th>Dias</th>
+            <th>Entrada</th>
+            <th>Saída</th>
+            <th>Vagas</th>
+            <th>Vig. Início</th>
+            <th>Vig. Fim</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </section>
 
 </main>
