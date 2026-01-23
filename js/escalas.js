@@ -1,6 +1,3 @@
-// js/escalas.js
-// CORREÇÃO DEFINITIVA: JS só roda após DOM carregar
-
 document.addEventListener("DOMContentLoaded", () => {
 
   let profissionais = [];
@@ -18,55 +15,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const listaProcedimentos = document.getElementById("listaProcedimentos");
   const examesInput = document.getElementById("examesInput");
 
-  // =======================
-  // UTIL
-  // =======================
+  // LOAD DADOS
+  fetch("data/profissionais.json").then(r => r.json()).then(d => profissionais = d);
+  fetch("data/procedimentos_exames.json").then(r => r.json()).then(d => procedimentos = d);
 
-  function normalizar(txt) {
-    return txt
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-  }
-
-  // =======================
-  // LOAD
-  // =======================
-
-  fetch("data/profissionais.json?v=" + Date.now())
-    .then(r => r.json())
-    .then(d => profissionais = d);
-
-  fetch("data/procedimentos_exames.json?v=" + Date.now())
-    .then(r => r.json())
-    .then(d => procedimentos = d);
-
-  // =======================
-  // PROFISSIONAIS
-  // =======================
-
-  cpfInput.addEventListener("blur", () => {
-    const prof = profissionais.find(p => p.cpf === cpfInput.value.trim());
+  // ===== PROFISSIONAIS (FUNCIONA) =====
+  nomeInput.addEventListener("input", () => {
+    listaNomes.innerHTML = "";
     avisoInativo.style.display = "none";
 
-    if (prof) {
-      profissionalSelecionado = prof;
-      nomeInput.value = prof.nome;
-      if (prof.ativo === "INATIVO") avisoInativo.style.display = "block";
-    }
-  });
-
-  nomeInput.addEventListener("input", () => {
-    const termo = normalizar(nomeInput.value);
-    listaNomes.innerHTML = "";
-
-    if (termo.length < 2) {
-      listaNomes.style.display = "none";
-      return;
-    }
+    const termo = nomeInput.value.toLowerCase();
+    if (termo.length < 2) return;
 
     profissionais
-      .filter(p => normalizar(p.nome).includes(termo))
+      .filter(p => p.nome.toLowerCase().includes(termo))
       .slice(0, 10)
       .forEach(p => {
         const div = document.createElement("div");
@@ -76,27 +38,22 @@ document.addEventListener("DOMContentLoaded", () => {
           cpfInput.value = p.cpf;
           nomeInput.value = p.nome;
           if (p.ativo === "INATIVO") avisoInativo.style.display = "block";
-          listaNomes.style.display = "none";
+          listaNomes.innerHTML = "";
         };
         listaNomes.appendChild(div);
       });
-
-    listaNomes.style.display = "block";
   });
 
-  // =======================
-  // PROCEDIMENTOS — AGORA FUNCIONA
-  // =======================
-
-  function mostrarProcedimentos(termo = "") {
+  // ===== PROCEDIMENTOS (MESMA LÓGICA) =====
+  procedimentoInput.addEventListener("input", () => {
     listaProcedimentos.innerHTML = "";
 
+    const termo = procedimentoInput.value.toLowerCase();
+    if (termo.length < 2) return;
+
     procedimentos
-      .filter(p =>
-        normalizar(p.procedimento).includes(termo) ||
-        p.cod_int.includes(termo)
-      )
-      .slice(0, 15)
+      .filter(p => p.procedimento.toLowerCase().includes(termo))
+      .slice(0, 10)
       .forEach(p => {
         const div = document.createElement("div");
         div.textContent = `${p.cod_int} - ${p.procedimento}`;
@@ -111,32 +68,18 @@ document.addEventListener("DOMContentLoaded", () => {
             examesInput.disabled = true;
           }
 
-          listaProcedimentos.style.display = "none";
+          listaProcedimentos.innerHTML = "";
         };
         listaProcedimentos.appendChild(div);
       });
-
-    listaProcedimentos.style.display = "block";
-  }
-
-  procedimentoInput.addEventListener("input", () => {
-    const termo = normalizar(procedimentoInput.value);
-    if (termo.length >= 1) mostrarProcedimentos(termo);
   });
 
-  procedimentoInput.addEventListener("focus", () => {
-    mostrarProcedimentos("");
-  });
-
-  // =======================
   // SUBMIT
-  // =======================
-
   document.getElementById("formEscala").addEventListener("submit", e => {
     e.preventDefault();
 
     if (!profissionalSelecionado || !procedimentoSelecionado) {
-      alert("Selecione profissional e procedimento corretamente.");
+      alert("Selecione profissional e procedimento.");
       return;
     }
 
@@ -152,12 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
       <td>${vagas.value}</td>
       <td><button onclick="this.closest('tr').remove()">X</button></td>
     `;
-
     document.querySelector("#tabelaEscalas tbody").appendChild(tr);
-    e.target.reset();
 
+    e.target.reset();
     examesInput.disabled = true;
-    avisoInativo.style.display = "none";
     profissionalSelecionado = null;
     procedimentoSelecionado = null;
   });
