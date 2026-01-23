@@ -1,16 +1,20 @@
 // js/escalas.js
-// Escalas - procedimentos com campo de exames em texto livre
+// Escalas - autocomplete para PROFISSIONAL e PROCEDIMENTO
 
 let profissionais = [];
 let procedimentos = [];
-let profissionalSelecionado = null;
 
-// CAMPOS
+let profissionalSelecionado = null;
+let procedimentoSelecionado = null;
+
+// CAMPOS PROFISSIONAL
 const cpfInput = document.getElementById("cpfInput");
 const nomeInput = document.getElementById("nomeInput");
 const listaNomes = document.getElementById("listaNomes");
 
-const procedimentoSelect = document.getElementById("procedimentoSelect");
+// CAMPOS PROCEDIMENTO
+const procedimentoInput = document.getElementById("procedimentoInput");
+const listaProcedimentos = document.getElementById("listaProcedimentos");
 const examesInput = document.getElementById("examesInput");
 
 // =======================
@@ -25,15 +29,13 @@ fetch("data/profissionais.json?v=" + Date.now())
 // Procedimentos
 fetch("data/procedimentos_exames.json?v=" + Date.now())
   .then(r => r.json())
-  .then(data => {
-    procedimentos = data;
-    carregarProcedimentos();
-  });
+  .then(data => procedimentos = data);
 
 // =======================
 // PROFISSIONAIS
 // =======================
 
+// Busca por CPF
 cpfInput.addEventListener("blur", () => {
   const cpf = cpfInput.value.trim();
   if (!cpf) return;
@@ -49,6 +51,7 @@ cpfInput.addEventListener("blur", () => {
   }
 });
 
+// Busca por Nome
 nomeInput.addEventListener("input", () => {
   const termo = nomeInput.value.toLowerCase();
   listaNomes.innerHTML = "";
@@ -77,31 +80,45 @@ nomeInput.addEventListener("input", () => {
 });
 
 // =======================
-// PROCEDIMENTOS
+// PROCEDIMENTOS (AUTOCOMPLETE)
 // =======================
 
-function carregarProcedimentos() {
-  procedimentoSelect.innerHTML = `<option value="">Selecione...</option>`;
+procedimentoInput.addEventListener("input", () => {
+  const termo = procedimentoInput.value.toLowerCase();
+  listaProcedimentos.innerHTML = "";
 
-  procedimentos.forEach(p => {
-    const opt = document.createElement("option");
-    opt.value = p.codigo;
-    opt.textContent = `${p.codigo} - ${p.descricao}`;
-    opt.dataset.tipo = p.tipo;
-    procedimentoSelect.appendChild(opt);
-  });
-}
-
-procedimentoSelect.addEventListener("change", () => {
-  const opt = procedimentoSelect.selectedOptions[0];
-
-  if (!opt || opt.dataset.tipo !== "GRUPO") {
-    examesInput.value = "";
-    examesInput.disabled = true;
+  if (termo.length < 2) {
+    listaProcedimentos.style.display = "none";
     return;
   }
 
-  examesInput.disabled = false;
+  procedimentos
+    .filter(p =>
+      p.descricao.toLowerCase().includes(termo) ||
+      p.codigo.includes(termo)
+    )
+    .slice(0, 10)
+    .forEach(p => {
+      const div = document.createElement("div");
+      div.textContent = `${p.codigo} - ${p.descricao}`;
+      div.onclick = () => {
+        procedimentoSelecionado = p;
+        procedimentoInput.value = `${p.codigo} - ${p.descricao}`;
+
+        // Habilita exames somente se for GRUPO
+        if (p.tipo === "GRUPO") {
+          examesInput.disabled = false;
+        } else {
+          examesInput.value = "";
+          examesInput.disabled = true;
+        }
+
+        listaProcedimentos.style.display = "none";
+      };
+      listaProcedimentos.appendChild(div);
+    });
+
+  listaProcedimentos.style.display = "block";
 });
 
 // =======================
@@ -116,14 +133,16 @@ document.getElementById("formEscala").addEventListener("submit", e => {
     return;
   }
 
-  const procedimentoTexto =
-    procedimentoSelect.selectedOptions[0].textContent;
+  if (!procedimentoSelecionado) {
+    alert("Selecione um procedimento válido.");
+    return;
+  }
 
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td>${profissionalSelecionado.cpf}</td>
     <td>${profissionalSelecionado.nome}</td>
-    <td>${procedimentoTexto}</td>
+    <td>${procedimentoSelecionado.codigo} - ${procedimentoSelecionado.descricao}</td>
     <td>${examesInput.value}</td>
     <td>${dias.value}</td>
     <td>${horaInicio.value}</td>
@@ -133,7 +152,9 @@ document.getElementById("formEscala").addEventListener("submit", e => {
   `;
 
   document.querySelector("#tabelaEscalas tbody").appendChild(tr);
+
   e.target.reset();
   examesInput.disabled = true;
   profissionalSelecionado = null;
+  procedimentoSelecionado = null;
 });
