@@ -1,3 +1,8 @@
+// js/escalas.js
+// VERSÃO ESTÁVEL:
+// - CPF + NOME = lógica original (funcionando)
+// - PROCEDIMENTO = mesma lógica do nome, trocando apenas a base
+
 document.addEventListener("DOMContentLoaded", () => {
 
   let profissionais = [];
@@ -6,28 +11,20 @@ document.addEventListener("DOMContentLoaded", () => {
   let profissionalSelecionado = null;
   let procedimentoSelecionado = null;
 
+  // ===== CAMPOS PROFISSIONAL =====
   const cpfInput = document.getElementById("cpfInput");
   const nomeInput = document.getElementById("nomeInput");
   const listaNomes = document.getElementById("listaNomes");
   const avisoInativo = document.getElementById("avisoInativo");
 
+  // ===== CAMPOS PROCEDIMENTO =====
   const procedimentoInput = document.getElementById("procedimentoInput");
   const listaProcedimentos = document.getElementById("listaProcedimentos");
   const examesInput = document.getElementById("examesInput");
 
-  // ======================
-  // UTIL
-  // ======================
-
-  function limparTexto(txt) {
-    if (!txt) return "";
-    // remove aspas extras no começo e no fim
-    return txt.replace(/^"+|"+$/g, "");
-  }
-
-  // ======================
-  // LOAD DADOS
-  // ======================
+  // =====================
+  // LOAD DOS DADOS
+  // =====================
 
   fetch("data/profissionais.json")
     .then(r => r.json())
@@ -35,17 +32,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetch("data/procedimentos_exames.json")
     .then(r => r.json())
-    .then(d => {
-      // LIMPA PROCEDIMENTOS AQUI (CHAVE DA SOLUÇÃO)
-      procedimentos = d.map(p => ({
-        ...p,
-        procedimento: limparTexto(p.procedimento)
-      }));
-    });
+    .then(d => procedimentos = d);
 
-  // ======================
-  // PROFISSIONAIS (JÁ FUNCIONAVA)
-  // ======================
+  // =====================
+  // CPF (EXATAMENTE COMO ESTAVA)
+  // =====================
+
+  cpfInput.addEventListener("blur", () => {
+    const cpf = cpfInput.value.trim();
+    avisoInativo.style.display = "none";
+
+    const prof = profissionais.find(p => p.cpf === cpf);
+    if (prof) {
+      profissionalSelecionado = prof;
+      nomeInput.value = prof.nome;
+      if (prof.ativo === "INATIVO") {
+        avisoInativo.style.display = "block";
+      }
+    } else {
+      profissionalSelecionado = null;
+      nomeInput.value = "";
+    }
+  });
+
+  // =====================
+  // NOME (LÓGICA ORIGINAL)
+  // =====================
 
   nomeInput.addEventListener("input", () => {
     listaNomes.innerHTML = "";
@@ -64,16 +76,19 @@ document.addEventListener("DOMContentLoaded", () => {
           profissionalSelecionado = p;
           cpfInput.value = p.cpf;
           nomeInput.value = p.nome;
-          if (p.ativo === "INATIVO") avisoInativo.style.display = "block";
+          if (p.ativo === "INATIVO") {
+            avisoInativo.style.display = "block";
+          }
           listaNomes.innerHTML = "";
         };
         listaNomes.appendChild(div);
       });
   });
 
-  // ======================
-  // PROCEDIMENTOS (AGORA IGUAL AO NOME)
-  // ======================
+  // =====================
+  // PROCEDIMENTO
+  // (MESMA LÓGICA DO NOME)
+  // =====================
 
   procedimentoInput.addEventListener("input", () => {
     listaProcedimentos.innerHTML = "";
@@ -82,10 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (termo.length < 2) return;
 
     procedimentos
-      .filter(p =>
-        p.procedimento.toLowerCase().includes(termo) ||
-        p.cod_int.includes(termo)
-      )
+      .filter(p => p.procedimento.toLowerCase().includes(termo))
       .slice(0, 10)
       .forEach(p => {
         const div = document.createElement("div");
@@ -94,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
           procedimentoSelecionado = p;
           procedimentoInput.value = `${p.cod_int} - ${p.procedimento}`;
 
+          // Exames só habilita se for GRUPO
           if (p.procedimento.toUpperCase().startsWith("GRUPO")) {
             examesInput.disabled = false;
           } else {
@@ -107,15 +120,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  // ======================
+  // =====================
   // SUBMIT
-  // ======================
+  // =====================
 
   document.getElementById("formEscala").addEventListener("submit", e => {
     e.preventDefault();
 
     if (!profissionalSelecionado || !procedimentoSelecionado) {
-      alert("Selecione profissional e procedimento.");
+      alert("Selecione um profissional e um procedimento válidos.");
       return;
     }
 
