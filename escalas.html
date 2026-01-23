@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Escalas | Oferta de Vagas</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Fonte moderna -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <!-- CSS DO SISTEMA -->
   <link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
@@ -28,23 +25,30 @@
 
       <div class="campo">
         <label>CPF do Profissional</label>
-        <input type="text" id="cpfInput" maxlength="11" placeholder="Somente números" required>
+        <input type="text" id="cpfInput" maxlength="11" required>
       </div>
 
       <div class="campo campo-relativo">
         <label>Nome do Profissional</label>
-        <input type="text" id="nomeInput" placeholder="Digite para pesquisar" autocomplete="off" required>
+        <input type="text" id="nomeInput" autocomplete="off" required>
         <div id="listaNomes" class="autocomplete"></div>
       </div>
 
+      <!-- PROCEDIMENTO -->
       <div class="campo">
         <label>Procedimento</label>
-        <input type="text" id="procedimento" required>
+        <select id="procedimentoSelect" required></select>
       </div>
 
+      <!-- EXAMES (TEXTO LIVRE) -->
       <div class="campo">
         <label>Exames</label>
-        <input type="text" id="exames" placeholder="Separar por ;">
+        <input
+          type="text"
+          id="examesInput"
+          placeholder="Separe os exames por ;"
+          disabled
+        >
       </div>
 
       <div class="campo">
