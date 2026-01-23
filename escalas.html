@@ -12,12 +12,16 @@
 <body>
 
 <header class="app-header">
-  <h1>SISREG – Oferta de Vagas</h1>
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h1>SISREG – Oferta de Vagas</h1>
+    <a href="index.html" style="color:#fff;text-decoration:none;font-weight:500;">
+      ⬅ Voltar ao Início
+    </a>
+  </div>
 </header>
 
 <main class="container">
 
-  <!-- FORMULÁRIO -->
   <section class="card">
     <h2>Nova Oferta</h2>
 
@@ -32,35 +36,25 @@
         <label>Nome do Profissional</label>
         <input type="text" id="nomeInput" autocomplete="off" required>
         <div id="listaNomes" class="autocomplete"></div>
+        <div id="avisoInativo" style="display:none;color:#d32f2f;font-size:13px;margin-top:4px;">
+          🔔 Profissional INATIVO — solicitar ativação via GLPI
+        </div>
       </div>
 
-      <!-- PROCEDIMENTO (AUTOCOMPLETE) -->
       <div class="campo campo-relativo">
         <label>Procedimento</label>
-        <input
-          type="text"
-          id="procedimentoInput"
-          placeholder="Digite para pesquisar"
-          autocomplete="off"
-          required
-        >
+        <input type="text" id="procedimentoInput" autocomplete="off" required>
         <div id="listaProcedimentos" class="autocomplete"></div>
       </div>
 
-      <!-- EXAMES (TEXTO LIVRE) -->
       <div class="campo">
         <label>Exames</label>
-        <input
-          type="text"
-          id="examesInput"
-          placeholder="Separe os exames por ;"
-          disabled
-        >
+        <input type="text" id="examesInput" placeholder="Separe os exames por ;" disabled>
       </div>
 
       <div class="campo">
         <label>Dias da Semana</label>
-        <input type="text" id="dias" placeholder="SEG TER QUA" required>
+        <input type="text" id="dias" required>
       </div>
 
       <div class="campo">
@@ -85,10 +79,8 @@
     </form>
   </section>
 
-  <!-- TABELA -->
   <section class="card">
     <h2>Ofertas Inseridas</h2>
-
     <div class="table-wrapper">
       <table id="tabelaEscalas">
         <thead>
