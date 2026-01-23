@@ -1,8 +1,13 @@
 // js/escalas.js
-// Versão estável FINAL
-// Correção do alinhamento da tabela + vigências
+// Integração com Google Sheets (ETAPA 1)
 
 document.addEventListener("DOMContentLoaded", () => {
+
+  // =====================
+  // CONFIGURAÇÕES
+  // =====================
+  const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwEdBwKofgk1hca5zZLMAGBfC0niJnQfmJ5QkzYt4eSUu7riKq-jCGE1m36AQcOZZUTNw/exec";
+  const UNIDADE_ATUAL = "AGENDA TESTE"; // <-- altere conforme a unidade
 
   let profissionais = [];
   let procedimentos = [];
@@ -40,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =====================
-  // LOAD
+  // LOAD DOS DADOS
   // =====================
   fetch("data/profissionais.json").then(r => r.json()).then(d => profissionais = d);
   fetch("data/procedimentos_exames.json").then(r => r.json()).then(d => procedimentos = d);
@@ -133,34 +138,63 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // SUBMIT (TABELA CORRIGIDA)
+  // SUBMIT → GOOGLE SHEETS
   // =====================
-  document.getElementById("formEscala").addEventListener("submit", e => {
+  document.getElementById("formEscala").addEventListener("submit", async e => {
     e.preventDefault();
 
     if (!profissionalSelecionado || !procedimentoSelecionado) {
-      alert("Preencha todos os campos corretamente.");
+      alert("Preencha todos os campos.");
       return;
     }
 
-    const codigo = obterCodigo(procedimentoSelecionado);
-    const texto = limparTexto(procedimentoSelecionado.procedimento);
+    const payload = {
+      cpf: profissionalSelecionado.cpf,
+      profissional: profissionalSelecionado.nome,
+      cod_procedimento: obterCodigo(procedimentoSelecionado),
+      procedimento: limparTexto(procedimentoSelecionado.procedimento),
+      exames: examesInput.value,
+      dias_semana: diasInput.value,
+      hora_inicio: horaInicioInput.value,
+      hora_fim: horaFimInput.value,
+      vagas: vagasInput.value,
+      vigencia_inicio: vigInicioInput.value,
+      vigencia_fim: vigFimInput.value,
+      unidade: UNIDADE_ATUAL
+    };
 
+    try {
+      const resp = await fetch(GOOGLE_SHEETS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await resp.json();
+
+      if (result.status !== "OK") {
+        alert("Erro ao enviar ao Sheets: " + result.status);
+      }
+
+    } catch (err) {
+      alert("Falha de conexão com o Google Sheets.");
+    }
+
+    // mantém comportamento atual
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${profissionalSelecionado.cpf}</td>
-      <td>${profissionalSelecionado.nome}</td>
-      <td>${codigo} - ${texto}</td>
-      <td>${examesInput.value}</td>
-      <td>${diasInput.value}</td>
-      <td>${horaInicioInput.value}</td>
-      <td>${horaFimInput.value}</td>
-      <td>${vagasInput.value}</td>
-      <td>${vigInicioInput.value}</td>
-      <td>${vigFimInput.value}</td>
+      <td>${payload.cpf}</td>
+      <td>${payload.profissional}</td>
+      <td>${payload.cod_procedimento} - ${payload.procedimento}</td>
+      <td>${payload.exames}</td>
+      <td>${payload.dias_semana}</td>
+      <td>${payload.hora_inicio}</td>
+      <td>${payload.hora_fim}</td>
+      <td>${payload.vagas}</td>
+      <td>${payload.vigencia_inicio}</td>
+      <td>${payload.vigencia_fim}</td>
       <td><button onclick="this.closest('tr').remove()">X</button></td>
     `;
-
     document.querySelector("#tabelaEscalas tbody").appendChild(tr);
 
     e.target.reset();
