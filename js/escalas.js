@@ -1,5 +1,9 @@
 // js/escalas.js
-// Versão estável + correção APENAS do texto do procedimento
+// Versão FINAL estável
+// - CPF e Nome restaurados
+// - Procedimento corrigido
+// - cod_int resolvido
+// - aspas removidas do texto
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -21,17 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const examesInput = document.getElementById("examesInput");
 
   // =====================
-  // FUNÇÃO UTIL
-  // remove aspas extras do texto do procedimento
+  // FUNÇÕES UTIL
   // =====================
-  function limparProcedimento(txt) {
+
+  // remove TODAS as aspas do texto
+  function limparTexto(txt) {
     if (!txt) return "";
-    return txt.replace(/^"+|"+$/g, "");
+    return txt.replace(/"/g, "").trim();
+  }
+
+  // obtém código interno mesmo que venha como "cod int"
+  function obterCodigo(p) {
+    return p.cod_int || p["cod int"] || "";
   }
 
   // =====================
   // LOAD DOS DADOS
   // =====================
+
   fetch("data/profissionais.json")
     .then(r => r.json())
     .then(d => profissionais = d);
@@ -41,8 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(d => procedimentos = d);
 
   // =====================
-  // CPF (COMPORTAMENTO ORIGINAL)
+  // CPF (FUNCIONANDO)
   // =====================
+
   cpfInput.addEventListener("blur", () => {
     const cpf = cpfInput.value.trim();
     avisoInativo.style.display = "none";
@@ -62,8 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =====================
   // NOME DO PROFISSIONAL
-  // (COMPORTAMENTO ORIGINAL)
   // =====================
+
   nomeInput.addEventListener("input", () => {
     listaNomes.innerHTML = "";
     listaNomes.style.display = "none";
@@ -96,8 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =====================
   // PROCEDIMENTO
-  // (MESMA LÓGICA DO NOME)
   // =====================
+
   procedimentoInput.addEventListener("input", () => {
     listaProcedimentos.innerHTML = "";
     listaProcedimentos.style.display = "none";
@@ -107,20 +119,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     procedimentos
       .filter(p =>
-        limparProcedimento(p.procedimento).toLowerCase().includes(termo)
+        limparTexto(p.procedimento).toLowerCase().includes(termo)
       )
       .slice(0, 10)
       .forEach(p => {
-        const textoProcedimento = limparProcedimento(p.procedimento);
+        const codigo = obterCodigo(p);
+        const texto = limparTexto(p.procedimento);
 
         const div = document.createElement("div");
-        div.textContent = `${p.cod_int} - ${textoProcedimento}`;
+        div.textContent = `${codigo} - ${texto}`;
         div.onclick = () => {
           procedimentoSelecionado = p;
-          procedimentoInput.value = `${p.cod_int} - ${textoProcedimento}`;
+          procedimentoInput.value = `${codigo} - ${texto}`;
 
-          // Exames só habilita se for GRUPO
-          if (textoProcedimento.toUpperCase().startsWith("GRUPO")) {
+          if (texto.toUpperCase().startsWith("GRUPO")) {
             examesInput.disabled = false;
           } else {
             examesInput.value = "";
@@ -139,6 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================
   // SUBMIT
   // =====================
+
   document.getElementById("formEscala").addEventListener("submit", e => {
     e.preventDefault();
 
@@ -147,13 +160,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const textoProcedimento = limparProcedimento(procedimentoSelecionado.procedimento);
+    const codigo = obterCodigo(procedimentoSelecionado);
+    const texto = limparTexto(procedimentoSelecionado.procedimento);
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${profissionalSelecionado.cpf}</td>
       <td>${profissionalSelecionado.nome}</td>
-      <td>${procedimentoSelecionado.cod_int} - ${textoProcedimento}</td>
+      <td>${codigo} - ${texto}</td>
       <td>${examesInput.value}</td>
       <td>${dias.value}</td>
       <td>${horaInicio.value}</td>
