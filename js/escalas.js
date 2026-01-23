@@ -1,5 +1,5 @@
 // js/escalas.js
-// Escalas - autocomplete para PROFISSIONAL e PROCEDIMENTO
+// Escalas - autocomplete para PROFISSIONAL e PROCEDIMENTO (AJUSTADO AO CSV REAL)
 
 let profissionais = [];
 let procedimentos = [];
@@ -94,19 +94,19 @@ procedimentoInput.addEventListener("input", () => {
 
   procedimentos
     .filter(p =>
-      p.descricao.toLowerCase().includes(termo) ||
-      p.codigo.includes(termo)
+      p.procedimento.toLowerCase().includes(termo) ||
+      p.cod_int.includes(termo)
     )
     .slice(0, 10)
     .forEach(p => {
       const div = document.createElement("div");
-      div.textContent = `${p.codigo} - ${p.descricao}`;
+      div.textContent = `${p.cod_int} - ${p.procedimento}`;
       div.onclick = () => {
         procedimentoSelecionado = p;
-        procedimentoInput.value = `${p.codigo} - ${p.descricao}`;
+        procedimentoInput.value = `${p.cod_int} - ${p.procedimento}`;
 
         // Habilita exames somente se for GRUPO
-        if (p.tipo === "GRUPO") {
+        if (p.procedimento.toUpperCase().startsWith("GRUPO")) {
           examesInput.disabled = false;
         } else {
           examesInput.value = "";
@@ -142,7 +142,7 @@ document.getElementById("formEscala").addEventListener("submit", e => {
   tr.innerHTML = `
     <td>${profissionalSelecionado.cpf}</td>
     <td>${profissionalSelecionado.nome}</td>
-    <td>${procedimentoSelecionado.codigo} - ${procedimentoSelecionado.descricao}</td>
+    <td>${procedimentoSelecionado.cod_int} - ${procedimentoSelecionado.procedimento}</td>
     <td>${examesInput.value}</td>
     <td>${dias.value}</td>
     <td>${horaInicio.value}</td>
