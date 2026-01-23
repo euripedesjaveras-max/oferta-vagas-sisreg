@@ -1,3 +1,6 @@
+// js/escalas.js
+// Versão estável + correção APENAS do texto do procedimento
+
 document.addEventListener("DOMContentLoaded", () => {
 
   let profissionais = [];
@@ -6,21 +9,29 @@ document.addEventListener("DOMContentLoaded", () => {
   let profissionalSelecionado = null;
   let procedimentoSelecionado = null;
 
-  // ===== PROFISSIONAL =====
+  // ===== CAMPOS PROFISSIONAL =====
   const cpfInput = document.getElementById("cpfInput");
   const nomeInput = document.getElementById("nomeInput");
   const listaNomes = document.getElementById("listaNomes");
   const avisoInativo = document.getElementById("avisoInativo");
 
-  // ===== PROCEDIMENTO =====
+  // ===== CAMPOS PROCEDIMENTO =====
   const procedimentoInput = document.getElementById("procedimentoInput");
   const listaProcedimentos = document.getElementById("listaProcedimentos");
   const examesInput = document.getElementById("examesInput");
 
   // =====================
+  // FUNÇÃO UTIL
+  // remove aspas extras do texto do procedimento
+  // =====================
+  function limparProcedimento(txt) {
+    if (!txt) return "";
+    return txt.replace(/^"+|"+$/g, "");
+  }
+
+  // =====================
   // LOAD DOS DADOS
   // =====================
-
   fetch("data/profissionais.json")
     .then(r => r.json())
     .then(d => profissionais = d);
@@ -30,9 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(d => procedimentos = d);
 
   // =====================
-  // CPF (FUNCIONANDO)
+  // CPF (COMPORTAMENTO ORIGINAL)
   // =====================
-
   cpfInput.addEventListener("blur", () => {
     const cpf = cpfInput.value.trim();
     avisoInativo.style.display = "none";
@@ -51,9 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // NOME (RESTaurado)
+  // NOME DO PROFISSIONAL
+  // (COMPORTAMENTO ORIGINAL)
   // =====================
-
   nomeInput.addEventListener("input", () => {
     listaNomes.innerHTML = "";
     listaNomes.style.display = "none";
@@ -85,9 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // PROCEDIMENTO (IGUAL AO NOME)
+  // PROCEDIMENTO
+  // (MESMA LÓGICA DO NOME)
   // =====================
-
   procedimentoInput.addEventListener("input", () => {
     listaProcedimentos.innerHTML = "";
     listaProcedimentos.style.display = "none";
@@ -96,16 +106,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (termo.length < 2) return;
 
     procedimentos
-      .filter(p => p.procedimento.toLowerCase().includes(termo))
+      .filter(p =>
+        limparProcedimento(p.procedimento).toLowerCase().includes(termo)
+      )
       .slice(0, 10)
       .forEach(p => {
+        const textoProcedimento = limparProcedimento(p.procedimento);
+
         const div = document.createElement("div");
-        div.textContent = `${p.cod_int} - ${p.procedimento}`;
+        div.textContent = `${p.cod_int} - ${textoProcedimento}`;
         div.onclick = () => {
           procedimentoSelecionado = p;
-          procedimentoInput.value = `${p.cod_int} - ${p.procedimento}`;
+          procedimentoInput.value = `${p.cod_int} - ${textoProcedimento}`;
 
-          if (p.procedimento.toUpperCase().startsWith("GRUPO")) {
+          // Exames só habilita se for GRUPO
+          if (textoProcedimento.toUpperCase().startsWith("GRUPO")) {
             examesInput.disabled = false;
           } else {
             examesInput.value = "";
@@ -124,7 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================
   // SUBMIT
   // =====================
-
   document.getElementById("formEscala").addEventListener("submit", e => {
     e.preventDefault();
 
@@ -133,11 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const textoProcedimento = limparProcedimento(procedimentoSelecionado.procedimento);
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${profissionalSelecionado.cpf}</td>
       <td>${profissionalSelecionado.nome}</td>
-      <td>${procedimentoSelecionado.cod_int} - ${procedimentoSelecionado.procedimento}</td>
+      <td>${procedimentoSelecionado.cod_int} - ${textoProcedimento}</td>
       <td>${examesInput.value}</td>
       <td>${dias.value}</td>
       <td>${horaInicio.value}</td>
