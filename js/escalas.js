@@ -1,8 +1,3 @@
-// js/escalas.js
-// VERSÃO ESTÁVEL:
-// - CPF + NOME = lógica original (funcionando)
-// - PROCEDIMENTO = mesma lógica do nome, trocando apenas a base
-
 document.addEventListener("DOMContentLoaded", () => {
 
   let profissionais = [];
@@ -11,13 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let profissionalSelecionado = null;
   let procedimentoSelecionado = null;
 
-  // ===== CAMPOS PROFISSIONAL =====
+  // ===== PROFISSIONAL =====
   const cpfInput = document.getElementById("cpfInput");
   const nomeInput = document.getElementById("nomeInput");
   const listaNomes = document.getElementById("listaNomes");
   const avisoInativo = document.getElementById("avisoInativo");
 
-  // ===== CAMPOS PROCEDIMENTO =====
+  // ===== PROCEDIMENTO =====
   const procedimentoInput = document.getElementById("procedimentoInput");
   const listaProcedimentos = document.getElementById("listaProcedimentos");
   const examesInput = document.getElementById("examesInput");
@@ -35,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(d => procedimentos = d);
 
   // =====================
-  // CPF (EXATAMENTE COMO ESTAVA)
+  // CPF (FUNCIONANDO)
   // =====================
 
   cpfInput.addEventListener("blur", () => {
@@ -56,11 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // NOME (LÓGICA ORIGINAL)
+  // NOME (RESTaurado)
   // =====================
 
   nomeInput.addEventListener("input", () => {
     listaNomes.innerHTML = "";
+    listaNomes.style.display = "none";
     avisoInativo.style.display = "none";
 
     const termo = nomeInput.value.toLowerCase();
@@ -80,18 +76,21 @@ document.addEventListener("DOMContentLoaded", () => {
             avisoInativo.style.display = "block";
           }
           listaNomes.innerHTML = "";
+          listaNomes.style.display = "none";
         };
         listaNomes.appendChild(div);
       });
+
+    listaNomes.style.display = "block";
   });
 
   // =====================
-  // PROCEDIMENTO
-  // (MESMA LÓGICA DO NOME)
+  // PROCEDIMENTO (IGUAL AO NOME)
   // =====================
 
   procedimentoInput.addEventListener("input", () => {
     listaProcedimentos.innerHTML = "";
+    listaProcedimentos.style.display = "none";
 
     const termo = procedimentoInput.value.toLowerCase();
     if (termo.length < 2) return;
@@ -106,7 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
           procedimentoSelecionado = p;
           procedimentoInput.value = `${p.cod_int} - ${p.procedimento}`;
 
-          // Exames só habilita se for GRUPO
           if (p.procedimento.toUpperCase().startsWith("GRUPO")) {
             examesInput.disabled = false;
           } else {
@@ -115,9 +113,12 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           listaProcedimentos.innerHTML = "";
+          listaProcedimentos.style.display = "none";
         };
         listaProcedimentos.appendChild(div);
       });
+
+    listaProcedimentos.style.display = "block";
   });
 
   // =====================
