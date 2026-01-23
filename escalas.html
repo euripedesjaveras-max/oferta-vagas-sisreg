@@ -34,10 +34,17 @@
         <div id="listaNomes" class="autocomplete"></div>
       </div>
 
-      <!-- PROCEDIMENTO -->
-      <div class="campo">
+      <!-- PROCEDIMENTO (AUTOCOMPLETE) -->
+      <div class="campo campo-relativo">
         <label>Procedimento</label>
-        <select id="procedimentoSelect" required></select>
+        <input
+          type="text"
+          id="procedimentoInput"
+          placeholder="Digite para pesquisar"
+          autocomplete="off"
+          required
+        >
+        <div id="listaProcedimentos" class="autocomplete"></div>
       </div>
 
       <!-- EXAMES (TEXTO LIVRE) -->
