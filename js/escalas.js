@@ -6,8 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================
   // CONFIGURAÇÕES
   // =====================
-  const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwp011Bi60RQwGOzLi-jM4dnYPnErJTggwxCOpmhbQWss5Lk5hK4f-1pZKW69gQ2bto_A/exec";
-  const UNIDADE_ATUAL = "AGENDA TESTE"; // <-- altere conforme a unidade
+  // URL ATUALIZADA CONFORME SOLICITADO
+  const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzfKcOuEasj4lfWzqbP1FOoSKzJdQvVM7xK81PKCBKs8LgHjp5aJTYyRIygM9n1p_-AMQ/exec";
+  const UNIDADE_ATUAL = "AGENDA TESTE"; // <-- altere conforme a unidade para bater com a ABA do Sheets
 
   let profissionais = [];
   let procedimentos = [];
@@ -24,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const procedimentoInput = document.getElementById("procedimentoInput");
   const listaProcedimentos = document.getElementById("listaProcedimentos");
   const examesInput = document.getElementById("examesInput");
-
   const diasInput = document.getElementById("dias");
   const horaInicioInput = document.getElementById("horaInicio");
   const horaFimInput = document.getElementById("horaFim");
@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         listaNomes.appendChild(div);
       });
-
     listaNomes.style.display = "block";
   });
 
@@ -144,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     if (!profissionalSelecionado || !procedimentoSelecionado) {
-      alert("Preencha todos os campos.");
+      alert("Selecione um profissional e um procedimento das listas.");
       return;
     }
 
@@ -164,44 +163,52 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
+      // Usando o modo 'cors' ou 'no-cors' dependendo da sua necessidade. 
+      // Com o cabeçalho Access-Control-Allow-Origin no backend, 'cors' é o ideal.
       const resp = await fetch(GOOGLE_SHEETS_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        mode: "cors", 
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload)
       });
-
+      
       const result = await resp.json();
 
-      if (result.status !== "OK") {
-        alert("Erro ao enviar ao Sheets: " + result.status);
+      if (result.status === "OK") {
+        alert("Sucesso: " + result.mensagem);
+        
+        // Adiciona na tabela visual apenas se salvou no Sheets
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${payload.cpf}</td>
+          <td>${payload.profissional}</td>
+          <td>${payload.cod_procedimento} - ${payload.procedimento}</td>
+          <td>${payload.exames}</td>
+          <td>${payload.dias_semana}</td>
+          <td>${payload.hora_inicio}</td>
+          <td>${payload.hora_fim}</td>
+          <td>${payload.vagas}</td>
+          <td>${payload.vigencia_inicio}</td>
+          <td>${payload.vigencia_fim}</td>
+          <td><button onclick="this.closest('tr').remove()">X</button></td>
+        `;
+        document.querySelector("#tabelaEscalas tbody").appendChild(tr);
+
+        // Limpa o formulário
+        e.target.reset();
+        examesInput.disabled = true;
+        profissionalSelecionado = null;
+        procedimentoSelecionado = null;
+        avisoInativo.style.display = "none";
+
+      } else {
+        alert("Erro no servidor: " + result.status + (result.mensagem ? " - " + result.mensagem : ""));
       }
 
     } catch (err) {
-      alert("Falha de conexão com o Google Sheets.");
+      console.error(err);
+      alert("Erro de comunicação: A escala pode não ter sido salva.");
     }
-
-    // mantém comportamento atual
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${payload.cpf}</td>
-      <td>${payload.profissional}</td>
-      <td>${payload.cod_procedimento} - ${payload.procedimento}</td>
-      <td>${payload.exames}</td>
-      <td>${payload.dias_semana}</td>
-      <td>${payload.hora_inicio}</td>
-      <td>${payload.hora_fim}</td>
-      <td>${payload.vagas}</td>
-      <td>${payload.vigencia_inicio}</td>
-      <td>${payload.vigencia_fim}</td>
-      <td><button onclick="this.closest('tr').remove()">X</button></td>
-    `;
-    document.querySelector("#tabelaEscalas tbody").appendChild(tr);
-
-    e.target.reset();
-    examesInput.disabled = true;
-    profissionalSelecionado = null;
-    procedimentoSelecionado = null;
-    avisoInativo.style.display = "none";
   });
 
 });
