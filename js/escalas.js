@@ -15,11 +15,38 @@ document.addEventListener("DOMContentLoaded", () => {
   const listaProcedimentos = document.getElementById("listaProcedimentos");
   const examesInput = document.getElementById("examesInput");
 
-  // LOAD DADOS
-  fetch("data/profissionais.json").then(r => r.json()).then(d => profissionais = d);
-  fetch("data/procedimentos_exames.json").then(r => r.json()).then(d => procedimentos = d);
+  // ======================
+  // UTIL
+  // ======================
 
-  // ===== PROFISSIONAIS (FUNCIONA) =====
+  function limparTexto(txt) {
+    if (!txt) return "";
+    // remove aspas extras no começo e no fim
+    return txt.replace(/^"+|"+$/g, "");
+  }
+
+  // ======================
+  // LOAD DADOS
+  // ======================
+
+  fetch("data/profissionais.json")
+    .then(r => r.json())
+    .then(d => profissionais = d);
+
+  fetch("data/procedimentos_exames.json")
+    .then(r => r.json())
+    .then(d => {
+      // LIMPA PROCEDIMENTOS AQUI (CHAVE DA SOLUÇÃO)
+      procedimentos = d.map(p => ({
+        ...p,
+        procedimento: limparTexto(p.procedimento)
+      }));
+    });
+
+  // ======================
+  // PROFISSIONAIS (JÁ FUNCIONAVA)
+  // ======================
+
   nomeInput.addEventListener("input", () => {
     listaNomes.innerHTML = "";
     avisoInativo.style.display = "none";
@@ -44,7 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  // ===== PROCEDIMENTOS (MESMA LÓGICA) =====
+  // ======================
+  // PROCEDIMENTOS (AGORA IGUAL AO NOME)
+  // ======================
+
   procedimentoInput.addEventListener("input", () => {
     listaProcedimentos.innerHTML = "";
 
@@ -52,7 +82,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (termo.length < 2) return;
 
     procedimentos
-      .filter(p => p.procedimento.toLowerCase().includes(termo))
+      .filter(p =>
+        p.procedimento.toLowerCase().includes(termo) ||
+        p.cod_int.includes(termo)
+      )
       .slice(0, 10)
       .forEach(p => {
         const div = document.createElement("div");
@@ -74,7 +107,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
+  // ======================
   // SUBMIT
+  // ======================
+
   document.getElementById("formEscala").addEventListener("submit", e => {
     e.preventDefault();
 
@@ -95,12 +131,14 @@ document.addEventListener("DOMContentLoaded", () => {
       <td>${vagas.value}</td>
       <td><button onclick="this.closest('tr').remove()">X</button></td>
     `;
+
     document.querySelector("#tabelaEscalas tbody").appendChild(tr);
 
     e.target.reset();
     examesInput.disabled = true;
     profissionalSelecionado = null;
     procedimentoSelecionado = null;
+    avisoInativo.style.display = "none";
   });
 
 });
