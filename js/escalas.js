@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================
   // CONFIGURAÇÕES
   // =====================
-  const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwEdBwKofgk1hca5zZLMAGBfC0niJnQfmJ5QkzYt4eSUu7riKq-jCGE1m36AQcOZZUTNw/exec";
+  const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbypigQrYCUKZOfp7wwgVjyo7CgKD9aBI69jAwUObX2euWFEVbdeURinD-6ktpleXF3Glg/exec";
   const UNIDADE_ATUAL = "AGENDA TESTE"; // <-- altere conforme a unidade
 
   let profissionais = [];
