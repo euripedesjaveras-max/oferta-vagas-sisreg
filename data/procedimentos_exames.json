@@ -1,1 +1,3284 @@
-
+[
+  {
+    "cod int": "818231",
+    "procedimento": "\"\"\"ACOMPANHAMENTO DE PACIENTE POS-TRANSPLANTE DE CORNEA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "712029",
+    "procedimento": "\"\"\"ACOMPANHAMENTO E AVALIACAO DE GLAUCOMA POR FUNDOSCOPIA E TONOMETRIA - TRIMESTRAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "705269",
+    "procedimento": "\"\"\"AVALIACAO P/DIAG DE DEFICIENCIA AUDITIVA PAC.MAIOR TRES ANOS - SAUDE AUDITIVA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "705270",
+    "procedimento": "\"\"\"AVALIACAO P/DIAG DIFERENCIAL DE DEFIC.AUDITIVA - SAUDE AUDITIVA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1709301",
+    "procedimento": "\"\"\"BRONCOSCOPIA/ BRONCOFIBROSCOPIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "9000003",
+    "procedimento": "\"\"\"CATETERISMO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "441051",
+    "procedimento": "\"\"\"CE - EXCISAO E ENXERTO DE PELE (HEMANGIOMA, NEVUS OU TUMOR)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "279025",
+    "procedimento": "\"\"\"CE - EXCISAO E SUTURA DE LESAO NA PELE C/ PLASTICA EM Z OU ROTACAO DE RETALHO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "279029",
+    "procedimento": "\"\"\"CE - EXTIRPACAO E SUPRESSAO DE LESAO DE PELE E DE TECIDO CELULAR SUBCUTANEO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "364008",
+    "procedimento": "\"\"\"CE - NEUROTOMIA PERCUTANEA DE NERVOS PERIFERICOS POR AGENTES QUIMICOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "336243",
+    "procedimento": "\"\"\"CE - PLASTICA TOTAL DO PENIS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "336244",
+    "procedimento": "\"\"\"CE - POSTECTOMIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1711101",
+    "procedimento": "\"\"\"COLONOSCOPIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "3372307",
+    "procedimento": "\"\"\"COLPOSCOPIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "146008",
+    "procedimento": "\"\"\"CONFECCAO DE FISTULA ARTERIO-VENOSA P/ HEMODIALISE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "204044",
+    "procedimento": "\"\"\"CONSULTA C/ IDENTIFICACAO DE CASOS NOVOS DE TUBERCULOSE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018376",
+    "procedimento": "\"\"\"CONSULTA DE ENFERMAGEM PARA AVALIA��O EM OSTOMIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701202",
+    "procedimento": "\"\"\"CONSULTA EM ALERGIA E IMUNOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701296",
+    "procedimento": "\"\"\"CONSULTA EM ALERGIA E IMUNOLOGIA - PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701115",
+    "procedimento": "\"\"\"CONSULTA EM ALERGIA E IMUNOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "3516005",
+    "procedimento": "\"\"\"CONSULTA EM ANESTESIOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701396",
+    "procedimento": "\"\"\"CONSULTA EM ANGIOLOGIA - ANEURISMA E TROMBOSE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018079",
+    "procedimento": "\"\"\"CONSULTA EM ANGIOLOGIA - ANEURISMA E TROMBOSE - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701203",
+    "procedimento": "\"\"\"CONSULTA EM ANGIOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "766225",
+    "procedimento": "\"\"\"CONSULTA EM AVALIACAO PACIENTE OSTOMIZADO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "766258",
+    "procedimento": "\"\"\"CONSULTA EM AVALIACAO PACIENTE OSTOMIZADO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701438",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - ACIMA DE 60 ANOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "710459",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - ACIMA DE 60 ANOS - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703764",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - ADULTO - TRANSPLANTE CARDIACO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "762018",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - ADULTO - TRANSPLANTE CARDIACO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701446",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - ANTICOAGULACAO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "729067",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - ANTICOAGULACAO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701879",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - ARRITMIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703406",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - ARRITMIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701247",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - AVALIACAO DE MARCA PASSO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701875",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - CIRURGIA CARDIACA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703680",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - CIRURGIA CARDIACA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701445",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - CORONARIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "600025",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA- CORONARIA- RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701205",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701329",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - INSUFICIENCIA CARDIACA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701447",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - MIOCARDIOPATIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703403",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - MIOCARDIOPATIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "766027",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604082",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA ONCOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701240",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "320053",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701380",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701230",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - RISCO CIRURGICO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "320055",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - RISCO CIRURGICO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701330",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - VALVULOPATIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "729069",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOLOGIA - VALVULOPATIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701395",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOPATIA NA GRAVIDEZ\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "729070",
+    "procedimento": "\"\"\"CONSULTA EM CARDIOPATIA NA GRAVIDEZ - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701483",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA BARIATRICA OBESIDADE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701615",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA BARIATRICA/OBESIDADE - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701101",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA BUCO-MAXILO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701859",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA BUCO-MAXILO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604038",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA CABECA E PESCOCO - ONCOLOGIA - SEGMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604040",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA CABECA E PESCOCO - RETORNO POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604039",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA CABECA E PESCOCO - RETORNO PRE OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703937",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA CARDIACA - PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "729071",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA CARDIACA - PEDIATRICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604003",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DA CABECA E PESCOCO ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701923",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DA CABECA E PESCOCO ONCOLOGICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703770",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DA CABECA E PESCOCO - TFD\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701206",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DE CABECA E PESCOCO - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701559",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DE CABECA E PESCOCO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604044",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DERMATOLOGICA - ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604047",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DERMATOLOGICA - ONCOLOGIA - RETORNO POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604046",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DERMATOLOGICA - ONCOLOGIA - RETORNO PRE OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604045",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DERMATOLOGICA - ONCOLOGIA - SEGMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "215006",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DO APARELHO DIGESTIVO - HEPATOBILIOPANCREATIVO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "215007",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DO APARELHO DIGESTIVO - HEPATOBILIOPANCREATIVO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703344",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DO APARELHO DIGESTIVO - ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604035",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DO APARELHO DIGESTIVO - ONCOLOGIA - SEGMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604037",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DO APARELHO DIGESTIVO - RETORNO POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604036",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA DO APARELHO DIGESTIVO - RETORNO PRE OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701016",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GERAL - APARELHO DIGESTIVO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701072",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GERAL - APARELHO DIGESTIVO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701207",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GERAL - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "732085",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GERAL - HERNIA E VESICULA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703411",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GERAL - POS-OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018080",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GERAL - POS-OPERATORIO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701382",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GERAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701306",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "152012",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - CONIZACAO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "4800037",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - ENDOMETRIOSE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1737019",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - HISTEROSCOPIA CIRURGICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1737018",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - HISTEROSCOPIA DIAGNOSTICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "4800031",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - NINFOPLASTIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "152023",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604034",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - ONCOLOGIA - RETORNO POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604033",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - ONCOLOGIA - RETORNO PRE OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604032",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - ONCOLOGIA - SEGMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701863",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "320061",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA GINECOLOGICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701465",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA - HERNIA E VESICULA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018851",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA - HERNIAS DE PEREDE ABDOMINAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604048",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA MASTOLOGIA - ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604063",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA MASTOLOGIA ONCOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604051",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA MASTOLOGIA - ONCOLOGIA - RETORNO POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604050",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA MASTOLOGIA - ONCOLOGIA - RETORNO PRE OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604049",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA MASTOLOGIA - ONCOLOGIA - SEGMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "241079",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDIA - ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "710041",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018684",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDIA - PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701456",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701459",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - COLUNA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604055",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA COLUNA - ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604058",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA COLUNA - ONCOLOGIA - RETORNO POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604057",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA COLUNA - ONCOLOGIA - RETORNO PRE OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604056",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA COLUNA - ONCOLOGIA - SEGMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703055",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - COLUNA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701463",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - JOELHO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703056",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - JOELHO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701462",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - MAO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "710284",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - MAO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701460",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - OMBROS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018738",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - OMBROS - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701464",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - PE TORTO CONGENITO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018105",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - PE TORTO CONGENITO - ADULTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "4600095",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - PE TORTO CONGENITO - ADULTO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "4600096",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - PE TORTO CONGENITO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701461",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - QUADRIL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "710094",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA QUADRIL-RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "320065",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA-RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701455",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - TRAUMA - MAO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701458",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA ORTOPEDICA - TRAUMA - MMII COLOC. FIXADOR EXT.\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701950",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA OTORRINOLARINGOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701726",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA OTORRINOLARINGOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701208",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA PEDIATRICA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018081",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA PEDIATRICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703593",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA PLASTICA - FISSURA LABIO PALATAL - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018082",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA PLASTICA - FISSURA LABIO PALATAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701209",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA PLASTICA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703780",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA PLASTICA - REPARADORA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701086",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA PLASTICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "731022",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA PROCTOLOGIA - POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701321",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA TORACICA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604018",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA TORACICA - ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604043",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA TORACICA - ONCOLOGIA - RETORNO POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604042",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA TORACICA - ONCOLOGIA - RETORNO PRE OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604041",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA TORACICA - ONCOLOGIA - SEGMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2300291",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA TORACICA - POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701049",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA TORACICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604059",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA UROLOGIA - ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604062",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA UROLOGIA - ONCOLOGIA - RETORNO POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604061",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA UROLOGIA - ONCOLOGIA - RETORNO PRE OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604060",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA UROLOGIA - ONCOLOGIA - SEGMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "108071",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA UROLOGIA - RETORNO POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "51013",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA UROLOGICA � VASECTOMIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "736032",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA VASCULAR - ACESSOS VASCULARES\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "736033",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA VASCULAR - ACESSOS VASCULARES - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "299003",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA VASCULAR - DOENCAS ARTERIAIS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "736034",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA VASCULAR - DOENCAS ARTERIAIS - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701211",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA VASCULAR - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "736035",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA VASCULAR - GERAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "299005",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA VASCULAR - PE DIABETICO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "736036",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA VASCULAR - PE DIABETICO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2300293",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA VASCULAR - POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701116",
+    "procedimento": "\"\"\"CONSULTA EM CIRURGIA VASCULAR - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2300104",
+    "procedimento": "\"\"\"CONSULTA EM CLINICA MEDICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018779",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLIGIA - FOTOTERAPIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "711015",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - ACNE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "320074",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA ACNE - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018771",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - AVALIACAO CIRURGICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018772",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - AVALIACAO CIRURGICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "711010",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - CIRURGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018766",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - CLINICA AVANCADA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018767",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - CLINICA AVANCADA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701370",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - COSMIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018776",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - COSMIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701372",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - DST\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "710775",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - FOTOTERAPIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701212",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701975",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - HANSENIASE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701621",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - HANSENIASE - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018769",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - IST\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018770",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - IST - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701974",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - LEISHMANIOSE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "735045",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - LEISHMANIOSE - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018780",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - LINFOMA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018781",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - LINFOMA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701972",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701089",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701970",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - PSORIASE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703307",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - PSORIASE - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701052",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "711043",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - TRICOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018777",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA TRICOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701371",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - TROPICAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018768",
+    "procedimento": "\"\"\"CONSULTA EM DERMATOLOGIA - TROPICAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018615",
+    "procedimento": "\"\"\"CONSULTA EM DOENCAS TROPICAIS - TRIAGEM\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703649",
+    "procedimento": "\"\"\"CONSULTA EM EDUCACAO FISICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1313038",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA - BARIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "135015",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA E METABOLOGIA - DIABETES\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "135016",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA E METABOLOGIA - DIABETES RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701213",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA E METABOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "135017",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA E METABOLOGIA - HIP�FISE ADRENAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "135018",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA E METABOLOGIA - HIP�FISE ADRENAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701027",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA E METABOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "135019",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA E METABOLOGIA - TIREOIDE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "135020",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA E METABOLOGIA - TIREOIDE - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701236",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "320091",
+    "procedimento": "\"\"\"CONSULTA EM ENDOCRINOLOGIA - PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "100009",
+    "procedimento": "\"\"\"CONSULTA EM ENFERMAGEM\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701214",
+    "procedimento": "\"\"\"CONSULTA EM FISIATRIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701724",
+    "procedimento": "\"\"\"CONSULTA EM FISIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701022",
+    "procedimento": "\"\"\"CONSULTA EM FISIOTERAPIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701428",
+    "procedimento": "\"\"\"CONSULTA EM FISIOTERAPIA - ACIMA DE 60 ANOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "766295",
+    "procedimento": "\"\"\"CONSULTA EM FISIOTERAPIA - HANSENIASE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "710368",
+    "procedimento": "\"\"\"CONSULTA EM FISIOTERAPIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "702999",
+    "procedimento": "\"\"\"CONSULTA EM FONOAUDIOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "169003",
+    "procedimento": "\"\"\"CONSULTA EM FONOAUDIOLOGIA > 60 ANOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701243",
+    "procedimento": "\"\"\"CONSULTA EM FONOAUDIOLOGIA - INFANTIL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "724029",
+    "procedimento": "\"\"\"CONSULTA EM GASTROENTEROLOGIA > 60 ANOS- RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701430",
+    "procedimento": "\"\"\"CONSULTA EM GASTROENTEROLOGIA - ACIMA DE 60 ANOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "8015",
+    "procedimento": "\"\"\"CONSULTA EM GASTROENTEROLOGIA - COLANGIOPANCREATOGRAFIA (CPRE)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701779",
+    "procedimento": "\"\"\"CONSULTA EM GASTROENTEROLOGIA - DOENCA INFLAMATORIA INTESTINAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701215",
+    "procedimento": "\"\"\"CONSULTA EM GASTROENTEROLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "710575",
+    "procedimento": "\"\"\"CONSULTA EM GASTROENTEROLOGIA - HEPATOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "724032",
+    "procedimento": "\"\"\"CONSULTA EM GASTROENTEROLOGIA - HEPATOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701216",
+    "procedimento": "\"\"\"CONSULTA EM GASTROENTEROLOGIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701090",
+    "procedimento": "\"\"\"CONSULTA EM GASTROENTEROLOGIA - PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701054",
+    "procedimento": "\"\"\"CONSULTA EM GASTROENTEROLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701723",
+    "procedimento": "\"\"\"CONSULTA EM GENETICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701722",
+    "procedimento": "\"\"\"CONSULTA EM GENETICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701261",
+    "procedimento": "\"\"\"CONSULTA EM GERIATRIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "320095",
+    "procedimento": "\"\"\"CONSULTA EM GERIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "55070",
+    "procedimento": "\"\"\"CONSULTA EM GINECOLOGIA - LAQUEADURA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "9004",
+    "procedimento": "\"\"\"CONSULTA EM GINECOLOGIA - PRE NATAL ALTO RISCO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701055",
+    "procedimento": "\"\"\"CONSULTA EM GINECOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701218",
+    "procedimento": "\"\"\"CONSULTA EM HEMATOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701239",
+    "procedimento": "\"\"\"CONSULTA EM HEMATOLOGIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701059",
+    "procedimento": "\"\"\"CONSULTA EM HEMATOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703773",
+    "procedimento": "\"\"\"CONSULTA EM HEMATOLOGIA - TFD\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701674",
+    "procedimento": "\"\"\"CONSULTA EM HEMATOLOGIA - TRIAGEM\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701220",
+    "procedimento": "\"\"\"CONSULTA EM INFECTOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "723049",
+    "procedimento": "\"\"\"CONSULTA EM INFECTOLOGIA � - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701062",
+    "procedimento": "\"\"\"CONSULTA EM INFECTOLOGIA PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701024",
+    "procedimento": "\"\"\"CONSULTA EM INFECTOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703719",
+    "procedimento": "\"\"\"CONSULTA EM MASTOLOGIA - CIRURGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703849",
+    "procedimento": "\"\"\"CONSULTA EM MASTOLOGIA - CIRURGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701252",
+    "procedimento": "\"\"\"CONSULTA EM MASTOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701545",
+    "procedimento": "\"\"\"CONSULTA EM MASTOLOGIA ONCOLOGIA-LESAO IMPALPAVEL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2300292",
+    "procedimento": "\"\"\"CONSULTA EM MASTOLOGIA - POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701028",
+    "procedimento": "\"\"\"CONSULTA EM MASTOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "140010",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA - DISTURBIO MINERAL OSSEO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "140011",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA - DISTURBIO MINERAL OSSEO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701222",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "140012",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA - NEFROLITIASE PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "140013",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA - NEFROLITIASE PEDIATRICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701242",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701069",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701046",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "140014",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA - SINDROME NEFROTICA PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "140015",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA - SINDROME NEFROTICA PEDIATRICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "766279",
+    "procedimento": "\"\"\"CONSULTA EM NEFROLOGIA - TERAPIA RENAL SUBSTITUTIVA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701223",
+    "procedimento": "\"\"\"CONSULTA EM NEUROCIRURGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "604031",
+    "procedimento": "\"\"\"CONSULTA EM NEUROCIRURGIA - ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "710500",
+    "procedimento": "\"\"\"CONSULTA EM NEUROCIRURGIA ONCOLOGIA RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604054",
+    "procedimento": "\"\"\"CONSULTA EM NEUROCIRURGIA - ONCOLOGIA - RETORNO POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604053",
+    "procedimento": "\"\"\"CONSULTA EM NEUROCIRURGIA - ONCOLOGIA - RETORNO PRE OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "604052",
+    "procedimento": "\"\"\"CONSULTA EM NEUROCIRURGIA - ONCOLOGIA - SEGMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701694",
+    "procedimento": "\"\"\"CONSULTA EM NEUROCIRURGIA PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701561",
+    "procedimento": "\"\"\"CONSULTA EM NEUROCIRURGIA PEDIATRICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701047",
+    "procedimento": "\"\"\"CONSULTA EM NEUROCIRURGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701433",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - ACIMA DE 60 ANOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701887",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - CEFALEIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701637",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - CEFALEIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703655",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - DEMENCIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "710282",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - DEMENCIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701885",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - DIST. NEUROMUSCULARES\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703119",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - DIST. NEUROMUSCULARES - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703221",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - DISTURBIO DO MOVIMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703222",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - DISTURBIO DO MOVIMENTO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "755035",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - DOEN�AS DEMIELINIZANTES\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "755036",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - DOEN�AS DEMIELINIZANTES - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701948",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - EPILEPSIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701638",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA -EPILEPSIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701224",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701449",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - NEUROVASCULAR\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018083",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - NEUROVASCULAR - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701300",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "766008",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA PEDIATRIA MICROCEFALIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701029",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018912",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA PEDIATRIA - SEGUIMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "4500085",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - REABILITACAO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701030",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "498050",
+    "procedimento": "\"\"\"CONSULTA EM NEUROLOGIA - TOXINA BOTULINICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701244",
+    "procedimento": "\"\"\"CONSULTA EM NUTRICAO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "757022",
+    "procedimento": "\"\"\"CONSULTA EM NUTRICAO > 60 ANOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "757023",
+    "procedimento": "\"\"\"CONSULTA EM NUTRICAO > 60 ANOS - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701941",
+    "procedimento": "\"\"\"CONSULTA EM NUTRICAO - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703603",
+    "procedimento": "\"\"\"CONSULTA EM NUTRICAO - PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701365",
+    "procedimento": "\"\"\"CONSULTA EM NUTRICAO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "37006",
+    "procedimento": "\"\"\"CONSULTA EM NUTROLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701352",
+    "procedimento": "\"\"\"CONSULTA EM NUTROLOGIA INFANTIL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701614",
+    "procedimento": "\"\"\"CONSULTA EM NUTROLOGIA INFANTIL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "710938",
+    "procedimento": "\"\"\"CONSULTA EM NUTROLOGIA-RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701431",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - ACIMA DE 60 ANOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "37014",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA- ACIMA DE 60 ANOS- RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701814",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - AVALIACAO CIRURGICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "742011",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA CATARATA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703859",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - CATARATA - MUTIRAO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701225",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018324",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - GERAL RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701961",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - GLAUCOMA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703283",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - GLAUCOMA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701960",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - HANSENIASE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018775",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - HANSENIASE - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "766078",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA PEDIATRIA - MICROCEFALIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701959",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - PLASTICA OCULAR\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "118091",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703350",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - REABILITACAO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703305",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - REFRACAO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701957",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA - RETINA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "320142",
+    "procedimento": "\"\"\"CONSULTA EM OFTALMOLOGIA- TRANSPLANTE DE CORNEA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701866",
+    "procedimento": "\"\"\"CONSULTA EM ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018106",
+    "procedimento": "\"\"\"CONSULTA EM ONCOLOGIA - BRAQUITERAPIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701391",
+    "procedimento": "\"\"\"CONSULTA EM ONCOLOGIA CLINICA - QUIMIOTERAPIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701918",
+    "procedimento": "\"\"\"CONSULTA EM ONCOLOGIA CLINICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703810",
+    "procedimento": "\"\"\"CONSULTA EM ONCOLOGIA - RADIOTERAPIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "710154",
+    "procedimento": "\"\"\"CONSULTA EM ONCOLOGIA RADIOTERAPIA-RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701427",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - ACIMA DE 60 ANOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "723025",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - EGRESSO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701771",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA E TRAUMATOLOGIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018531",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA E TRAUMATOLOGIA PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701226",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "9270003",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - GERAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018773",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - HANSENIASE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2018774",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - HANSENIASE - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701313",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - JOELHO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701245",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "320164",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703634",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - POS OPERATORIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "710457",
+    "procedimento": "\"\"\"CONSULTA EM ORTOPEDIA - POS OPERATORIO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701381",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701227",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703814",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA - IMPLANTE COCLEAR\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "709030",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA - MEDICINA DO SONO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "709029",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA - MEDICINA DO SONO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "709028",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA - OTOLOGIA E BASE DE CRANIO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "709027",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA - OTOLOGIA E BASE DE CRANIO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "709001",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA - PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "709015",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA - PEDIATRICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "320173",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "705266",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA ( SAUDE AUDITIVA)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703779",
+    "procedimento": "\"\"\"CONSULTA EM OTORRINOLARINGOLOGIA - TFD\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701699",
+    "procedimento": "\"\"\"CONSULTA EM PEDIATRIA - OFTALMOLOGIA - ESTRABISMO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "816001",
+    "procedimento": "\"\"\"CONSULTA EM PEQUENA CIRURGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "800553",
+    "procedimento": "\"\"\"CONSULTA EM PEQUENA CIRURGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "705217",
+    "procedimento": "\"\"\"CONSULTA EM PLANEJAMENTO FAMILIAR PARA VASECTOMIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018852",
+    "procedimento": "\"\"\"CONSULTA EM PLANEJAMNTO FAMILIAR PARA LAQUEADURA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701894",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA - ASMA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "726049",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA - ASMA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "282127",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA - DOEN�AS INTERSTICIAIS PULMONARES\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "726047",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA - DOEN�AS INTERSTICIAIS PULMONARES - RETONO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703657",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA - DPOC\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "726048",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA - DPOC - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701228",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701246",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701678",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA - PEDIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "711073",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA- P�S COVID\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "726046",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA- P�S COVID - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701067",
+    "procedimento": "\"\"\"CONSULTA EM PNEUMOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "40001",
+    "procedimento": "\"\"\"CONSULTA EM PRE-NATAL DE ALTO RISCO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "320176",
+    "procedimento": "\"\"\"CONSULTA EM PRE-NATAL DE ALTO RISCO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "40002",
+    "procedimento": "\"\"\"CONSULTA EM PRE-NATAL DE ALTO RISCO - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701698",
+    "procedimento": "\"\"\"CONSULTA EM PROCTOLOGIA - CIRURGICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018084",
+    "procedimento": "\"\"\"CONSULTA EM PROCTOLOGIA - CIRURGICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701229",
+    "procedimento": "\"\"\"CONSULTA EM PROCTOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2103005",
+    "procedimento": "\"\"\"CONSULTA EM PROCTOLOGIA - OSTOMIZADOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701079",
+    "procedimento": "\"\"\"CONSULTA EM PROCTOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "702104",
+    "procedimento": "\"\"\"CONSULTA EM PSICOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "168004",
+    "procedimento": "\"\"\"CONSULTA EM PSICOLOGIA > 60 ANOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "167041",
+    "procedimento": "\"\"\"CONSULTA EM PSICOLOGIA > 60 ANOS - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "710402",
+    "procedimento": "\"\"\"CONSULTA EM PSICOLOGIA - PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "320017",
+    "procedimento": "\"\"\"CONSULTA EM PSICOLOGIA - PRE-NATAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "320018",
+    "procedimento": "\"\"\"CONSULTA EM PSICOLOGIA - PRE-NATAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701797",
+    "procedimento": "\"\"\"CONSULTA EM PSIQUIATRIA - ALCOOL E DROGA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703746",
+    "procedimento": "\"\"\"CONSULTA EM PSIQUIATRIA - ALCOOL E DROGAS - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701260",
+    "procedimento": "\"\"\"CONSULTA EM PSIQUIATRIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "141002",
+    "procedimento": "\"\"\"CONSULTA EM PSIQUIATRIA - PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "141004",
+    "procedimento": "\"\"\"CONSULTA EM PSIQUIATRIA - PEDIATRICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "141023",
+    "procedimento": "\"\"\"CONSULTA EM PSIQUIATRIA - REABILITA��O\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701064",
+    "procedimento": "\"\"\"CONSULTA EM PSIQUIATRIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "485020",
+    "procedimento": "\"\"\"CONSULTA EM PSIQUIATRIA - TEA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "733017",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - ARTRITE REUMATOIDE E SINDROME DE SJ�GREN\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "733030",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - ARTRITE REUMATOIDE E SINDROME DE SJOGREN - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "20005",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - ARTROSE E GOTA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "733014",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - COLAGENOSES E VASCULITES\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "733029",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - COLAGENOSES E VASCULITES - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "733028",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - ESCLEROSE SISTEMICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "20008",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - ESCLEROSE SISTEMICA PROGRESSIVA VASCULITES MIOSITES\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "733027",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - ESCLEROSE SISTEMICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701231",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "20002",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - LUPUS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "733026",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - LUPUS - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701421",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "733009",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - PEDIATRICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701066",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "733025",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - SINDROME DE SJ�GREN\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "20009",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - SINDROME DE SJ�GREN/BIOPSIA DE GLANDULA SALIVAR\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "733024",
+    "procedimento": "\"\"\"CONSULTA EM REUMATOLOGIA - SINDROME DE SJ�GREN - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701903",
+    "procedimento": "\"\"\"CONSULTA EM SERVICO SOCIAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701652",
+    "procedimento": "\"\"\"CONSULTA EM TERAPIA OCUPACIONAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "766472",
+    "procedimento": "\"\"\"CONSULTA EM TRIAGEM HEMODINAMICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701450",
+    "procedimento": "\"\"\"CONSULTA EM UROLOGIA - AVALIACAO DE LITOTRIPSIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018496",
+    "procedimento": "\"\"\"CONSULTA EM UROLOGIA - CATETER DUPLO J\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018964",
+    "procedimento": "\"\"\"CONSULTA EM UROLOGIA - CATETER DUPLO J - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701388",
+    "procedimento": "\"\"\"CONSULTA EM UROLOGIA - CIRURGICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018086",
+    "procedimento": "\"\"\"CONSULTA EM UROLOGIA - CIRURGICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701233",
+    "procedimento": "\"\"\"CONSULTA EM UROLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701328",
+    "procedimento": "\"\"\"CONSULTA EM UROLOGIA ONCOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701917",
+    "procedimento": "\"\"\"CONSULTA EM UROLOGIA ONCOLOGICA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "701319",
+    "procedimento": "\"\"\"CONSULTA EM UROLOGIA - PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "701039",
+    "procedimento": "\"\"\"CONSULTA EM UROLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "703058",
+    "procedimento": "\"\"\"CONSULTA PARA DIAGNOSTICO/AVALIACAO DE GLAUCOMA(GONIOSCOPIA, TONOMETRIA E CAMPIMETRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "3517005",
+    "procedimento": "\"\"\"CONSULTA PEQUENA CIRURGIA - DERMATOLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2018087",
+    "procedimento": "\"\"\"CONSULTA PEQUENA CIRURGIA - DERMATOLOGIA GERAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "3516025",
+    "procedimento": "\"\"\"CONSULTA - POS TRANSPLANTE HEPATICO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "766080",
+    "procedimento": "\"\"\"CONSULTA POS TRANSPLANTE RENAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "3516012",
+    "procedimento": "\"\"\"CONSULTA POS TRANSPLANTE RENAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "766090",
+    "procedimento": "\"\"\"CONSULTA - PRE TRANSPLANTE HEPATICO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "766079",
+    "procedimento": "\"\"\"CONSULTA PRE TRANSPLANTE RENAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "210088",
+    "procedimento": "\"\"\"CONSULTA PRE TRANSPLANTE RENAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1200061",
+    "procedimento": "\"\"\"CURATIVO GRAU II C/ OU S/ DEBRIDAMENTO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1313001",
+    "procedimento": "\"\"\"DENSITOMETRIA OSSEA - RADIODIAGNOSTICO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1407014",
+    "procedimento": "\"\"\"ECOCARDIOGRAFIA BI-DIMENSIONAL COM OU SEM DOPPLER\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1407032",
+    "procedimento": "\"\"\"ECOCARDIOGRAFIA BI-DIMENSIONAL COM OU SEM DOPPLER - INFANTIL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1407024",
+    "procedimento": "\"\"\"ECOCARDIOGRAFIA TRANSESOFAGICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1703101",
+    "procedimento": "\"\"\"ELETROCARDIOGRAMA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1713021",
+    "procedimento": "\"\"\"ELETROCARDIOGRAMA - PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1706202",
+    "procedimento": "\"\"\"ELETROENCEFALOGRAMA EM VIGILIA E SONO ESPONTANEO C/ OU S/ FOTOESTIMULO (EEG)\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1711110",
+    "procedimento": "\"\"\"EXAME DE VIDEOLARINGOSCOPIA(COM EQUIPAMENTO)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "31125",
+    "procedimento": "\"\"\"EXERCICIOS ORTOPTICOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1711103",
+    "procedimento": "\"\"\"GASTRO-DUODENOSCOPIA (ENDOSCOPIA DIGESTIVA)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2033033",
+    "procedimento": "\"\"\"GIN\"\" - AVALIA��O DIAGN�STICA INICIAL DE SA�DE DA MULHER (GINECOLOGIA) I\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1200000",
+    "procedimento": "\"\"\"GRUPO - ANATOMOPATOLOGIA E CITOPATOLOGIA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "508000",
+    "procedimento": "\"\"\"GRUPO - ANATOMOPATOLOGIA E CITOPATOLOGIA - TRANSPLANTES\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1325000",
+    "procedimento": "\"\"\"GRUPO - ARTERIOGRAFIA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1726000",
+    "procedimento": "\"\"\"GRUPO - ATENDIMENTO/ACOMPANHAMENTO SAUDE AUDITIVA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "168000",
+    "procedimento": "\"\"\"GRUPO - ATENDIMENTO EM PSICOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1722000",
+    "procedimento": "\"\"\"GRUPO - AVALIACAO CARDIOLOGICA (TRANSPLANTES)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1310000",
+    "procedimento": "\"\"\"GRUPO - AVALIACAO RADIOLOGICA - TRANSPLANTES\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "216000",
+    "procedimento": "\"\"\"GRUPO - BIOPSIA - COLETA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "814000",
+    "procedimento": "\"\"\"GRUPO - CIRURGIA AMB EM APARELHO VISUAL\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "743000",
+    "procedimento": "\"\"\"GRUPO - CIRURGIA DE CATARATA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "212000",
+    "procedimento": "\"\"\"GRUPO - CONSULTA/ ATENDIMENTO/ ACOMPANHAMENTO (FONOAUDIOLOGIA)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "210000",
+    "procedimento": "\"\"\"GRUPO - CONSULTA/ ATENDIMENTO/ ACOMPANHAMENTO (PSICOLOGIA)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "3516000",
+    "procedimento": "\"\"\"GRUPO - CONSULTA ESPECIALIZADA - TRANSPLANTE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1706000",
+    "procedimento": "\"\"\"GRUPO - DIAGNOSE EM NEUROLOGIA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1708000",
+    "procedimento": "\"\"\"GRUPO - DIAGNOSE EM OTORRINOLARINGOLOGIA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1709000",
+    "procedimento": "\"\"\"GRUPO - DIAGNOSE EM PNEUMOLOGIA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1710000",
+    "procedimento": "\"\"\"GRUPO - DIAGNOSE EM UROLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "3513000",
+    "procedimento": "\"\"\"GRUPO - DIAGNOSTICO POR TOMOGRAFIA (SEDACAO)\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1428000",
+    "procedimento": "\"\"\"GRUPO - DIAGNOSTICO POR ULTRASSONOGRAFIA - OFTALMOLOGIA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "601000",
+    "procedimento": "\"\"\"GRUPO - ELETRONEUROMIOGRAFIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1724000",
+    "procedimento": "\"\"\"GRUPO - EXAMES PARA DIAGNOSTICO DE DEFICIENCIA AUDITIVA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1401000",
+    "procedimento": "\"\"\"GRUPO - EXAMES ULTRA-SONOGRAFICOS\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1670000",
+    "procedimento": "\"\"\"GRUPO - EXAMES ULTRA-SONOGRAFICOS (DOPPLER) E ECOGRAFIAS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1430000",
+    "procedimento": "\"\"\"GRUPO - EXAMES ULTRA-SONOGRAFICOS TRANSPLANTE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1801000",
+    "procedimento": "\"\"\"GRUPO - FISIOTERAPIA (POR SESSAO)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1305000",
+    "procedimento": "\"\"\"GRUPO - MAMOGRAFIA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "3200000",
+    "procedimento": "\"\"\"GRUPO - MEDICINA NUCLEAR IN VIVO\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1707000",
+    "procedimento": "\"\"\"GRUPO - OFTALMOLOGIA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "145000",
+    "procedimento": "\"\"\"GRUPO - OFTALMOLOGIA (APAC)\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "461000",
+    "procedimento": "\"\"\"GRUPO - OFTALMOLOGIA - CATARATA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "462000",
+    "procedimento": "\"\"\"GRUPO - OFTALMOLOGIA - GLAUCOMA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "238000",
+    "procedimento": "\"\"\"GRUPO - OFTALMOLOGIA - INJECAO INTRA-VITREO\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "385000",
+    "procedimento": "\"\"\"GRUPO OFTALMOLOGIA - TRANSPLANTE\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "124000",
+    "procedimento": "\"\"\"GRUPO - ORTESES PROTESES E MATERIAIS ESPECIAIS NAO RELACIONADOS AO ATO CIRURGICO SAUDE AUDITIVA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1101000",
+    "procedimento": "\"\"\"GRUPO - PATOLOGIA CLINICA (EXAMES DE LABORATORIO)\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2280000",
+    "procedimento": "\"\"\"GRUPO - PATOLOGIA CLINICA (EXAMES DE LABORATORIO 2)\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2400000",
+    "procedimento": "\"\"\"GRUPO - PATOLOGIA CLINICA (REGULACAO)\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1105000",
+    "procedimento": "\"\"\"GRUPO - PATOLOGIA CLINICA (TRANSPLANTES)\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "817000",
+    "procedimento": "\"\"\"GRUPO - PROCEDIMENTOS AMBULATORIAIS EM DERMATOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "830000",
+    "procedimento": "\"\"\"GRUPO - PROCEDIMENTOS AMBULATORIAIS EM GINECOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "818000",
+    "procedimento": "\"\"\"GRUPO - PROCEDIMENTOS AMBULATORIAIS EM OFTALMOLOGIA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "215000",
+    "procedimento": "\"\"\"GRUPO - PROCEDIMENTOS CIRURGICOS - APARELHO DIGESTIVO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "9500000",
+    "procedimento": "\"\"\"GRUPO - PROCEDIMENTOS TRAUMATO-ORTOPEDICOS\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "823000",
+    "procedimento": "\"\"\"GRUPO - PUNCAO / BIOPSIA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2900000",
+    "procedimento": "\"\"\"GRUPO - QUIMIOTERAPIA (CUSTO MENSAL)\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1301000",
+    "procedimento": "\"\"\"GRUPO - RADIODIAGNOSTICO\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2800000",
+    "procedimento": "\"\"\"GRUPO - RADIOTERAPIA (POR ESPECIFICACAO)\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "3100000",
+    "procedimento": "\"\"\"GRUPO - RESSONANCIA MAGNETICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "3103000",
+    "procedimento": "\"\"\"GRUPO - RESSONANCIA MAGNETICA (SEDACAO)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2700000",
+    "procedimento": "\"\"\"GRUPO - TERAPIA RENAL SUBSTITUTIVA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "3500000",
+    "procedimento": "\"\"\"GRUPO - TOMOGRAFIA COMPUTADORIZADA\"\"\"",
+    "tipo": "[FINANCEIRO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "3515000",
+    "procedimento": "\"\"\"GRUPO - TOMOGRAFIA COMPUTADORIZADA - TRANSPLANTE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "240000",
+    "procedimento": "\"\"\"GRUPO - TRATAMENTO DE GLAUCOMA (DISPENSA��O DE COL�RIOS)\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1703204",
+    "procedimento": "\"\"\"HOLTER 24 HORAS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "42611",
+    "procedimento": "\"\"\"IDENTIFICA��O DE ALTERA��O CROMOSS�NICA SUBMICROSC�PICA POR ARRAY-CGH\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1711109",
+    "procedimento": "\"\"\"LARINGOSCOPIA DIRETA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "703828",
+    "procedimento": "\"\"\"MANOMETRIA ANORETAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1732001",
+    "procedimento": "\"\"\"MANOMETRIA ESOFAGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1703203",
+    "procedimento": "\"\"\"MONITORIZACAO AMBULATORIAL DE PRESSAO ARTERIAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2033010",
+    "procedimento": "\"\"\"OCI AVALIA��O CARDIOL�GICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2033025",
+    "procedimento": "\"\"\"OCI AVALIA��O DE RETINOPATIA DIAB�TICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2033009",
+    "procedimento": "\"\"\"OCI AVALIA��O DE RISCO CIR�RGICO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2033015",
+    "procedimento": "\"\"\"OCI AVALIA��O DIAGN�STICA EM ORTOPEDIA COM RECURSOS DE RADIOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2033016",
+    "procedimento": "\"\"\"OCI AVALIA��O DIAGN�STICA EM ORTOPEDIA COM RECURSOS DE RADIOLOGIA E ULTRASSONOGRAFIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2033001",
+    "procedimento": "\"\"\"OCI AVALIACAO DIAGNOSTICA INICIAL DE CANCER DE MAMA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "2033011",
+    "procedimento": "\"\"\"OCI AVALIA��O DIAGN�STICA INICIAL - S�NDROME CORANIANA CR�NICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "2033034",
+    "procedimento": "\"\"\"OCI - GIN\"\" - AVALIA��O DIAGN�STICA INICIAL DE SA�DE DA MULHER (GINECOLOGIA) II\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "816002",
+    "procedimento": "\"\"\"PUNCAO ASPIRATIVA DA TIREOIDE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1703007",
+    "procedimento": "\"\"\"RETINOGRAFIA COLORIDA BINOCULAR\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1712012",
+    "procedimento": "\"\"\"RETINOGRAFIA FLUORESCENTE\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1711106",
+    "procedimento": "\"\"\"RETOSIGMOIDOSCOPIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739131",
+    "procedimento": "\"\"\"TELECONSULTA EM ALERGIA E IMUNOLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739135",
+    "procedimento": "\"\"\"TELECONSULTA EM CARDIOLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739136",
+    "procedimento": "\"\"\"TELECONSULTA EM CARDIOLOGIA GERAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "739148",
+    "procedimento": "\"\"\"TELECONSULTA EM DERMATOLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739140",
+    "procedimento": "\"\"\"TELECONSULTA EM ENDOCRINOLOGIA E METABOLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739141",
+    "procedimento": "\"\"\"TELECONSULTA EM ENDOCRINOLOGIA E METABOLOGIA GERAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "739152",
+    "procedimento": "\"\"\"TELECONSULTA EM GASTROENTEROLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739216",
+    "procedimento": "\"\"\"TELECONSULTA EM GERIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "498197",
+    "procedimento": "\"\"\"TELECONSULTA EM GINECOLOGIA - GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "498195",
+    "procedimento": "\"\"\"TELECONSULTA EM GINECOLOGIA OBSTETRICIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739202",
+    "procedimento": "\"\"\"TELECONSULTA EM MASTOLOGIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739203",
+    "procedimento": "\"\"\"TELECONSULTA EM MASTOLOGIA - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "739170",
+    "procedimento": "\"\"\"TELECONSULTA EM NEFROLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739171",
+    "procedimento": "\"\"\"TELECONSULTA EM NEFROLOGIA GERAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "739144",
+    "procedimento": "\"\"\"TELECONSULTA EM NEUROLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739146",
+    "procedimento": "\"\"\"TELECONSULTA EM NEUROLOGIA PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739220",
+    "procedimento": "\"\"\"TELECONSULTA EM NUTRICAO GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739194",
+    "procedimento": "\"\"\"TELECONSULTA EM OFTALMOLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739195",
+    "procedimento": "\"\"\"TELECONSULTA EM OFTALMOLOGIA GERAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739182",
+    "procedimento": "\"\"\"TELECONSULTA EM ORTOPEDIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739183",
+    "procedimento": "\"\"\"TELECONSULTA EM ORTOPEDIA GERAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "739164",
+    "procedimento": "\"\"\"TELECONSULTA EM PEDIATRIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739160",
+    "procedimento": "\"\"\"TELECONSULTA EM PNEUMOLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739161",
+    "procedimento": "\"\"\"TELECONSULTA EM PNEUMOLOGIA GERAL - RETORNO\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "739224",
+    "procedimento": "\"\"\"TELECONSULTA EM PSICOLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739226",
+    "procedimento": "\"\"\"TELECONSULTA EM PSICOLOGIA PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739166",
+    "procedimento": "\"\"\"TELECONSULTA EM PSIQUIATRIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739168",
+    "procedimento": "\"\"\"TELECONSULTA EM PSIQUIATRIA PEDIATRICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "739212",
+    "procedimento": "\"\"\"TELECONSULTA EM UROLOGIA GERAL\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1703205",
+    "procedimento": "\"\"\"TESTE DE ESFORCO OU TESTE ERGOMETRICO 2\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "60055",
+    "procedimento": "\"\"\"TESTES VESTIBULARES / OTONEUROLOGICOS\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1720013",
+    "procedimento": "\"\"\"TOMOGRAFIA DE COER�NCIA �PTICA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "802212",
+    "procedimento": "\"\"\"TRAQUEOSCOPIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "236021",
+    "procedimento": "\"\"\"TRATAMENTO CIR�RGICO DE RINOFIMA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Nao"
+  },
+  {
+    "cod int": "1707164",
+    "procedimento": "\"\"\"TRATAMENTO MEDICAMENTOSO DA DOEN�A DA RETINA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  },
+  {
+    "cod int": "1301103",
+    "procedimento": "\"\"\"URETROCISTOGRAFIA\"\"\"",
+    "tipo": "[FISICO]",
+    "regulado": "Sim"
+  }
+]
