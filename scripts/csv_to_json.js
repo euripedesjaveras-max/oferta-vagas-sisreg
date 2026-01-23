@@ -1,27 +1,25 @@
 // scripts/csv_to_json.js
-// Converte arquivos CSV (;) em JSON automaticamente
-// BLINDAGEM DE CPF: garante 11 dígitos com zeros à esquerda
+// Converte CSV (;) em JSON
 // Usado pelo GitHub Actions
+// Inclui blindagem de CPF e conversão de procedimentos
 
 const fs = require("fs");
 
 /*
   Normaliza CPF:
-  - Remove qualquer caractere não numérico
-  - Completa com zeros à esquerda até 11 dígitos
-  - Retorna sempre STRING
+  - Remove tudo que não for número
+  - Garante 11 dígitos com zeros à esquerda
 */
 function normalizarCpf(valor) {
   if (!valor) return "";
-
-  // Remove tudo que não for número
-  const somenteNumeros = valor.replace(/\D/g, "");
-
-  // Completa com zeros à esquerda
-  return somenteNumeros.padStart(11, "0");
+  const numeros = valor.replace(/\D/g, "");
+  return numeros.padStart(11, "0");
 }
 
-function converter(csvPath, jsonPath) {
+/*
+  Converte um CSV genérico para JSON
+*/
+function converter(csvPath, jsonPath, opcoes = {}) {
   const conteudo = fs.readFileSync(csvPath, "utf-8");
   const linhas = conteudo.split(/\r?\n/).filter(l => l.trim());
 
@@ -35,8 +33,8 @@ function converter(csvPath, jsonPath) {
     cabecalho.forEach((campo, idx) => {
       let valor = (colunas[idx] || "").trim();
 
-      // 🔒 BLINDAGEM ESPECÍFICA PARA CPF
-      if (campo.toLowerCase() === "cpf") {
+      // Blindagem específica para CPF
+      if (campo.toLowerCase() === "cpf" && opcoes.cpf) {
         valor = normalizarCpf(valor);
       }
 
@@ -50,13 +48,24 @@ function converter(csvPath, jsonPath) {
 }
 
 // ==============================
-// CONFIGURAÇÃO ATUAL
+// CONVERSÕES ATIVAS
 // ==============================
+
+// PROFISSIONAIS
 converter(
   "data/profissionais.csv",
-  "data/profissionais.json"
+  "data/profissionais.json",
+  { cpf: true }
 );
 
-// No futuro, reutilizável para:
-// converter("data/unidades.csv", "data/unidades.json");
-// converter("data/procedimentos_exames.csv", "data/procedimentos_exames.json");
+// PROCEDIMENTOS / EXAMES
+converter(
+  "data/procedimentos_exames.csv",
+  "data/procedimentos_exames.json"
+);
+
+// UNIDADES 
+converter(
+  "data/unidades.csv",
+  "data/unidades.json"
+);
