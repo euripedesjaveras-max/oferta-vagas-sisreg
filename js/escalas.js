@@ -1,9 +1,6 @@
 // js/escalas.js
-// Versão FINAL estável
-// - CPF e Nome restaurados
-// - Procedimento corrigido
-// - cod_int resolvido
-// - aspas removidas do texto
+// Versão estável FINAL
+// Correção do alinhamento da tabela + vigências
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -13,59 +10,52 @@ document.addEventListener("DOMContentLoaded", () => {
   let profissionalSelecionado = null;
   let procedimentoSelecionado = null;
 
-  // ===== CAMPOS PROFISSIONAL =====
+  // ===== CAMPOS =====
   const cpfInput = document.getElementById("cpfInput");
   const nomeInput = document.getElementById("nomeInput");
   const listaNomes = document.getElementById("listaNomes");
   const avisoInativo = document.getElementById("avisoInativo");
 
-  // ===== CAMPOS PROCEDIMENTO =====
   const procedimentoInput = document.getElementById("procedimentoInput");
   const listaProcedimentos = document.getElementById("listaProcedimentos");
   const examesInput = document.getElementById("examesInput");
 
-  // =====================
-  // FUNÇÕES UTIL
-  // =====================
+  const diasInput = document.getElementById("dias");
+  const horaInicioInput = document.getElementById("horaInicio");
+  const horaFimInput = document.getElementById("horaFim");
+  const vagasInput = document.getElementById("vagas");
+  const vigInicioInput = document.getElementById("vigenciaInicio");
+  const vigFimInput = document.getElementById("vigenciaFim");
 
-  // remove TODAS as aspas do texto
+  // =====================
+  // UTIL
+  // =====================
   function limparTexto(txt) {
     if (!txt) return "";
     return txt.replace(/"/g, "").trim();
   }
 
-  // obtém código interno mesmo que venha como "cod int"
   function obterCodigo(p) {
     return p.cod_int || p["cod int"] || "";
   }
 
   // =====================
-  // LOAD DOS DADOS
+  // LOAD
   // =====================
-
-  fetch("data/profissionais.json")
-    .then(r => r.json())
-    .then(d => profissionais = d);
-
-  fetch("data/procedimentos_exames.json")
-    .then(r => r.json())
-    .then(d => procedimentos = d);
+  fetch("data/profissionais.json").then(r => r.json()).then(d => profissionais = d);
+  fetch("data/procedimentos_exames.json").then(r => r.json()).then(d => procedimentos = d);
 
   // =====================
-  // CPF (FUNCIONANDO)
+  // CPF
   // =====================
-
   cpfInput.addEventListener("blur", () => {
-    const cpf = cpfInput.value.trim();
+    const prof = profissionais.find(p => p.cpf === cpfInput.value.trim());
     avisoInativo.style.display = "none";
 
-    const prof = profissionais.find(p => p.cpf === cpf);
     if (prof) {
       profissionalSelecionado = prof;
       nomeInput.value = prof.nome;
-      if (prof.ativo === "INATIVO") {
-        avisoInativo.style.display = "block";
-      }
+      if (prof.ativo === "INATIVO") avisoInativo.style.display = "block";
     } else {
       profissionalSelecionado = null;
       nomeInput.value = "";
@@ -73,9 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // NOME DO PROFISSIONAL
+  // NOME
   // =====================
-
   nomeInput.addEventListener("input", () => {
     listaNomes.innerHTML = "";
     listaNomes.style.display = "none";
@@ -94,9 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
           profissionalSelecionado = p;
           cpfInput.value = p.cpf;
           nomeInput.value = p.nome;
-          if (p.ativo === "INATIVO") {
-            avisoInativo.style.display = "block";
-          }
+          if (p.ativo === "INATIVO") avisoInativo.style.display = "block";
           listaNomes.innerHTML = "";
           listaNomes.style.display = "none";
         };
@@ -109,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================
   // PROCEDIMENTO
   // =====================
-
   procedimentoInput.addEventListener("input", () => {
     listaProcedimentos.innerHTML = "";
     listaProcedimentos.style.display = "none";
@@ -118,9 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (termo.length < 2) return;
 
     procedimentos
-      .filter(p =>
-        limparTexto(p.procedimento).toLowerCase().includes(termo)
-      )
+      .filter(p => limparTexto(p.procedimento).toLowerCase().includes(termo))
       .slice(0, 10)
       .forEach(p => {
         const codigo = obterCodigo(p);
@@ -149,14 +133,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // SUBMIT
+  // SUBMIT (TABELA CORRIGIDA)
   // =====================
-
   document.getElementById("formEscala").addEventListener("submit", e => {
     e.preventDefault();
 
     if (!profissionalSelecionado || !procedimentoSelecionado) {
-      alert("Selecione um profissional e um procedimento válidos.");
+      alert("Preencha todos os campos corretamente.");
       return;
     }
 
@@ -169,10 +152,12 @@ document.addEventListener("DOMContentLoaded", () => {
       <td>${profissionalSelecionado.nome}</td>
       <td>${codigo} - ${texto}</td>
       <td>${examesInput.value}</td>
-      <td>${dias.value}</td>
-      <td>${horaInicio.value}</td>
-      <td>${horaFim.value}</td>
-      <td>${vagas.value}</td>
+      <td>${diasInput.value}</td>
+      <td>${horaInicioInput.value}</td>
+      <td>${horaFimInput.value}</td>
+      <td>${vagasInput.value}</td>
+      <td>${vigInicioInput.value}</td>
+      <td>${vigFimInput.value}</td>
       <td><button onclick="this.closest('tr').remove()">X</button></td>
     `;
 
