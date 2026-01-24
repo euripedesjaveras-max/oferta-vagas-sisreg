@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agenda SISREG</title>
+  <style>
+    /* ========== RESET & CORE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --primary: #0d3b66;       /* Azul escuro */
+      --secondary: #1a936f;     /* Verde elegante */
+      --light-bg: #f4f6f9;      /* Cinza claro */
+      --card-bg: #ffffff;
+      --text-dark: #2d3748;
+      --text-light: #718096;
+      --border: #e2e8f0;
+    }
+
+    body {
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ========== LOGIN PAGE ========== */
+    .login-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e0f7fa, #bbdefb);
+      text-align: center;
+    }
+
+    .logo-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      text-shadow: 0 0 10px rgba(13, 59, 102, 0.3);
+    }
+
+    .login-page h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .login-page h2 {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      margin-bottom: 2rem;
+    }
+
+    .login-form {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.75rem 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .login-form button {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-form button:hover {
+      background: #147a5a;
+    }
+
+    /* ========== LOGGED-IN LAYOUT ========== */
+    .logged-in {
+      display: none; /* Será exibido via JS ou simulação */
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .unit-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.4rem 0.6rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    nav a:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    main {
+      padding: 2rem 0;
+    }
+
+    /* ========== DASHBOARD ========== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-left: 4px solid var(--secondary);
+    }
+
+    .card h3 {
+      margin-bottom: 1rem;
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .chart-bar {
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      margin-top: 0.75rem;
+      overflow: hidden;
+    }
+
+    .chart-fill {
+      height: 100%;
+      background: var(--secondary);
+      border-radius: 3px;
+    }
+
+    /* ========== ESCALAS PAGE ========== */
+    .form-section, .table-section {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .form-section h2, .table-section h2 {
+      margin-bottom: 1.25rem;
+      color: var(--primary);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .btn-export {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .btn-export:hover {
+      background: #147a5a;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--light-bg);
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--primary);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.85rem;
+      margin-top: 3rem;
+    }
+
+    /* ========== UTILITIES ========== */
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- PÁGINA DE LOGIN -->
+  <div id="login-page" class="login-page">
+    <div class="logo-icon">⚕️🩺</div>
+    <h1>Agenda SISREG</h1>
+    <h2>Complexo Regulador</h2>
+    <div class="login-form">
+      <input type="text" id="unit-input" placeholder="Nome da Unidade (ex: Hospital Central)" required />
+      <button onclick="login()">Entrar</button>
+    </div>
+  </div>
+
+  <!-- LAYOUT APÓS LOGIN -->
+  <div id="logged-in" class="logged-in">
+    <header>
+      <div class="container">
+        <div class="unit-name" id="display-unit-name">Unidade: [NOME DA UNIDADE]</div>
+        <nav>
+          <ul>
+            <li><a href="#" onclick="showPage('dashboard')">Dashboard</a></li>
+            <li><a href="#" onclick="showPage('escalas')">Escalas</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- DASHBOARD -->
+      <div id="dashboard" class="page-content">
+        <h2>Visão Geral – Agenda SISREG</h2>
+        <div class="dashboard-grid">
+          <div class="card">
+            <h3>Vagas Ofertadas (Hoje)</h3>
+            <div class="metric-value">42</div>
+            <div class="chart-bar"><div class="chart-fill" style="width: 85%"></div></div>
+          </div>
+          <div class="card">
+            <h3>Vagas Ocupadas</h3>
+            <div class="metric-value">36</div>
+            <div class="chart-bar"><div class="chart-fill" style="width: 70%"></div></div>
+          </div>
+          <div class="card">
+            <h3>Pendentes de Confirmação</h3>
+            <div class="metric-value">6</div>
+            <div class="chart-bar"><div class="chart-fill" style="width: 30%"></div></div>
+          </div>
+          <div class="card">
+            <h3>Tempo Médio Resposta (h)</h3>
+            <div class="metric-value">2.4</div>
+            <div class="chart-bar"><div class="chart-fill" style="width: 60%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESCALAS -->
+      <div id="escalas" class="page-content hidden">
+        <div class="form-section">
+          <h2>Registrar Nova Escala</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="especialidade">Especialidade</label>
+              <input type="text" id="especialidade" placeholder="Ex: Cardiologia" />
+            </div>
+            <div class="form-group">
+              <label for="profissional">Profissional</label>
+              <input type="text" id="profissional" placeholder="Nome do profissional" />
+            </div>
+            <div class="form-group">
+              <label for="data">Data</label>
+              <input type="date" id="data" />
+            </div>
+            <div class="form-group">
+              <label for="turno">Turno</label>
+              <select id="turno">
+                <option>Manhã</option>
+                <option>Tarde</option>
+                <option>Noite</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="vagas">Qtd. Vagas</label>
+              <input type="number" id="vagas" min="1" value="10" />
+            </div>
+          </div>
+          <button class="btn-export" style="margin-top: 1rem;">Salvar Escala</button>
+        </div>
+
+        <div class="table-section">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Escalas Registradas</h2>
+            <button class="btn-export" onclick="alert('Exportação CSV simulada!')">Exportar CSV</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Especialidade</th>
+                <th>Profissional</th>
+                <th>Data</th>
+                <th>Turno</th>
+                <th>Vagas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cardiologia</td>
+                <td>Dr. Silva</td>
+                <td>2026-01-26</td>
+                <td>Manhã</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <td>Dermatologia</td>
+                <td>Dra. Lima</td>
+                <td>2026-01-27</td>
+                <td>Tarde</td>
+                <td>8</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      Desenvolvido por [Seu Nome ou Empresa] • Sistema de Gestão Inteligente para Regulação em Saúde
+    </footer>
+  </div>
+
+  <script>
+    function login() {
+      const unit = document.getElementById('unit-input').value.trim();
+      if (!unit) {
+        alert('Por favor, informe o nome da unidade.');
+        return;
+      }
+      document.getElementById('display-unit-name').textContent = `Unidade: ${unit}`;
+      document.getElementById('login-page').classList.add('hidden');
+      document.getElementById('logged-in').classList.remove('hidden');
+      showPage('dashboard');
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(pageId).classList.remove('hidden');
+    }
+  </script>
+
+</body>
+  </html>
