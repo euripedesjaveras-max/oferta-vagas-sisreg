@@ -1,27 +1,31 @@
 // js/escalas.js
+// Integração com Google Sheets (ETAPA 1)
+
 document.addEventListener("DOMContentLoaded", () => {
 
   // =====================
   // CONFIGURAÇÕES
   // =====================
+  // URL ATUALIZADA CONFORME FORNECIDO
   const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzfKcOuEasj4lfWzqbP1FOoSKzJdQvVM7xK81PKCBKs8LgHjp5aJTYyRIygM9n1p_-AMQ/exec";
-  const UNIDADE_ATUAL = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
+  const UNIDADE_ATUAL = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE"; // Mantém unidade dinâmica
 
   let profissionais = [];
   let procedimentos = [];
+
   let profissionalSelecionado = null;
   let procedimentoSelecionado = null;
 
-  // Carregar dados da tabela salvos localmente ao abrir a página
-  carregarTabelaLocal();
-
-  // ===== CAMPOS (IDs conforme escalahtml.txt) =====
-  const form = document.getElementById("formEscala");
-  const tbody = document.querySelector("#tabelaEscalas tbody");
+  // ===== CAMPOS =====
   const cpfInput = document.getElementById("cpfInput");
   const nomeInput = document.getElementById("nomeInput");
+  const listaNomes = document.getElementById("listaNomes");
+  const avisoInativo = document.getElementById("avisoInativo");
+
   const procedimentoInput = document.getElementById("procedimentoInput");
+  const listaProcedimentos = document.getElementById("listaProcedimentos");
   const examesInput = document.getElementById("examesInput");
+
   const diasInput = document.getElementById("dias");
   const horaInicioInput = document.getElementById("horaInicio");
   const horaFimInput = document.getElementById("horaFim");
@@ -30,102 +34,54 @@ document.addEventListener("DOMContentLoaded", () => {
   const vigFimInput = document.getElementById("vigenciaFim");
 
   // =====================
-  // CARREGAR JSONs LOCAIS
+  // LÓGICA DE PERSISTÊNCIA LOCAL (NOVO)
   // =====================
-  fetch("data/profissionais.json").then(r => r.json()).then(d => profissionais = d);
-  fetch("data/procedimentos_exames.json").then(r => r.json()).then(d => procedimentos = d);
-
-  // =====================
-  // PERSISTÊNCIA LOCAL
-  // =====================
-
-  function salvarNoCacheLocal(escala) {
-    let escalas = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
-    escalas.push(escala);
-    localStorage.setItem("escalas_salvas", JSON.stringify(escalas));
-  }
-
-  function carregarTabelaLocal() {
+  function salvarLocalmente(dados) {
     const escalas = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
-    tbody.innerHTML = ""; // Limpa antes de renderizar
-    escalas.forEach((item, index) => adicionarLinhaTabela(item, index));
-  }
-
-  function removerDoCacheLocal(index) {
-    let escalas = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
-    escalas.splice(index, 1);
+    escalas.push(dados);
     localStorage.setItem("escalas_salvas", JSON.stringify(escalas));
-    carregarTabelaLocal();
   }
 
-  function adicionarLinhaTabela(dados, index) {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${dados.cpf}</td>
-      <td>${dados.profissional}</td>
-      <td>${dados.procedimento}</td>
-      <td>${dados.exames || "-"}</td>
-      <td>${dados.dias_semana}</td>
-      <td>${dados.hora_inicio}</td>
-      <td>${dados.hora_fim}</td>
-      <td>${dados.vagas}</td>
-      <td>${dados.vigencia_inicio}</td>
-      <td>${dados.vigencia_fim}</td>
-      <td><button class="btn-delete" data-index="${index}">X</button></td>
-    `;
-    
-    tr.querySelector(".btn-delete").onclick = () => removerDoCacheLocal(index);
-    tbody.appendChild(tr);
+  function carregarTabela() {
+    const tabelaBody = document.querySelector("#tabelaEscalas tbody");
+    const escalas = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
+    tabelaBody.innerHTML = ""; // Limpa para reconstruir
+
+    escalas.forEach((payload, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${payload.cpf}</td>
+        <td>${payload.profissional}</td>
+        <td>${payload.cod_procedimento} - ${payload.procedimento}</td>
+        <td>${payload.exames}</td>
+        <td>${payload.dias_semana}</td>
+        <td>${payload.hora_inicio}</td>
+        <td>${payload.hora_fim}</td>
+        <td>${payload.vagas}</td>
+        <td>${payload.vigencia_inicio}</td>
+        <td>${payload.vigencia_fim}</td>
+        <td><button class="btn-excluir" data-index="${index}">X</button></td>
+      `;
+      tabelaBody.appendChild(tr);
+    });
+
+    // Evento para o botão excluir
+    document.querySelectorAll(".btn-excluir").forEach(btn => {
+      btn.onclick = (e) => {
+        const idx = e.target.getAttribute("data-index");
+        const atual = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
+        atual.splice(idx, 1);
+        localStorage.setItem("escalas_salvas", JSON.stringify(atual));
+        carregarTabela();
+      };
+    });
   }
 
+  // Inicializa a tabela ao carregar
+  carregarTabela();
+
   // =====================
-  // SUBMIT E INTEGRAÇÃO
-  // =====================
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
-
-    const payload = {
-      cpf: cpfInput.value,
-      profissional: nomeInput.value,
-      cod_procedimento: procedimentoInput.value.split(" - ")[0],
-      procedimento: procedimentoInput.value,
-      exames: examesInput.value,
-      dias_semana: diasInput.value,
-      hora_inicio: horaInicioInput.value,
-      hora_fim: horaFimInput.value,
-      vagas: vagasInput.value,
-      vigencia_inicio: vigInicioInput.value,
-      vigencia_fim: vigFimInput.value,
-      unidade: UNIDADE_ATUAL
-    };
-
-    // 1. Salva Localmente Primeiro (Segurança)
-    salvarNoCacheLocal(payload);
-    carregarTabelaLocal();
-
-    // 2. Tenta enviar para o Sheets
-    try {
-      const resp = await fetch(GOOGLE_SHEETS_URL, {
-        method: "POST",
-        mode: "cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload)
-      });
-      
-      const result = await resp.json();
-      if (result.status === "OK") {
-        console.log("Sincronizado com Sheets");
-      } else {
-        alert("Salvo apenas localmente. Erro no servidor: " + result.mensagem);
-      }
-    } catch (err) {
-      alert("Sem conexão. A escala foi salva apenas neste computador e será mantida na tabela.");
-    }
-
-    form.reset();
-    examesInput.disabled = true;
-  });
-});
+  // UTIL
   // =====================
   function limparTexto(txt) {
     if (!txt) return "";
@@ -229,21 +185,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // SUBMIT → GOOGLE SHEETS
+  // SUBMIT
   // =====================
   document.getElementById("formEscala").addEventListener("submit", async e => {
     e.preventDefault();
 
-    if (!profissionalSelecionado || !procedimentoSelecionado) {
-      alert("Selecione um profissional e um procedimento das listas.");
-      return;
-    }
-
     const payload = {
-      cpf: profissionalSelecionado.cpf,
-      profissional: profissionalSelecionado.nome,
-      cod_procedimento: obterCodigo(procedimentoSelecionado),
-      procedimento: limparTexto(procedimentoSelecionado.procedimento),
+      cpf: cpfInput.value,
+      profissional: nomeInput.value,
+      cod_procedimento: procedimentoSelecionado ? obterCodigo(procedimentoSelecionado) : "",
+      procedimento: procedimentoSelecionado ? limparTexto(procedimentoSelecionado.procedimento) : "",
       exames: examesInput.value,
       dias_semana: diasInput.value,
       hora_inicio: horaInicioInput.value,
@@ -254,53 +205,32 @@ document.addEventListener("DOMContentLoaded", () => {
       unidade: UNIDADE_ATUAL
     };
 
+    // Salva localmente e atualiza a tabela imediatamente
+    salvarLocalmente(payload);
+    carregarTabela();
+
     try {
-      // Usando o modo 'cors' ou 'no-cors' dependendo da sua necessidade. 
-      // Com o cabeçalho Access-Control-Allow-Origin no backend, 'cors' é o ideal.
       const resp = await fetch(GOOGLE_SHEETS_URL, {
         method: "POST",
-        mode: "cors", 
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-      
+
       const result = await resp.json();
 
-      if (result.status === "OK") {
-        alert("Sucesso: " + result.mensagem);
-        
-        // Adiciona na tabela visual apenas se salvou no Sheets
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${payload.cpf}</td>
-          <td>${payload.profissional}</td>
-          <td>${payload.cod_procedimento} - ${payload.procedimento}</td>
-          <td>${payload.exames}</td>
-          <td>${payload.dias_semana}</td>
-          <td>${payload.hora_inicio}</td>
-          <td>${payload.hora_fim}</td>
-          <td>${payload.vagas}</td>
-          <td>${payload.vigencia_inicio}</td>
-          <td>${payload.vigencia_fim}</td>
-          <td><button onclick="this.closest('tr').remove()">X</button></td>
-        `;
-        document.querySelector("#tabelaEscalas tbody").appendChild(tr);
-
-        // Limpa o formulário
-        e.target.reset();
-        examesInput.disabled = true;
-        profissionalSelecionado = null;
-        procedimentoSelecionado = null;
-        avisoInativo.style.display = "none";
-
-      } else {
-        alert("Erro no servidor: " + result.status + (result.mensagem ? " - " + result.mensagem : ""));
+      if (result.status !== "OK") {
+        alert("Erro ao enviar ao Sheets: " + result.status);
       }
 
     } catch (err) {
-      console.error(err);
-      alert("Erro de comunicação: A escala pode não ter sido salva.");
+      alert("Falha de conexão com o Google Sheets. A escala ficou salva localmente na tabela.");
     }
+
+    // Limpa o formulário mantendo a tabela preenchida
+    e.target.reset();
+    examesInput.disabled = true;
+    profissionalSelecionado = null;
+    procedimentoSelecionado = null;
   });
 
 });
