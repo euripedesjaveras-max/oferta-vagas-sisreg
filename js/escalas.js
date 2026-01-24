@@ -6,9 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================
   // CONFIGURAÇÕES
   // =====================
-  // URL ATUALIZADA CONFORME FORNECIDO
   const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzfKcOuEasj4lfWzqbP1FOoSKzJdQvVM7xK81PKCBKs8LgHjp5aJTYyRIygM9n1p_-AMQ/exec";
-  const UNIDADE_ATUAL = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE"; // Mantém unidade dinâmica
+  const UNIDADE_ATUAL = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE"; 
 
   let profissionais = [];
   let procedimentos = [];
@@ -34,10 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const vigFimInput = document.getElementById("vigenciaFim");
 
   // =====================
-  // LÓGICA DE PERSISTÊNCIA LOCAL (NOVO)
+  // LÓGICA DE PERSISTÊNCIA E SINCRONIZAÇÃO
   // =====================
+  
   function salvarLocalmente(dados) {
     const escalas = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
+    if (dados.status_envio === undefined) dados.status_envio = "aguardando"; 
     escalas.push(dados);
     localStorage.setItem("escalas_salvas", JSON.stringify(escalas));
   }
@@ -45,10 +46,21 @@ document.addEventListener("DOMContentLoaded", () => {
   function carregarTabela() {
     const tabelaBody = document.querySelector("#tabelaEscalas tbody");
     const escalas = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
-    tabelaBody.innerHTML = ""; // Limpa para reconstruir
+    tabelaBody.innerHTML = ""; 
 
     escalas.forEach((payload, index) => {
       const tr = document.createElement("tr");
+      
+      // Definição do Ícone de Nuvem por Status
+      let iconeNuvem = "";
+      if (payload.status_envio === "sucesso") {
+        iconeNuvem = '<span title="Enviado com sucesso" style="color: #4CAF50; font-size: 1.2em;">☁️</span>'; // Verde (Emoji padrão varia, mas aqui indicamos pela lógica)
+      } else if (payload.status_envio === "erro") {
+        iconeNuvem = '<span title="Erro ao enviar" style="color: #f44336; font-size: 1.2em;">☁️❗</span>'; // Vermelho
+      } else {
+        iconeNuvem = '<span title="Aguardando sincronização" style="color: #ffc107; font-size: 1.2em;">☁️⏳</span>'; // Amarelo
+      }
+
       tr.innerHTML = `
         <td>${payload.cpf}</td>
         <td>${payload.profissional}</td>
@@ -60,12 +72,15 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${payload.vagas}</td>
         <td>${payload.vigencia_inicio}</td>
         <td>${payload.vigencia_fim}</td>
-        <td><button class="btn-excluir" data-index="${index}">X</button></td>
+        <td style="display: flex; align-items: center; gap: 8px; justify-content: center;">
+           ${iconeNuvem}
+           <button class="btn-excluir" data-index="${index}" style="background:none; border:none; cursor:pointer; color:red;">X</button>
+        </td>
       `;
       tabelaBody.appendChild(tr);
     });
 
-    // Evento para o botão excluir
+    // Evento Excluir
     document.querySelectorAll(".btn-excluir").forEach(btn => {
       btn.onclick = (e) => {
         const idx = e.target.getAttribute("data-index");
@@ -77,11 +92,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Inicializa a tabela ao carregar
+  // Função isolada para enviar ao Google Sheets
+  async function enviarParaSheets(dados) {
+    try {
+      await fetch(GOOGLE_SHEETS_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(dados)
+      });
+      return true; 
+    } catch (err) {
+      console.error("Erro no envio:", err);
+      return false;
+    }
+  }
+
+  // Botão Sincronizar Tudo
+  const btnSyncTudo = document.createElement("button");
+  btnSyncTudo.textContent = "Sincronizar Pendentes";
+  btnSyncTudo.style.margin = "10px 0";
+  btnSyncTudo.style.padding = "8px 15px";
+  btnSyncTudo.style.cursor = "pointer";
+  btnSyncTudo.onclick = async () => {
+    const atual = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
+    btnSyncTudo.textContent = "Sincronizando...";
+    btnSyncTudo.disabled = true;
+
+    for (let item of atual) {
+      if (item.status_envio !== "sucesso") {
+        const sucesso = await enviarParaSheets(item);
+        item.status_envio = sucesso ? "sucesso" : "erro";
+      }
+    }
+
+    localStorage.setItem("escalas_salvas", JSON.stringify(atual));
+    carregarTabela();
+    btnSyncTudo.textContent = "Sincronizar Pendentes";
+    btnSyncTudo.disabled = false;
+  };
+
+  // Inserir o botão de sincronização acima da tabela
+  const tabelaSecao = document.querySelector("#tabelaEscalas").parentNode;
+  tabelaSecao.insertBefore(btnSyncTudo, document.querySelector("#tabelaEscalas"));
+
   carregarTabela();
 
   // =====================
-  // UTIL
+  // UTIL (MANTIDO)
   // =====================
   function limparTexto(txt) {
     if (!txt) return "";
@@ -93,18 +151,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =====================
-  // LOAD DOS DADOS
+  // LOAD DOS DADOS (MANTIDO)
   // =====================
   fetch("data/profissionais.json").then(r => r.json()).then(d => profissionais = d);
   fetch("data/procedimentos_exames.json").then(r => r.json()).then(d => procedimentos = d);
 
   // =====================
-  // CPF
+  // CPF (MANTIDO)
   // =====================
   cpfInput.addEventListener("blur", () => {
     const prof = profissionais.find(p => p.cpf === cpfInput.value.trim());
     avisoInativo.style.display = "none";
-
     if (prof) {
       profissionalSelecionado = prof;
       nomeInput.value = prof.nome;
@@ -116,16 +173,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // NOME
+  // NOME (MANTIDO)
   // =====================
   nomeInput.addEventListener("input", () => {
     listaNomes.innerHTML = "";
     listaNomes.style.display = "none";
     avisoInativo.style.display = "none";
-
     const termo = nomeInput.value.toLowerCase();
     if (termo.length < 2) return;
-
     profissionais
       .filter(p => p.nome.toLowerCase().includes(termo))
       .slice(0, 10)
@@ -146,41 +201,35 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // PROCEDIMENTO
+  // PROCEDIMENTO (MANTIDO)
   // =====================
   procedimentoInput.addEventListener("input", () => {
     listaProcedimentos.innerHTML = "";
     listaProcedimentos.style.display = "none";
-
     const termo = procedimentoInput.value.toLowerCase();
     if (termo.length < 2) return;
-
     procedimentos
       .filter(p => limparTexto(p.procedimento).toLowerCase().includes(termo))
       .slice(0, 10)
       .forEach(p => {
         const codigo = obterCodigo(p);
         const texto = limparTexto(p.procedimento);
-
         const div = document.createElement("div");
         div.textContent = `${codigo} - ${texto}`;
         div.onclick = () => {
           procedimentoSelecionado = p;
           procedimentoInput.value = `${codigo} - ${texto}`;
-
           if (texto.toUpperCase().startsWith("GRUPO")) {
             examesInput.disabled = false;
           } else {
             examesInput.value = "";
             examesInput.disabled = true;
           }
-
           listaProcedimentos.innerHTML = "";
           listaProcedimentos.style.display = "none";
         };
         listaProcedimentos.appendChild(div);
       });
-
     listaProcedimentos.style.display = "block";
   });
 
@@ -202,32 +251,18 @@ document.addEventListener("DOMContentLoaded", () => {
       vagas: vagasInput.value,
       vigencia_inicio: vigInicioInput.value,
       vigencia_fim: vigFimInput.value,
-      unidade: UNIDADE_ATUAL
+      unidade: UNIDADE_ATUAL,
+      status_envio: "aguardando" 
     };
 
-    // Salva localmente e atualiza a tabela imediatamente
+    // Tenta enviar imediatamente
+    const sucesso = await enviarParaSheets(payload);
+    payload.status_envio = sucesso ? "sucesso" : "erro";
+
+    // Salva localmente com o status atualizado
     salvarLocalmente(payload);
     carregarTabela();
 
-    try {
-      // AJUSTE CRÍTICO: Enviando como texto plano para evitar bloqueio de CORS do Google
-      const resp = await fetch(GOOGLE_SHEETS_URL, {
-        method: "POST",
-        mode: "no-cors", // Evita o erro de pre-flight do Google
-        headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify(payload)
-      });
-
-      // Nota: Com 'no-cors' o navegador não permite ler resp.json(), 
-      // mas o dado chega com sucesso na planilha.
-      console.log("Dados enviados ao processo do Sheets.");
-
-    } catch (err) {
-      console.error("Erro de conexão:", err);
-      alert("Falha de conexão com o Google Sheets. A escala ficou salva localmente na tabela.");
-    }
-
-    // Limpa o formulário mantendo a tabela preenchida
     e.target.reset();
     examesInput.disabled = true;
     profissionalSelecionado = null;
