@@ -5,140 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | Agenda SISREG</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="css/theme.css">
-
   <style>
-    /* Reset e Base usando Theme.css */
-    body { 
-      background: #f4f7f6; 
-      font-family: 'Inter', sans-serif; 
-      color: #333; 
-      margin: 0; 
-      height: 100vh; 
-      display: flex; 
-      flex-direction: column; 
-      overflow: hidden; 
-    }
+    body { background: #f4f7f6; font-family: 'Inter', sans-serif; color: #333; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-    /* [ESTILO] Cards de Indicadores */
-    .kpi-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      padding: 0 20px 20px 20px;
-    }
-    .kpi-card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-      border-left: 5px solid var(--am-blue); /* Variável do Tema */
-    }
-    .kpi-card h3 { margin: 0; font-size: 0.75rem; color: #666; text-transform: uppercase; }
-    .kpi-card p { margin: 5px 0 0 0; font-size: 1.5rem; font-weight: 700; color: var(--am-blue); }    
-
-    /* [ESTILO] Filtro Mensal */
-    .filter-section {
-      background: #fff;
-      padding: 10px 20px;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    .filter-section label { font-size: 0.85rem; font-weight: 600; color: var(--am-blue); }
-    .filter-section select { 
-      padding: 6px 12px; 
-      border-radius: 6px; 
-      border: 1px solid #ccc; 
-      outline: none;
-      font-family: 'Inter', sans-serif;
-    }    
-    
-    /* Header */
+    /* [ALTERAÇÃO] Header com Azul e Linha Vermelha (Padrão Escala) */
     .dash-header { 
-      background: white; 
+      background: var(--am-blue); 
       padding: 15px 20px; 
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+      display: flex; justify-content: space-between; align-items: center; 
       z-index: 10;
-      border-bottom: 3px solid var(--am-red); /* Identidade Visual */
+      border-bottom: 4px solid var(--am-red);
     }
-    .unit-info h1 { font-size: 1.2rem; color: var(--am-blue); margin: 0; }
-    .unit-info p { margin: 0; color: #666; font-size: 0.8rem; }
+    .unit-info h1 { font-size: 1.2rem; color: white; margin: 0; }
+    .unit-info p { margin: 0; color: rgba(255,255,255,0.8); font-size: 0.8rem; }
     .header-btns { display: flex; gap: 10px; }
 
-    /* Container Principal */
-    .container { 
-      flex: 1; 
-      display: flex; 
-      flex-direction: column; 
-      padding: 20px; 
-      overflow: hidden; 
-    }
+    /* [ALTERAÇÃO] Botão Nova Escala em Amarelo para contraste no Azul */
+    .btn-main { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: 0.3s; }
+    .btn-new { background: var(--am-yellow); color: var(--am-blue); }
+    .btn-new:hover { background: white; transform: scale(1.05); }
+    .btn-sync { background: var(--am-green); color: white; }
+    .btn-logout { background: white; color: var(--am-red); }
 
-    /* Area da Tabela com Scroll */
-    .table-container { 
-      flex: 1; 
-      background: white; 
-      border-radius: 12px; 
-      box-shadow: 0 4px 6px rgba(0,0,0,0.02); 
-      border: 1px solid #eee; 
-      overflow: auto; 
+    /* [ALTERAÇÃO] Cards com fundo azul e texto branco/amarelo */
+    .kpi-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; padding: 20px; }
+    .kpi-card { 
+      background: var(--am-blue); 
+      padding: 20px; border-radius: 12px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-left: 5px solid var(--am-yellow);
     }
+    .kpi-card h3 { margin: 0; font-size: 0.7rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; }
+    /* Valor em Amarelo Ouro para contraste máximo */
+    .kpi-card p { margin: 5px 0 0 0; font-size: 1.6rem; font-weight: 700; color: var(--am-yellow); } 
 
-    /* Estrutura da Tabela */
+    .filter-section { background: #fff; padding: 10px 20px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 15px; }
+    .filter-section label { font-size: 0.85rem; font-weight: 600; color: var(--am-blue); }
+    .filter-section select { padding: 6px 12px; border-radius: 6px; border: 1px solid #ccc; outline: none; }
+
+    .container { flex: 1; display: flex; flex-direction: column; padding: 0 20px 20px 20px; overflow: hidden; }
+    .table-container { flex: 1; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid #eee; overflow: auto; }
     table { width: 100%; border-collapse: collapse; min-width: 1200px; }
-    
-    /* Cabecalho Fixo */
-    thead th { 
-      position: sticky; 
-      top: 0; 
-      background: var(--am-blue); /* Cabeçalho Azul */
-      color: white;
-      z-index: 5; 
-      padding: 12px; 
-      text-align: left; 
-      font-size: 0.75rem; 
-      border-bottom: 2px solid rgba(0,0,0,0.1); 
-    }
-
-    /* Celulas e Linhas */
+    thead th { position: sticky; top: 0; background: var(--am-blue); color: white; z-index: 5; padding: 12px; text-align: left; font-size: 0.75rem; }
     td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.8rem; white-space: nowrap; }
     tr:hover { background: #f1f4ff; }
 
-    /* Botoes de Acao */
-    .btn-main { 
-      background: var(--am-blue); 
-      color: white; 
-      padding: 8px 16px; 
-      border-radius: 8px; 
-      border: none; 
-      cursor: pointer; 
-      font-weight: 600; 
-      font-size: 0.85rem; 
-      transition: 0.3s; 
-    }
-    .btn-sync { background: var(--am-green); } /* Verde do Tema */
-    .btn-logout { background: var(--am-red); } /* Vermelho do Tema */
-    
-    /* Rodape */
-    footer { 
-      text-align: center; 
-      padding: 15px; 
-      color: #888; 
-      font-size: 0.8rem; 
-      background: white; 
-      border-top: 1px solid #eee; 
-    }
-    footer strong { color: var(--am-blue); }
+    footer { text-align: center; padding: 15px; color: #888; font-size: 0.8rem; background: white; border-top: 1px solid #eee; }
   </style>
 </head>
 <body>
-
 <header class="dash-header">
   <div class="unit-info">
     <h1 id="txtUnidade">Carregando unidade...</h1>
@@ -146,7 +63,7 @@
   </div>
   <div class="header-btns">
     <button id="btnSincronizar" class="btn-main btn-sync">🔄 Sincronizar Sheets</button>
-    <a href="escalas.html" style="text-decoration: none;"><button class="btn-main">➕ Nova Escala</button></a>
+    <a href="escalas.html" style="text-decoration: none;"><button class="btn-main btn-new">➕ Nova Escala</button></a>
     <button id="btnLogout" class="btn-main btn-logout">Sair</button>
   </div>
 </header>
@@ -155,81 +72,34 @@
   <label for="filtroMes">Filtrar por Mês de Vigência:</label>
   <select id="filtroMes">
     <option value="todos">Mostrar Todos</option>
-    <option value="01">Janeiro</option>
-    <option value="02">Fevereiro</option>
-    <option value="03">Março</option>
-    <option value="04">Abril</option>
-    <option value="05">Maio</option>
-    <option value="06">Junho</option>
-    <option value="07">Julho</option>
-    <option value="08">Agosto</option>
-    <option value="09">Setembro</option>
-    <option value="10">Outubro</option>
-    <option value="11">Novembro</option>
-    <option value="12">Dezembro</option>
+    <option value="01">Janeiro</option><option value="02">Fevereiro</option><option value="03">Março</option>
+    <option value="04">Abril</option><option value="05">Maio</option><option value="06">Junho</option>
+    <option value="07">Julho</option><option value="08">Agosto</option><option value="09">Setembro</option>
+    <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
   </select>
 </div>  
 
-  <div class="kpi-container" style="margin-top: 20px;">
-  <div class="kpi-card">
-    <h3>Total de Vagas</h3>
-    <p id="kpiVagas">0</p>
-  </div>
-  <div class="kpi-card" style="border-left-color: #9c27b0;">
-    <h3>% Vagas Retorno</h3>
-    <p id="kpiRetorno">0%</p>
-  </div>
-  <div class="kpi-card" style="border-left-color: var(--am-green);">
-    <h3>Profissionais</h3>
-    <p id="kpiProfissionais">0</p>
-  </div>
-  <div class="kpi-card" style="border-left-color: var(--am-yellow);">
-    <h3>Procedimentos Únicos</h3>
-    <p id="kpiProcedimentos">0</p>
-  </div>
-  <div class="kpi-card" style="border-left-color: var(--am-red);">
-    <h3>Procedimento Líder</h3>
-    <p id="kpiLider">-</p>
-  </div>
+<div class="kpi-container">
+  <div class="kpi-card"><h3>Total de Vagas</h3><p id="kpiVagas">0</p></div>
+  <div class="kpi-card" style="border-left-color: #9c27b0;"><h3>% Vagas Retorno</h3><p id="kpiRetorno">0%</p></div>
+  <div class="kpi-card" style="border-left-color: var(--am-green);"><h3>Profissionais</h3><p id="kpiProfissionais">0</p></div>
+  <div class="kpi-card" style="border-left-color: var(--am-red);"><h3>Procs. Únicos</h3><p id="kpiProcedimentos">0</p></div>
+  <div class="kpi-card" style="border-left-color: #fff;"><h3>Procedimento Líder</h3><p id="kpiLider" style="font-size: 1rem;">-</p></div>
 </div>
 
 <div class="container">
-  
-<div class="table-container">
+  <div class="table-container">
     <table id="tabEscalas">
-      
-<thead>
-        <tr>
-          <th>CPF</th>
-          <th>Profissional</th>
-          <th>Cód. Proc.</th>
-          <th>Procedimento</th>
-          <th>Exames</th>
-          <th>Dias</th>
-          <th>Início</th>
-          <th>Fim</th>
-          <th>Vagas</th>
-          <th>Vigência Início</th>
-          <th>Vigência Fim</th>
-        </tr>
+      <thead>
+        <tr><th>CPF</th><th>Profissional</th><th>Cód. Proc.</th><th>Procedimento</th><th>Exames</th><th>Dias</th><th>Início</th><th>Fim</th><th>Vagas</th><th>Vigência Início</th><th>Vigência Fim</th></tr>
       </thead>
-      
-      <tbody id="corpoTabela">
-        <tr>
-          <td colspan="11" style="text-align:center; padding: 50px; color: #999;">
-            Os dados serão carregados aqui...
-          </td>
-        </tr>
-      </tbody>
+      <tbody id="corpoTabela"></tbody>
     </table>
   </div>
 </div>
-
 <footer id="footerCreditos"></footer>
-
 <script src="js/dashboard.js"></script>
 <script>
-  /* [LOGICA] Carregar Creditos */
   fetch("data/config.json").then(r => r.json()).then(d => {
     document.getElementById("footerCreditos").innerHTML = `© ${d.ano} - <strong>${d.sistema}</strong> | ${d.desenvolvedor}`;
   });
