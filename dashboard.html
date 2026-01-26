@@ -20,6 +20,24 @@
       flex-direction: column; 
       overflow: hidden; 
     }
+
+/* [ESTILO] Filtro Mensal */
+    .filter-section {
+      background: #fff;
+      padding: 10px 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .filter-section label { font-size: 0.85rem; font-weight: 600; color: var(--p-blue); }
+    .filter-section select { 
+      padding: 6px 12px; 
+      border-radius: 6px; 
+      border: 1px solid #ccc; 
+      outline: none;
+      font-family: 'Inter', sans-serif;
+    }    
     
     /* Header */
     .dash-header { 
@@ -114,6 +132,25 @@
     <button id="btnLogout" class="btn-main btn-logout">Sair</button>
   </div>
 </header>
+
+<div class="filter-section">
+  <label for="filtroMes">Filtrar por Mês de Vigência:</label>
+  <select id="filtroMes">
+    <option value="todos">Mostrar Todos</option>
+    <option value="01">Janeiro</option>
+    <option value="02">Fevereiro</option>
+    <option value="03">Março</option>
+    <option value="04">Abril</option>
+    <option value="05">Maio</option>
+    <option value="06">Junho</option>
+    <option value="07">Julho</option>
+    <option value="08">Agosto</option>
+    <option value="09">Setembro</option>
+    <option value="10">Outubro</option>
+    <option value="11">Novembro</option>
+    <option value="12">Dezembro</option>
+  </select>
+</div>  
 
 <!--/* Container Principal */ -->
 <div class="container">
