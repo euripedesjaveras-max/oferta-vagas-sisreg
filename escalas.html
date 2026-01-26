@@ -4,255 +4,85 @@
   <meta charset="UTF-8">
   <title>Escalas | Agenda SISREG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="css/theme.css">
-
   <style>
-    /* [ESTILO] Integração com theme.css */
-    body { 
-      background: #f4f7f6; 
-      font-family: 'Inter', sans-serif; 
-      margin: 0; 
-      color: #333;
-    }
-
-    /* Header com identidade Amazonas */
-    .app-header { 
-      background: var(--am-blue); 
-      color: white; 
-      padding: 1.2rem 2rem; 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      border-bottom: 4px solid var(--am-red);
-    }
+    body { background: #f4f7f6; font-family: 'Inter', sans-serif; margin: 0; color: #333; }
+    .app-header { background: var(--am-blue); color: white; padding: 1.2rem 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-bottom: 4px solid var(--am-red); }
     .app-header h1 { margin: 0; font-size: 1.4rem; font-weight: 600; }
+    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+    .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 30px; border-top: 5px solid var(--am-blue); }
+    .card h2 { margin-top: 0; font-size: 1.2rem; color: var(--am-blue); border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 25px; }
 
-    .container { 
-      max-width: 1200px; 
-      margin: 30px auto; 
-      padding: 0 20px; 
-    }
-
-    /* Cards */
-    .card { 
-      background: white; 
-      padding: 25px; 
-      border-radius: 12px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-      margin-bottom: 30px; 
-      border-top: 5px solid var(--am-blue);
-    }
-    .card h2 { 
-      margin-top: 0; 
-      font-size: 1.2rem; 
-      color: var(--am-blue); 
-      border-bottom: 1px solid #eee; 
-      padding-bottom: 10px; 
-      margin-bottom: 20px;
-    }
-
-    /* Formulário em Grid */
-    #formEscala { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-      gap: 15px; 
-    }
-
+    /* [ALTERAÇÃO] Melhoria no gap e tamanho dos campos conforme sugerido */
+    #formEscala { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; }
     .campo { display: flex; flex-direction: column; }
     .campo.full { grid-column: 1 / -1; }
     .campo.campo-relativo { position: relative; }
+    .campo label { font-size: 0.85rem; font-weight: 600; color: var(--am-blue); margin-bottom: 8px; }
+    .campo input { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; transition: 0.2s; }
+    .campo input:focus { border-color: var(--am-blue); box-shadow: 0 0 0 3px rgba(26,42,108,0.1); outline: none; }
 
-    .campo label { 
-      font-size: 0.85rem; 
-      font-weight: 600; 
-      color: var(--am-blue); 
-      margin-bottom: 6px; 
-    }
+    .autocomplete { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ddd; z-index: 100; max-height: 200px; overflow-y: auto; }
 
-    .campo input { 
-      padding: 10px; 
-      border: 1px solid #ccc; 
-      border-radius: 6px; 
-      font-family: inherit;
-      outline-color: var(--am-blue);
-    }
+    /* Botões padronizados */
+    .btn-acao { background: var(--am-blue); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+    .btn-acao:hover { background: var(--am-green); transform: translateY(-2px); }
+    
+    /* [ALTERAÇÃO] Botão Exportar CSV no mesmo padrão do Inserir */
+    .btn-export { background: var(--am-blue); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-bottom: 20px; width: 100%; }
+    .btn-export:hover { background: var(--am-green); }
 
-    /* Autocomplete */
-    .autocomplete {
-      position: absolute; top: 100%; left: 0; right: 0;
-      background: white; border: 1px solid #ddd; border-top: none;
-      z-index: 100; max-height: 200px; overflow-y: auto; border-radius: 0 0 6px 6px;
-    }
-
-    /* Botão Inserir */
-    .campo button {
-      background: var(--am-blue);
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.3s;
-      margin-top: 10px;
-    }
-    .campo button:hover { background: var(--am-green); transform: translateY(-1px); }
-
-    /* Tabela */
     .table-wrapper { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
-    
-    thead th { 
-      background: var(--am-blue); 
-      color: white; 
-      padding: 12px; 
-      text-align: left; 
-    }
-    
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    thead th { background: var(--am-blue); color: white; padding: 12px; text-align: left; }
     tbody td { padding: 12px; border-bottom: 1px solid #eee; }
-    tbody tr:hover { background: #f9f9f9; }
-
-    /* Rodapé */
     footer { text-align: center; padding: 20px; color: #888; font-size: 0.8rem; }
-    footer strong { color: var(--am-blue); }
   </style>
 </head>
 <body>
-
 <header class="app-header">
   <div style="display:flex;justify-content:space-between;align-items:center;">
     <h1>SISREG – Escala de Agendas</h1>
-    <a href="dashboard.html" style="color:#fff;text-decoration:none;font-weight:500;">
-      ⬅ Voltar ao Início
-    </a>
+    <a href="dashboard.html" style="color:#fff;text-decoration:none;font-weight:500;">⬅ Voltar ao Início</a>
   </div>
 </header>
 
 <main class="container">
-
   <section class="card">
     <h2>Nova Escala</h2>
-
     <form id="formEscala">
-
-      <div class="campo">
-        <label>CPF do Profissional</label>
-        <input type="text" id="cpfInput" maxlength="11" required>
-      </div>
-
-      <div class="campo campo-relativo">
-        <label>Nome do Profissional</label>
-        <input type="text" id="nomeInput" autocomplete="off" required>
-        <div id="listaNomes" class="autocomplete"></div>
-        <div id="avisoInativo" style="display:none;color:var(--am-red);font-size:13px;margin-top:4px;font-weight:bold;">
-          🔔 Profissional INATIVO — solicitar ativação via GLPI
-        </div>
-      </div>
-
-      <div class="campo campo-relativo">
-        <label>Procedimento</label>
-        <input type="text" id="procedimentoInput" autocomplete="off" required>
-        <div id="listaProcedimentos" class="autocomplete"></div>
-      </div>
-
-      <div class="campo">
-        <label>Exames</label>
-        <input
-          type="text"
-          id="examesInput"
-          placeholder="Separe os exames por ;"
-          disabled
-          required
-        >
-      </div>
-
-      <div class="campo">
-        <label>Dias da Semana</label>
-        <input
-          type="text"
-          id="dias"
-          placeholder="SEG TER QUA"
-          required
-        >
-      </div>
-
-      <div class="campo">
-        <label>Hora de Entrada</label>
-        <input type="time" id="horaInicio" required>
-      </div>
-
-      <div class="campo">
-        <label>Hora de Saída</label>
-        <input type="time" id="horaFim" required>
-      </div>
-
-      <div class="campo">
-        <label>Vagas</label>
-        <input type="number" id="vagas" min="1" required>
-      </div>
-
-      <div class="campo">
-        <label>Vigência Inicial</label>
-        <input type="date" id="vigenciaInicio" required>
-      </div>
-
-      <div class="campo">
-        <label>Vigência Final</label>
-        <input type="date" id="vigenciaFim" required>
-      </div>
-
-      <div class="campo full">
-        <button type="submit">Inserir Escala</button>
-      </div>
-
+      <div class="campo"><label>CPF do Profissional</label><input type="text" id="cpfInput" maxlength="11" required></div>
+      <div class="campo campo-relativo"><label>Nome do Profissional</label><input type="text" id="nomeInput" autocomplete="off" required><div id="listaNomes" class="autocomplete"></div><div id="avisoInativo" style="display:none;color:var(--am-red);font-size:12px;margin-top:4px;font-weight:bold;">🔔 Profissional INATIVO</div></div>
+      <div class="campo campo-relativo"><label>Procedimento</label><input type="text" id="procedimentoInput" autocomplete="off" required><div id="listaProcedimentos" class="autocomplete"></div></div>
+      <div class="campo"><label>Exames</label><input type="text" id="examesInput" placeholder="Separe por ;" disabled required></div>
+      <div class="campo"><label>Dias da Semana</label><input type="text" id="dias" placeholder="SEG TER QUA" required></div>
+      <div class="campo"><label>Hora de Entrada</label><input type="time" id="horaInicio" required></div>
+      <div class="campo"><label>Hora de Saída</label><input type="time" id="horaFim" required></div>
+      <div class="campo"><label>Vagas</label><input type="number" id="vagas" min="1" required></div>
+      <div class="campo"><label>Vigência Inicial</label><input type="date" id="vigenciaInicio" required></div>
+      <div class="campo"><label>Vigência Final</label><input type="date" id="vigenciaFim" required></div>
+      <div class="campo full"><button type="submit" class="btn-acao">Inserir Escala</button></div>
     </form>
   </section>
 
   <section class="card">
     <h2>Escalas Inseridas</h2>
-
+    <button id="btnExportarCSV" class="btn-export">Exportar CSV e Finalizar Escalas</button>
     <div class="table-wrapper">
       <table id="tabelaEscalas">
-        <thead>
-          <tr>
-            <th>CPF</th>
-            <th>Profissional</th>
-            <th>Procedimento</th>
-            <th>Exames</th>
-            <th>Dias</th>
-            <th>Entrada</th>
-            <th>Saída</th>
-            <th>Vagas</th>
-            <th>Vig. Início</th>
-            <th>Vig. Fim</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody>
-          </tbody>
+        <thead><tr><th>CPF</th><th>Profissional</th><th>Procedimento</th><th>Exames</th><th>Dias</th><th>Entrada</th><th>Saída</th><th>Vagas</th><th>Vig. Início</th><th>Vig. Fim</th><th>Ação</th></tr></thead>
+        <tbody></tbody>
       </table>
     </div>
   </section>
-
 </main>
-
 <footer id="footerCreditos"></footer>
-
 <script src="js/escalas.js"></script>
-
 <script>
-  /* [LOGICA] Carregar Creditos do config.json */
-  fetch("data/config.json")
-    .then(response => response.json())
-    .then(dados => {
-      const footer = document.getElementById("footerCreditos");
-      if (footer) {
-        footer.innerHTML = `© ${dados.ano} - <strong>${dados.sistema}</strong> | ${dados.desenvolvedor}`;
-      }
-    })
-    .catch(error => console.error("Erro ao carregar créditos:", error));
+  fetch("data/config.json").then(r => r.json()).then(d => {
+    document.getElementById("footerCreditos").innerHTML = `© ${d.ano} - <strong>${d.sistema}</strong> | ${d.desenvolvedor}`;
+  });
 </script>
-
 </body>
 </html>
