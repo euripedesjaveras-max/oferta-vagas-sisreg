@@ -24,7 +24,7 @@
   /* [ESTILO] Cards de Indicadores */
     .kpi-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 20px;
       padding: 0 20px 20px 20px;
     }
@@ -176,6 +176,10 @@
     <h3>Total de Vagas</h3>
     <p id="kpiVagas">0</p>
   </div>
+    <div class="kpi-card" style="border-left-color: #9c27b0;">
+  <h3>% Vagas Retorno</h3>
+  <p id="kpiRetorno">0%</p>
+</div>
   <div class="kpi-card" style="border-left-color: #4CAF50;">
     <h3>Profissionais</h3>
     <p id="kpiProfissionais">0</p>
@@ -183,6 +187,10 @@
   <div class="kpi-card" style="border-left-color: var(--p-gold);">
     <h3>Procedimentos Únicos</h3>
     <p id="kpiProcedimentos">0</p>
+  </div>
+    <div class="kpi-card" style="border-left-color: var(--p-red);">
+    <h3>Procedimento Líder</h3>
+    <p id="kpiLider">-</p>
   </div>
 </div>
 
