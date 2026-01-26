@@ -7,22 +7,22 @@ document.addEventListener("DOMContentLoaded", () => {
     let dadosCompletos = [];
     let charts = {};
 
-    // 1. CARREGAR CRÉDITOS E UNIDADE
-    document.getElementById("txtUnidade").textContent = UNIDADE;
-    
+    // --- CARREGAR CRÉDITOS CENTRALIZADOS ---
     fetch("data/config.json")
         .then(r => r.json())
         .then(c => {
-            document.getElementById("footerDinamico").innerHTML = `
+            document.getElementById("footerCreditos").innerHTML = `
                 <p>© ${c.ano} - ${c.sistema}</p>
                 <p>Desenvolvido por: <strong>${c.desenvolvedor}</strong> • ${c.detalhes}</p>
             `;
-        });
+        }).catch(() => console.log("Arquivo config.json não encontrado."));
 
-    // 2. FUNÇÃO DE SINCRONIZAÇÃO (SOMENTE AO CLICAR)
+    document.getElementById("txtUnidade").textContent = UNIDADE;
+
+    // --- FUNÇÃO DE SINCRONISMO (SOMENTE NO CLIQUE) ---
     async function sincronizar() {
         const btn = document.getElementById("btnSincronizar");
-        btn.textContent = "⌛ Sincronizando...";
+        btn.textContent = "⌛ Conectando...";
         btn.disabled = true;
 
         try {
@@ -34,27 +34,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem(`cache_${UNIDADE}`, JSON.stringify(dadosCompletos));
                 
                 popularFiltroProfissionais();
-                atualizarTela(); // Processa tabela e gráficos
+                atualizarInterface(); 
                 
                 document.getElementById("kpiStatus").textContent = "Nuvem";
-                alert("Dados sincronizados com sucesso!");
+                alert("Sincronização concluída!");
             }
         } catch (e) {
-            alert("Erro na comunicação com o Sheets.");
+            alert("Erro ao ler dados do Sheets.");
         } finally {
             btn.textContent = "🔄 Sincronizar Sheets";
             btn.disabled = false;
         }
     }
 
-    // 3. ATUALIZAÇÃO DA TELA (TABELA COMPLETA + GRÁFICOS FILTRADOS)
-    function atualizarTela() {
+    // --- ATUALIZAÇÃO DA TELA (Tabela Geral + Gráficos Filtrados) ---
+    function atualizarInterface() {
         const mesSel = document.getElementById("selMes").value;
         const anoSel = document.getElementById("inpAno").value;
         const profSel = document.getElementById("selProfissional").value;
 
-        // FILTRO PARA GRÁFICOS E KPIS
-        const dadosFiltrados = dadosCompletos.filter(d => {
+        // 1. FILTRAR DADOS APENAS PARA GRÁFICOS E KPIS
+        const filtradosParaGraficos = dadosCompletos.filter(d => {
             if (!d.vigencia_inicio) return false;
             const dataV = new Date(d.vigencia_inicio + "T00:00:00");
             const matchMes = mesSel === "all" || dataV.getMonth() == mesSel;
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return matchMes && matchAno && matchProf;
         });
 
-        // TABELA: MOSTRA SEMPRE TUDO DO SHEETS (Conforme solicitado)
+        // 2. PREENCHER TABELA (MOSTRA TUDO SEM FILTRO - Regra solicitada)
         const tbody = document.querySelector("#tabEscalas tbody");
         tbody.innerHTML = dadosCompletos.map(d => `
             <tr>
@@ -72,51 +72,43 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${d.dias_semana}</td>
                 <td>${d.hora_inicio}</td>
                 <td>${d.hora_fim}</td>
-                <td style="font-weight:700; color:var(--p-blue)">${d.vagas}</td>
+                <td>${d.vagas}</td>
                 <td>${d.vigencia_inicio}</td>
             </tr>
-        `).join('') || "<tr><td colspan='7' style='text-align:center'>Clique em sincronizar para carregar.</td></tr>";
+        `).join('') || "<tr><td colspan='7'>Nenhum dado. Clique em sincronizar.</td></tr>";
 
-        // ATUALIZAR KPIS E GRÁFICOS COM OS DADOS FILTRADOS
-        document.getElementById("kpiVagas").textContent = dadosFiltrados.reduce((a, b) => a + (parseInt(b.vagas) || 0), 0);
-        document.getElementById("kpiProc").textContent = [...new Set(dadosFiltrados.map(d => d.procedimento))].length;
-        document.getElementById("kpiProf").textContent = [...new Set(dadosFiltrados.map(d => d.profissional))].length;
+        // 3. ATUALIZAR GRÁFICOS E KPIS COM OS FILTRADOS
+        document.getElementById("kpiVagas").textContent = filtradosParaGraficos.reduce((a, b) => a + (parseInt(b.vagas) || 0), 0);
+        document.getElementById("kpiProc").textContent = [...new Set(filtradosParaGraficos.map(d => d.procedimento))].length;
+        document.getElementById("kpiProf").textContent = [...new Set(filtradosParaGraficos.map(d => d.profissional))].length;
 
-        gerarGraficos(dadosFiltrados);
+        desenharGraficos(filtradosParaGraficos);
     }
 
-    function gerarGraficos(dados) {
-        // Gráfico Profissionais
+    function desenharGraficos(dados) {
+        // Gráfico Profissional
         const profMap = {};
         dados.forEach(d => profMap[d.profissional] = (profMap[d.profissional] || 0) + (parseInt(d.vagas) || 0));
 
         if(charts.p) charts.p.destroy();
         charts.p = new Chart(document.getElementById('chartProf'), {
             type: 'bar',
-            data: { 
-                labels: Object.keys(profMap), 
-                datasets: [{ label: 'Vagas', data: Object.values(profMap), backgroundColor: '#1a2a6c' }]
-            },
+            data: { labels: Object.keys(profMap), datasets: [{ label: 'Vagas', data: Object.values(profMap), backgroundColor: '#1a2a6c' }] },
             options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
         });
 
         // Gráfico Dias
         const diasRef = { 'Seg': 0, 'Ter': 0, 'Qua': 0, 'Qui': 0, 'Sex': 0 };
         dados.forEach(d => {
-            if (d.dias_semana.includes('Seg')) diasRef['Seg']++;
-            if (d.dias_semana.includes('Ter')) diasRef['Ter']++;
-            if (d.dias_semana.includes('Qua')) diasRef['Qua']++;
-            if (d.dias_semana.includes('Qui')) diasRef['Qui']++;
-            if (d.dias_semana.includes('Sex')) diasRef['Sex']++;
+            ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'].forEach(dia => {
+                if (d.dias_semana.includes(dia)) diasRef[dia] += (parseInt(d.vagas) || 0);
+            });
         });
 
         if(charts.d) charts.d.destroy();
         charts.d = new Chart(document.getElementById('chartDias'), {
-            type: 'polarArea',
-            data: { 
-                labels: Object.keys(diasRef), 
-                datasets: [{ data: Object.values(diasRef), backgroundColor: ['#1a2a6c', '#b21f1f', '#fdbb2d', '#4CAF50', '#2196F3'] }]
-            },
+            type: 'doughnut',
+            data: { labels: Object.keys(diasRef), datasets: [{ data: Object.values(diasRef), backgroundColor: ['#1a2a6c', '#b21f1f', '#fdbb2d', '#4CAF50', '#2196F3'] }] },
             options: { responsive: true, maintainAspectRatio: false }
         });
     }
@@ -128,24 +120,24 @@ document.addEventListener("DOMContentLoaded", () => {
         profs.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`);
     }
 
-    // 4. EVENTOS
+    // --- EVENTOS ---
     document.getElementById("btnSincronizar").onclick = sincronizar;
     document.getElementById("btnLogout").onclick = () => {
-        if(confirm("Deseja encerrar a sessão?")) {
+        if(confirm("Deseja sair?")) {
             localStorage.removeItem("unidade_selecionada");
             window.location.href = "index.html";
         }
     };
+    
+    document.getElementById("selMes").onchange = atualizarInterface;
+    document.getElementById("inpAno").oninput = atualizarInterface;
+    document.getElementById("selProfissional").onchange = atualizarInterface;
 
-    document.getElementById("selMes").onchange = atualizarTela;
-    document.getElementById("inpAno").oninput = atualizarTela;
-    document.getElementById("selProfissional").onchange = atualizarTela;
-
-    // CARGA INICIAL (LOCAL)
+    // CARGA INICIAL: SÓ CACHE
     const cache = localStorage.getItem(`cache_${UNIDADE}`);
     if (cache) {
         dadosCompletos = JSON.parse(cache);
         popularFiltroProfissionais();
-        atualizarTela();
+        atualizarInterface();
     }
 });
