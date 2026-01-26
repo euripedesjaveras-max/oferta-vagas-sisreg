@@ -5,21 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login | Agenda SISREG</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="css/theme.css">
-
   <style>
-    /* Aqui usamos as variáveis definidas no theme.css (var(--am-...))
-       para manter a identidade visual do Amazonas.
-    */
-    
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body.login-page {
-      /* Gradiente com as cores da bandeira (Azul, Vermelho, Amarelo) */
-      background: linear-gradient(135deg, var(--am-blue), var(--am-red), var(--am-yellow));
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      /* [ALTERAÇÃO] Azul como padrão no fundo conforme solicitado */
+      background: var(--am-blue);
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -28,18 +20,12 @@
       font-family: 'Inter', sans-serif;
     }
 
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
     .login-container { width: 100%; max-width: 420px; padding: 20px; text-align: center; }
 
     .logo-wrapper { margin-bottom: 30px; color: white; }
     
     .logo-icon {
-      background: var(--am-white); /* Fundo branco para destacar o icone */
+      background: var(--am-white);
       width: 80px; height: 80px;
       border-radius: 20px;
       display: flex; align-items: center; justify-content: center;
@@ -47,19 +33,17 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
     
-    /* Ajuste da cor do SVG para o Azul do tema */
     .logo-icon svg { stroke: var(--am-blue); }
 
     .logo-text h1 { font-size: 1.8rem; letter-spacing: 2px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
     .logo-text p { font-size: 0.9rem; opacity: 0.9; font-weight: 300; }
 
     .login-box {
-      background: rgba(255, 255, 255, 0.95); /* Efeito vidro mais sólido */
-      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.98);
       padding: 40px;
       border-radius: 24px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      border-top: 5px solid var(--am-red); /* Detalhe vermelho no topo */
+      border-top: 5px solid var(--am-red);
     }
 
     .login-box h2 { color: var(--am-blue); margin-bottom: 10px; font-size: 1.5rem; }
@@ -77,40 +61,34 @@
 
     .btn-login {
       width: 100%; padding: 14px; 
-      background: var(--am-blue); /* Botão Azul Principal */
+      background: var(--am-blue);
       color: white;
       border: none; border-radius: 12px; font-weight: 700; cursor: pointer;
       transition: 0.3s; font-size: 1rem;
-      border-bottom: 4px solid #0d153a; /* Profundidade */
+      border-bottom: 4px solid #0d153a;
     }
 
     .btn-login:hover { 
-      background: var(--am-green); /* Verde no Hover (Sucesso) */
+      background: var(--am-green);
       border-bottom-color: #1e3d1a;
       transform: translateY(-2px); 
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
     }
 
     .error-msg { color: var(--am-red); font-size: 0.85rem; margin-top: 15px; display: none; font-weight: bold; }
 
-    /* Rodape Fixo */
     footer { 
       text-align: center; 
       padding: 15px; 
-      color: rgba(255,255,255,0.8); /* Texto claro pois o fundo é colorido/gradiente */
+      color: rgba(255,255,255,0.8); 
       font-size: 0.8rem; 
-      background: transparent; /* Fundo transparente para ver o gradiente */
-      border: none;
       width: 100%; 
       position: fixed; 
       bottom: 0;
-      left: 0;
     }
-    footer strong { color: var(--am-yellow); } /* Destaque em Amarelo Ouro */
+    footer strong { color: var(--am-yellow); }
   </style>
 </head>
 <body class="login-page">
-
   <div class="login-container">
     <div class="logo-wrapper">
       <div class="logo-icon">
@@ -138,33 +116,20 @@
             <option value="" disabled selected>Carregando unidades...</option>
           </select>
         </div>
-
         <div class="input-group">
           <label>Senha (CNES da Unidade)</label>
           <input type="password" id="password" placeholder="Digite o código CNES" required>
         </div>
-
         <button type="submit" class="btn-login">Entrar no Sistema</button>
         <div id="loginError" class="error-msg"></div>
       </form>
     </div>
   </div>
-
   <footer id="footerCreditos"></footer>
-
   <script src="js/login.js"></script>
-
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      fetch("data/config.json")
-        .then(response => response.json())
-        .then(dados => {
-          const footer = document.getElementById("footerCreditos");
-          if (footer) {
-            footer.innerHTML = `© ${dados.ano} - <strong>${dados.sistema}</strong> | ${dados.desenvolvedor}`;
-          }
-        })
-        .catch(error => console.error("Erro ao carregar créditos:", error));
+    fetch("data/config.json").then(r => r.json()).then(d => {
+      document.getElementById("footerCreditos").innerHTML = `© ${d.ano} - <strong>${d.sistema}</strong> | ${d.desenvolvedor}`;
     });
   </script>
 </body>
