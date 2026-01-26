@@ -21,6 +21,23 @@
       overflow: hidden; 
     }
 
+  /* [ESTILO] Cards de Indicadores */
+    .kpi-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 0 20px 20px 20px;
+    }
+    .kpi-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+      border-left: 5px solid var(--p-blue);
+    }
+    .kpi-card h3 { margin: 0; font-size: 0.75rem; color: #666; text-transform: uppercase; }
+    .kpi-card p { margin: 5px 0 0 0; font-size: 1.5rem; font-weight: 700; color: var(--p-blue); }    
+
 /* [ESTILO] Filtro Mensal */
     .filter-section {
       background: #fff;
@@ -133,6 +150,7 @@
   </div>
 </header>
 
+<!-- Filtro Mensal -->  
 <div class="filter-section">
   <label for="filtroMes">Filtrar por Mês de Vigência:</label>
   <select id="filtroMes">
@@ -151,6 +169,22 @@
     <option value="12">Dezembro</option>
   </select>
 </div>  
+
+  <!-- Cards de indicadores -->
+  <div class="kpi-container" style="margin-top: 20px;">
+  <div class="kpi-card">
+    <h3>Total de Vagas</h3>
+    <p id="kpiVagas">0</p>
+  </div>
+  <div class="kpi-card" style="border-left-color: #4CAF50;">
+    <h3>Profissionais</h3>
+    <p id="kpiProfissionais">0</p>
+  </div>
+  <div class="kpi-card" style="border-left-color: var(--p-gold);">
+    <h3>Procedimentos Únicos</h3>
+    <p id="kpiProcedimentos">0</p>
+  </div>
+</div>
 
 <!--/* Container Principal */ -->
 <div class="container">
