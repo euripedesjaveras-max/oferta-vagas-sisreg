@@ -3,15 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const URL_API = "https://script.google.com/macros/s/AKfycbzrzuSOFKgHFbLpjKOpGqzK7gAAIK3ucbDYgsTvDi1RoFcClepilJwRtF0GTFteOFjfBQ/exec";
     const UNIDADE = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
 
-    // Carregar Créditos do config.json
+    // Carregar Créditos
     fetch("data/config.json").then(r => r.json()).then(c => {
         const f = document.getElementById("footerCreditos");
-        if(f) f.innerHTML = `<p>© ${c.ano} - ${c.sistema}</p><p>${c.desenvolvedor} • ${c.detalhes}</p>`;
-    }).catch(() => console.warn("config.json não encontrado."));
+        if(f) f.innerHTML = `<p>© ${c.ano} - ${c.sistema} | ${c.desenvolvedor}</p>`;
+    }).catch(() => {});
 
     document.getElementById("txtUnidade").textContent = UNIDADE;
 
-    // Funções de Formatação para limpeza visual (Mantendo fidelidade ao Sheets)
+    // Funções de Limpeza de Dados
     function formatarHora(valor) {
         if (!valor) return '';
         if (typeof valor === "string" && valor.includes('T')) {
@@ -29,23 +29,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return valor;
     }
 
-    // Função para Popular a Tabela
+    // Função para Preencher a Tabela
     function popularTabela(dados) {
         const tbody = document.querySelector("#tabEscalas tbody");
         if (!tbody) return;
         tbody.innerHTML = ""; 
 
+        if (dados.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='11' style='text-align:center; padding: 20px;'>Nenhum registro encontrado.</td></tr>";
+            return;
+        }
+
         dados.forEach(item => {
-            // Normaliza chaves para evitar erros de case-sensitive
             const d = {};
             for (let k in item) { d[k.toLowerCase().trim()] = item[k]; }
 
             const tr = document.createElement("tr");
-            tr.className = "linha-dados";
-            
-            // Grava o atributo de vigência original para o filtro de data funcionar
-            tr.setAttribute("data-vigencia", d.vigencia_inicio || "");
-
             tr.innerHTML = `
                 <td>${d.cpf || ''}</td>
                 <td><strong>${d.profissional || ''}</strong></td>
@@ -61,58 +60,31 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
             tbody.appendChild(tr);
         });
-
-        aplicarFiltros(); 
-    }
-
-    // Lógica de Filtro Automático
-    function aplicarFiltros() {
-        const mesSel = document.getElementById("selMes").value;
-        const anoSel = document.getElementById("inpAno").value;
-        const linhas = document.querySelectorAll(".linha-dados");
-
-        linhas.forEach(tr => {
-            const dataISO = tr.getAttribute("data-vigencia");
-            if (!dataISO) {
-                tr.style.display = "none";
-                return;
-            }
-
-            // Converte a string de data do Sheets para objeto Date
-            const dataObj = new Date(dataISO + (dataISO.includes('T') ? '' : 'T00:00:00'));
-
-            const matchMes = (mesSel === "all") || (dataObj.getMonth() == mesSel);
-            const matchAno = (anoSel === "") || (dataObj.getFullYear() == anoSel);
-
-            tr.style.display = (matchMes && matchAno) ? "" : "none";
-        });
     }
 
     // Botão Sincronizar
     document.getElementById("btnSincronizar").onclick = async function() {
-        this.textContent = "⌛ Sincronizando...";
+        const originalText = this.innerHTML;
+        this.innerHTML = "⌛ Aguarde...";
         this.disabled = true;
+
         try {
             const resp = await fetch(`${URL_API}?unidade=${encodeURIComponent(UNIDADE)}&t=${Date.now()}`);
             const res = await resp.json();
+
             if (res.status === "OK") {
                 localStorage.setItem(`cache_${UNIDADE}`, JSON.stringify(res.dados));
                 popularTabela(res.dados);
-                alert("Dados sincronizados com sucesso!");
             } else {
-                alert("Erro ao obter dados.");
+                alert("Erro ao carregar dados: " + res.message);
             }
         } catch (e) {
             alert("Erro de conexão com o Sheets.");
         } finally {
-            this.textContent = "🔄 Sincronizar Sheets";
+            this.innerHTML = originalText;
             this.disabled = false;
         }
     };
-
-    // Eventos de Filtro Automático
-    document.getElementById("selMes").addEventListener("change", aplicarFiltros);
-    document.getElementById("inpAno").addEventListener("input", aplicarFiltros);
 
     // Logout
     document.getElementById("btnLogout").onclick = () => {
@@ -120,9 +92,9 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "index.html";
     };
 
-    // Carga Inicial via Cache
+    // Carga inicial
     const cache = localStorage.getItem(`cache_${UNIDADE}`);
-    if(cache) {
+    if (cache) {
         popularTabela(JSON.parse(cache));
     }
 });
