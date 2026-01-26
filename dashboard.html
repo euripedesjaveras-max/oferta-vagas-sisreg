@@ -37,9 +37,9 @@
 
     .btn-main { background: var(--p-blue); color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
     .btn-sync { background: #4CAF50; }
-    .btn-logout { background: #d32f2f; }
+    .btn-logout { background: #b21f1f; }
     
-    footer { text-align: center; padding: 30px; color: #888; font-size: 0.8rem; border-top: 1px solid #eee; margin-top: 20px;}
+    footer { text-align: center; padding: 30px; color: #888; font-size: 0.8rem; border-top: 1px solid #eee; margin-top: 20px; }
     @media (max-width: 600px) { .dash-header { text-align: center; justify-content: center; } }
   </style>
 </head>
@@ -85,7 +85,7 @@
     <div class="kpi-card"><span>Total de Vagas</span><strong id="kpiVagas">0</strong></div>
     <div class="kpi-card"><span>Procedimentos</span><strong id="kpiProc">0</strong></div>
     <div class="kpi-card"><span>Profissionais</span><strong id="kpiProf">0</strong></div>
-    <div class="kpi-card"><span>Status</span><strong id="kpiStatus">Local</strong></div>
+    <div class="kpi-card"><span>Status</span><strong id="kpiStatus" style="font-size: 1rem;">Local</strong></div>
   </div>
 
   <div class="grid-top">
@@ -101,7 +101,7 @@
 
   <div class="card" style="padding:0;">
     <div style="padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between;">
-      <h3 style="margin:0;">Escalas da Competência</h3>
+      <h3 style="margin:0;">Escalas da Unidade (Geral)</h3>
     </div>
     <div class="table-wrapper">
       <table id="tabEscalas">
@@ -122,7 +122,7 @@
   </div>
 </div>
 
-<footer id="footerDinamico">
+<footer id="footerCreditos">
   </footer>
 
 <script src="js/dashboard.js"></script>
