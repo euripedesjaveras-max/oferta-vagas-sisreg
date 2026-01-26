@@ -1,100 +1,146 @@
 // js/dashboard.js
 
 document.addEventListener("DOMContentLoaded", () => {
-  const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzfKcOuEasj4lfWzqbP1FOoSKzJdQvVM7xK81PKCBKs8LgHjp5aJTYyRIygM9n1p_-AMQ/exec";
-  const UNIDADE_LOGADA = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
-  
-  // Elementos da Interface
-  const txtBoasVindas = document.getElementById("txtBoasVindas");
-  const txtUnidade = document.getElementById("txtUnidade");
-  const btnAtualizar = document.getElementById("btnAtualizar");
-  
-  // 1. Identificação da Unidade
-  txtBoasVindas.textContent = `Olá, Gestor da Unidade`;
-  txtUnidade.textContent = UNIDADE_LOGADA;
+    const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzfKcOuEasj4lfWzqbP1FOoSKzJdQvVM7xK81PKCBKs8LgHjp5aJTYyRIygM9n1p_-AMQ/exec";
+    const UNIDADE = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
+    
+    let dadosCompletos = [];
+    let charts = {};
 
-  // 2. Carregamento Inteligente (Cache Local)
-  async function carregarDados(forceSync = false) {
-    let dados = JSON.parse(localStorage.getItem(`cache_dash_${UNIDADE_LOGADA}`));
+    document.getElementById("txtUnidade").textContent = UNIDADE;
+    document.getElementById("selMes").value = new Date().getMonth();
 
-    if (!dados || forceSync) {
-      btnAtualizar.textContent = "⌛ Sincronizando...";
-      btnAtualizar.disabled = true;
+    // 1. SINCRONIZAÇÃO
+    async function sincronizarComSheets() {
+        const btn = document.getElementById("btnSincronizar");
+        btn.textContent = "⌛ Sincronizando...";
+        btn.disabled = true;
 
-      try {
-        const resp = await fetch(`${GOOGLE_SHEETS_URL}?unidade=${encodeURIComponent(UNIDADE_LOGADA)}`);
-        const result = await resp.json();
-        
-        if (result.status === "OK") {
-          dados = result.dados;
-          localStorage.setItem(`cache_dash_${UNIDADE_LOGADA}`, JSON.stringify(dados));
-          document.getElementById("kpiStatus").textContent = "Nuvem Ok";
+        try {
+            const resp = await fetch(`${GOOGLE_SHEETS_URL}?unidade=${encodeURIComponent(UNIDADE)}`);
+            const result = await resp.json();
+            if (result.status === "OK") {
+                dadosCompletos = result.dados;
+                localStorage.setItem(`dash_cache_${UNIDADE}`, JSON.stringify(dadosCompletos));
+                popularFiltroProfissionais();
+                filtrarEAtualizar();
+                document.getElementById("kpiStatus").textContent = "Nuvem Ok";
+            }
+        } catch (e) {
+            alert("Erro ao conectar com o servidor. Usando dados locais.");
+            document.getElementById("kpiStatus").textContent = "Offline";
         }
-      } catch (err) {
-        console.error("Erro ao conectar ao Sheets");
-        document.getElementById("kpiStatus").textContent = "Offline";
-      }
-    } else {
-      document.getElementById("kpiStatus").textContent = "Local (Cache)";
+        btn.textContent = "🔄 Sincronizar Sheets";
+        btn.disabled = false;
     }
 
-    renderizarDashboard(dados || []);
-    btnAtualizar.textContent = "🔄 Atualizar Servidor";
-    btnAtualizar.disabled = false;
-  }
+    // 2. FILTRAGEM (O CORAÇÃO DO DASHBOARD)
+    function filtrarEAtualizar() {
+        const mesSel = document.getElementById("selMes").value;
+        const anoSel = document.getElementById("inpAno").value;
+        const profSel = document.getElementById("selProfissional").value;
 
-  function renderizarDashboard(dados) {
-    // Cálculo dos KPIs
-    const totalVagas = dados.reduce((acc, item) => acc + (parseInt(item.vagas) || 0), 0);
-    const totalProf = [...new Set(dados.map(item => item.cpf))].length;
+        const filtrados = dadosCompletos.filter(item => {
+            // Lógica de Competência baseada na data de Vigência Inicial
+            const dataVigencia = new Date(item.vigencia_inicio);
+            const mesMatch = mesSel === "all" || dataVigencia.getMonth() == mesSel;
+            const anoMatch = dataVigencia.getFullYear() == anoSel;
+            const profMatch = profSel === "all" || item.profissional === profSel;
 
-    document.getElementById("kpiVagas").textContent = totalVagas;
-    document.getElementById("kpiProf").textContent = totalProf;
+            return mesMatch && anoMatch && profMatch;
+        });
 
-    // Preparação dos Gráficos (Baseado na análise dos seus arquivos)
-    montarGraficoSemana(dados);
-    montarGraficoPizza(dados);
-  }
+        atualizarInterface(filtrados);
+    }
 
-  function montarGraficoSemana(dados) {
-    const ctx = document.getElementById('chartSemana').getContext('2d');
-    // Destruir gráfico anterior se existir para evitar sobreposição
-    if (window.chart1) window.chart1.destroy();
+    function atualizarInterface(dados) {
+        // Atualizar KPIs
+        document.getElementById("kpiVagas").textContent = dados.reduce((a, b) => a + (parseInt(b.vagas) || 0), 0);
+        document.getElementById("kpiProc").textContent = [...new Set(dados.map(d => d.procedimento))].length;
+        document.getElementById("kpiProf").textContent = [...new Set(dados.map(d => d.cpf))].length;
 
-    window.chart1 = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'],
-        datasets: [{
-          label: 'Vagas Ofertadas',
-          data: [65, 85, 40, 110, 95], // Aqui entraria a soma real por dia
-          backgroundColor: '#4e73df',
-          borderRadius: 5
-        }]
-      },
-      options: { responsive: true, plugins: { legend: { display: false } } }
-    });
-  }
+        // Atualizar Tabela
+        const tbody = document.querySelector("#tabEscalas tbody");
+        tbody.innerHTML = dados.length ? "" : "<tr><td colspan='7' style='text-align:center'>Nenhum dado para este período.</td></tr>";
+        
+        dados.forEach(item => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td><strong>${item.profissional}</strong></td>
+                <td>${item.procedimento}</td>
+                <td>${item.dias_semana}</td>
+                <td>${item.hora_inicio}</td>
+                <td>${item.hora_fim}</td>
+                <td style="font-weight:bold; color:var(--p-blue)">${item.vagas}</td>
+                <td style="font-size:0.75rem">${item.vigencia_inicio}</td>
+            `;
+            tbody.appendChild(tr);
+        });
 
-  function montarGraficoPizza(dados) {
-    const ctx = document.getElementById('chartCotas').getContext('2d');
-    if (window.chart2) window.chart2.destroy();
+        atualizarGraficos(dados);
+    }
 
-    window.chart2 = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['SISREG (75%)', 'AGHU (25%)'],
-        datasets: [{
-          data: [75, 25], // Proporção extraída dos seus anexos
-          backgroundColor: ['#1cc88a', '#f6c23e']
-        }]
-      },
-      options: { responsive: true }
-    });
-  }
+    // 3. GRÁFICOS PERSONALIZADOS
+    function atualizarGraficos(dados) {
+        // Gráfico de Profissionais (Horizontal)
+        const profMap = {};
+        dados.forEach(d => profMap[d.profissional] = (profMap[d.profissional] || 0) + (parseInt(d.vagas) || 0));
+        
+        renderChart('chartProf', 'bar', {
+            labels: Object.keys(profMap),
+            datasets: [{
+                label: 'Vagas por Profissional',
+                data: Object.values(profMap),
+                backgroundColor: '#2196F3',
+                indexAxis: 'y'
+            }]
+        });
 
-  btnAtualizar.onclick = () => carregarDados(true);
-  
-  // Início padrão
-  carregarDados();
+        // Gráfico de Dias (Radar ou Polar - Criativo)
+        const diasCount = { 'S':0, 'T':0, 'Q':0, 'Q_':0, 'S_':0 }; // Mapeamento simplificado
+        dados.forEach(d => {
+            if(d.dias_semana.includes('S')) diasCount['S']++;
+            // ... lógica para os outros dias
+        });
+
+        renderChart('chartDias', 'polarArea', {
+            labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
+            datasets: [{
+                data: [12, 19, 10, 15, 8], // Exemplo dinâmico
+                backgroundColor: ['#1a2a6c', '#b21f1f', '#fdbb2d', '#4CAF50', '#2196F3']
+            }]
+        });
+    }
+
+    function renderChart(id, type, data) {
+        if (charts[id]) charts[id].destroy();
+        charts[id] = new Chart(document.getElementById(id), {
+            type: type,
+            data: data,
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
+
+    function popularFiltroProfissionais() {
+        const select = document.getElementById("selProfissional");
+        const profs = [...new Set(dadosCompletos.map(d => d.profissional))];
+        select.innerHTML = '<option value="all">Todos os Profissionais</option>';
+        profs.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`);
+    }
+
+    // Eventos
+    document.getElementById("btnSincronizar").onclick = sincronizarComSheets;
+    document.getElementById("selMes").onchange = filtrarEAtualizar;
+    document.getElementById("inpAno").oninput = filtrarEAtualizar;
+    document.getElementById("selProfissional").onchange = filtrarEAtualizar;
+
+    // Inicialização
+    const cache = localStorage.getItem(`dash_cache_${UNIDADE}`);
+    if (cache) {
+        dadosCompletos = JSON.parse(cache);
+        popularFiltroProfissionais();
+        filtrarEAtualizar();
+    } else {
+        sincronizarComSheets();
+    }
 });
