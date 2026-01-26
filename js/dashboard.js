@@ -28,15 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return valor;
     }
 
-    /* [LOGICA] Funcao para Atualizar os Cards (KPIs) com % de Retorno */
-    /* [LOGICA] Funcao para Atualizar os Cards (KPIs) - CORRIGIDA */
+    /* [LOGICA] Funcao para Atualizar os Cards (KPIs) - CORRECAO % RETORNO */
     function atualizarCards(dadosFiltrados) {
         const kpiVagas = document.getElementById("kpiVagas");
         const kpiProfs = document.getElementById("kpiProfissionais");
         const kpiMedia = document.getElementById("kpiMedia");
         const kpiLider = document.getElementById("kpiLider");
         const kpiRetorno = document.getElementById("kpiRetorno");
-        const kpiProcedimentos = document.getElementById("kpiProcedimentos"); // Referência ao card que sumiu
+        const kpiProcedimentos = document.getElementById("kpiProcedimentos");
 
         if (!dadosFiltrados || dadosFiltrados.length === 0) {
             if(kpiVagas) kpiVagas.textContent = "0";
@@ -55,56 +54,54 @@ document.addEventListener("DOMContentLoaded", () => {
         const contagemProcs = {};
 
         dadosFiltrados.forEach(item => {
-            // Normalização total das chaves para evitar erro de maiúsculas/acentos do Sheets
+            // Normalização das chaves para garantir leitura
             const d = {};
             for (let k in item) { 
-                const chaveLimpa = k.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-                d[chaveLimpa] = item[k]; 
+                d[k.toLowerCase().trim()] = item[k]; 
             }
 
-            // Soma de Vagas (Tenta ler 'vagas' ou 'vaga')
-            const qtdVagas = Number(d.vagas || d.vaga) || 0;
+            // Soma de Vagas
+            const qtdVagas = Number(d.vagas) || 0;
             totalVagas += qtdVagas;
             
-            // Lógica de Retorno (Verifica procedimento e exames)
-            const txtProcedimento = String(d.procedimento || "").toUpperCase();
-            const txtExames = String(d.exames || "").toUpperCase();
+            // BUSCA DE RETORNO (Mais abrangente)
+            // Transforma tudo em String, remove espaços extras e busca a palavra
+            const campoProc = String(d.procedimento || "").toUpperCase().trim();
+            const campoExame = String(d.exames || "").toUpperCase().trim();
             
-            if (txtProcedimento.includes("RETORNO") || txtExames.includes("RETORNO")) {
+            if (campoProc.indexOf("RETORNO") !== -1 || campoExame.indexOf("RETORNO") !== -1) {
                 vagasRetorno += qtdVagas;
             }
 
-            // Contagem de Profissionais e Procedimentos Únicos
             if (d.cpf) cpfs.add(d.cpf);
             if (d.procedimento) {
-                procsUnicos.add(d.procedimento);
-                contagemProcs[d.procedimento] = (contagemProcs[d.procedimento] || 0) + 1;
+                procsUnicos.add(d.procedimento.trim());
+                contagemProcs[d.procedimento.trim()] = (contagemProcs[d.procedimento.trim()] || 0) + 1;
             }
         });
 
-        // Cálculos Finais
+        // Cálculos
         const nProfs = cpfs.size;
-        const media = nProfs > 0 ? (totalVagas / nProfs).toFixed(1) : 0;
         const nProcs = procsUnicos.size;
+        const media = nProfs > 0 ? (totalVagas / nProfs).toFixed(1) : 0;
         
+        // % de Retorno arredondado
+        const percRetorno = totalVagas > 0 ? Math.round((vagasRetorno / totalVagas) * 100) : 0;
+
         // Encontrar o Líder
         let liderNome = "-";
-        if (Object.keys(contagemProcs).length > 0) {
-            liderNome = Object.keys(contagemProcs).reduce((a, b) => contagemProcs[a] > contagemProcs[b] ? a : b);
+        const chaves = Object.keys(contagemProcs);
+        if (chaves.length > 0) {
+            liderNome = chaves.reduce((a, b) => contagemProcs[a] > contagemProcs[b] ? a : b);
         }
-        
-        const percRetorno = totalVagas > 0 ? ((vagasRetorno / totalVagas) * 100).toFixed(0) : 0;
 
-        // Atualização da Interface
+        // Atualização da UI
         if(kpiVagas) kpiVagas.textContent = totalVagas;
         if(kpiProfs) kpiProfs.textContent = nProfs;
         if(kpiMedia) kpiMedia.textContent = media;
-        if(kpiProcedimentos) kpiProcedimentos.textContent = nProcs; // Recupera a info correta
-        if(kpiLider) {
-            kpiLider.textContent = liderNome;
-            kpiLider.title = liderNome;
-        }
-        if(kpiRetorno) kpiRetorno.textContent = `${percRetorno}%`;
+        if(kpiProcedimentos) kpiProcedimentos.textContent = nProcs;
+        if(kpiLider) kpiLider.textContent = liderNome;
+        if(kpiRetorno) kpiRetorno.textContent = percRetorno + "%";
     }
     
     /* [LOGICA] Funcao de Filtro Mensal */
