@@ -1,7 +1,7 @@
 // js/dashboard.js
 
 document.addEventListener("DOMContentLoaded", () => {
-    const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzfKcOuEasj4lfWzqbP1FOoSKzJdQvVM7xK81PKCBKs8LgHjp5aJTYyRIygM9n1p_-AMQ/exec";
+    const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzrzuSOFKgHFbLpjKOpGqzK7gAAIK3ucbDYgsTvDi1RoFcClepilJwRtF0GTFteOFjfBQ/exec";
     const UNIDADE = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
     
     let dadosCompletos = [];
