@@ -5,16 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login | Agenda SISREG</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/theme.css">
+
   <style>
-    :root {
-      --primary: #2196F3;
-      --glass: rgba(255, 255, 255, 0.92);
-    }
+    /* Aqui usamos as variáveis definidas no theme.css (var(--am-...))
+       para manter a identidade visual do Amazonas.
+    */
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body.login-page {
-      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      /* Gradiente com as cores da bandeira (Azul, Vermelho, Amarelo) */
+      background: linear-gradient(135deg, var(--am-blue), var(--am-red), var(--am-yellow));
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
       height: 100vh;
@@ -36,65 +39,74 @@
     .logo-wrapper { margin-bottom: 30px; color: white; }
     
     .logo-icon {
-      background: var(--primary);
+      background: var(--am-white); /* Fundo branco para destacar o icone */
       width: 80px; height: 80px;
       border-radius: 20px;
       display: flex; align-items: center; justify-content: center;
       margin: 0 auto 15px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
+    
+    /* Ajuste da cor do SVG para o Azul do tema */
+    .logo-icon svg { stroke: var(--am-blue); }
 
-    .logo-text h1 { font-size: 1.8rem; letter-spacing: 2px; font-weight: 700; }
+    .logo-text h1 { font-size: 1.8rem; letter-spacing: 2px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
     .logo-text p { font-size: 0.9rem; opacity: 0.9; font-weight: 300; }
 
     .login-box {
-      background: var(--glass);
+      background: rgba(255, 255, 255, 0.95); /* Efeito vidro mais sólido */
       backdrop-filter: blur(12px);
       padding: 40px;
       border-radius: 24px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      border: 1px solid rgba(255,255,255,0.3);
+      border-top: 5px solid var(--am-red); /* Detalhe vermelho no topo */
     }
 
-    .login-box h2 { color: #1a2a6c; margin-bottom: 10px; font-size: 1.5rem; }
+    .login-box h2 { color: var(--am-blue); margin-bottom: 10px; font-size: 1.5rem; }
     .login-box p { color: #666; margin-bottom: 25px; font-size: 0.95rem; }
 
     .input-group { text-align: left; margin-bottom: 20px; }
-    .input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.85rem; color: #444; }
+    .input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.85rem; color: var(--am-blue); }
     
     .input-group select, .input-group input {
       width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px;
       font-family: inherit; transition: 0.3s; outline: none;
     }
 
-    .input-group select:focus, .input-group input:focus { border-color: var(--primary); }
+    .input-group select:focus, .input-group input:focus { border-color: var(--am-blue); }
 
     .btn-login {
-      width: 100%; padding: 14px; background: var(--primary); color: white;
+      width: 100%; padding: 14px; 
+      background: var(--am-blue); /* Botão Azul Principal */
+      color: white;
       border: none; border-radius: 12px; font-weight: 700; cursor: pointer;
       transition: 0.3s; font-size: 1rem;
+      border-bottom: 4px solid #0d153a; /* Profundidade */
     }
 
-    .btn-login:hover { background: #1976D2; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4); }
+    .btn-login:hover { 
+      background: var(--am-green); /* Verde no Hover (Sucesso) */
+      border-bottom-color: #1e3d1a;
+      transform: translateY(-2px); 
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+    }
 
-    .error-msg { color: #d32f2f; font-size: 0.85rem; margin-top: 15px; display: none; }
+    .error-msg { color: var(--am-red); font-size: 0.85rem; margin-top: 15px; display: none; font-weight: bold; }
 
-    .login-footer { margin-top: 40px; color: white; font-size: 0.85rem; line-height: 1.6; }
-    .login-footer strong { color: #fdbb2d; }
-
-    /* Rodape */
+    /* Rodape Fixo */
     footer { 
       text-align: center; 
       padding: 15px; 
-      color: #888; 
+      color: rgba(255,255,255,0.8); /* Texto claro pois o fundo é colorido/gradiente */
       font-size: 0.8rem; 
-      background: white; 
-      border-top: 1px solid #eee; 
-      width: 100%; /* Garante largura total se estiver fora do container */
-      position: fixed; /* Opcional: fixa no fundo se desejar */
+      background: transparent; /* Fundo transparente para ver o gradiente */
+      border: none;
+      width: 100%; 
+      position: fixed; 
       bottom: 0;
       left: 0;
     }
+    footer strong { color: var(--am-yellow); } /* Destaque em Amarelo Ouro */
   </style>
 </head>
 <body class="login-page">
@@ -102,7 +114,7 @@
   <div class="login-container">
     <div class="logo-wrapper">
       <div class="logo-icon">
-        <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
           <line x1="16" y1="2" x2="16" y2="6"></line>
           <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -111,7 +123,7 @@
       </div>
       <div class="logo-text">
         <h1>AGENDA SISREG</h1>
-        <p>Complexo Regulador</p>
+        <p>Complexo Regulador do Amazonas</p>
       </div>
     </div>
 
