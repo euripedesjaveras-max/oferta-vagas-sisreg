@@ -107,7 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* [LOGICA] Controle de Logout */
     document.getElementById("btnLogout").onclick = () => {
-        localStorage.clear();
         window.location.href = "index.html";
     };
 
