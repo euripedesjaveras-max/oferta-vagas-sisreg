@@ -6,32 +6,58 @@
   <title>Dashboard | Agenda SISREG</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/theme.css">
+  
   <style>
+    /* Variaveis e Reset */
     :root { --p-blue: #1a2a6c; --p-red: #b21f1f; --p-gold: #fdbb2d; }
-    body { background: #f4f7f6; font-family: 'Inter', sans-serif; color: #333; margin: 0; height: 100vh; display: flex; flex-direction: column; }
+    body { 
+      background: #f4f7f6; 
+      font-family: 'Inter', sans-serif; 
+      color: #333; 
+      margin: 0; 
+      height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      overflow: hidden; 
+    }
     
     /* Header */
-    .dash-header { background: white; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
+    .dash-header { 
+      background: white; 
+      padding: 15px 20px; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      z-index: 10; 
+    }
     .unit-info h1 { font-size: 1.2rem; color: var(--p-blue); margin: 0; }
     .unit-info p { margin: 0; color: #666; font-size: 0.8rem; }
     .header-btns { display: flex; gap: 10px; }
 
-    .container { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; }
+    /* Container Principal */
+    .container { 
+      flex: 1; 
+      display: flex; 
+      flex-direction: column; 
+      padding: 20px; 
+      overflow: hidden; 
+    }
 
-    /* Contêiner da Tabela (Substituindo iframe por Scroll Interno) */
+    /* Area da Tabela com Scroll */
     .table-container { 
       flex: 1; 
       background: white; 
       border-radius: 12px; 
       box-shadow: 0 4px 6px rgba(0,0,0,0.02); 
       border: 1px solid #eee; 
-      overflow: auto; /* Permite rolagem interna */
-      position: relative;
+      overflow: auto; 
     }
 
+    /* Estrutura da Tabela */
     table { width: 100%; border-collapse: collapse; min-width: 1200px; }
     
-    /* Cabeçalho Fixo */
+    /* Cabecalho Fixo */
     thead th { 
       position: sticky; 
       top: 0; 
@@ -42,22 +68,41 @@
       font-size: 0.75rem; 
       color: #666; 
       border-bottom: 2px solid #eee; 
-      text-transform: uppercase; 
     }
 
+    /* Celulas e Linhas */
     td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.8rem; white-space: nowrap; }
     tr:hover { background: #f1f4ff; }
 
-    /* Botões */
-    .btn-main { background: var(--p-blue); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: 0.3s; }
+    /* Botoes de Acao */
+    .btn-main { 
+      background: var(--p-blue); 
+      color: white; 
+      padding: 8px 16px; 
+      border-radius: 8px; 
+      border: none; 
+      cursor: pointer; 
+      font-weight: 600; 
+      font-size: 0.85rem; 
+      transition: 0.3s; 
+    }
     .btn-sync { background: #4CAF50; }
     .btn-logout { background: #b21f1f; }
     
-    footer { text-align: center; padding: 15px; color: #888; font-size: 0.8rem; background: white; border-top: 1px solid #eee; }
+    /* Rodape */
+    footer { 
+      text-align: center; 
+      padding: 15px; 
+      color: #888; 
+      font-size: 0.8rem; 
+      background: white; 
+      border-top: 1px solid #eee; 
+    }
   </style>
 </head>
 <body>
 
+/* Header */
 <header class="dash-header">
   <div class="unit-info">
     <h1 id="txtUnidade">Carregando unidade...</h1>
@@ -70,9 +115,14 @@
   </div>
 </header>
 
+/* Container Principal */
 <div class="container">
+  
+  /* Area da Tabela com Scroll */
   <div class="table-container">
     <table id="tabEscalas">
+      
+      /* Cabecalho Fixo */
       <thead>
         <tr>
           <th>CPF</th>
@@ -88,15 +138,23 @@
           <th>Vigência Fim</th>
         </tr>
       </thead>
-      <tbody>
-        <tr><td colspan="11" style="text-align:center; padding: 50px; color: #999;">Os dados serão carregados aqui...</td></tr>
+      
+      /* Corpo da Tabela */
+      <tbody id="corpoTabela">
+        <tr>
+          <td colspan="11" style="text-align:center; padding: 50px; color: #999;">
+            Os dados serão carregados aqui...
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
 </div>
 
+/* Rodape */
 <footer id="footerCreditos"></footer>
 
+/* Scripts */
 <script src="js/dashboard.js"></script>
 </body>
 </html>
