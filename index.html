@@ -1,69 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Sistema de Oferta de Vagas</title>
-
-  <!-- Estilo simples apenas para layout inicial -->
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: 40px auto;
-    }
-
-    header {
-      margin-bottom: 30px;
-    }
-
-    nav a {
-      margin-right: 20px;
-      text-decoration: none;
-      font-weight: bold;
-      color: #0056b3;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .conteudo {
-      margin-top: 40px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Agenda SISREG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/theme.css">
 </head>
-<body>
+<body class="login-page">
 
-  <!-- CABEÇALHO -->
-  <header>
-    <h1>Sistema de Oferta de Vagas</h1>
+  <div class="login-container">
+    <div class="logo-wrapper">
+      <div class="logo-icon">
+        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 2V6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 2V6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3 10H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 14H8.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 14H12.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 14H16.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 18H8.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 18H12.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 18H16.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <h1>AGENDA SISREG</h1>
+        <p>Complexo Regulador</p>
+      </div>
+    </div>
 
-    <!-- MENU BÁSICO -->
-    <nav>
-      <a href="index.html">INÍCIO</a>
-      <!-- Página que futuramente conterá o formulário -->
-      <a href="escalas.html">ESCALAS</a>
-    </nav>
-  </header>
+    <div class="login-box">
+      <h2>Boas-vindas!</h2>
+      <p>Selecione sua unidade para acessar o sistema.</p>
 
-  <!-- CONTEÚDO INICIAL (simples por enquanto) -->
-  <div class="conteudo">
-    <p>
-      Bem-vindo ao sistema de organização da oferta de vagas das unidades executantes.
-    </p>
+      <form id="formLogin">
+        <div class="input-group">
+          <label for="unidadeSelect">Unidade de Saúde</label>
+          <select id="unidadeSelect" required>
+            <option value="" disabled selected>Carregando unidades...</option>
+          </select>
+        </div>
 
-    <p>
-      Utilize o menu acima para acessar as funcionalidades disponíveis.
-    </p>
+        <div class="input-group">
+          <label for="password">Senha de Acesso</label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
 
-    <!--
-      OBS:
-      Esta página será evoluída no futuro para:
-      - resumo das unidades
-      - indicadores
-      - status de envio mensal
-    -->
+        <button type="submit" class="btn-login">Entrar no Painel</button>
+      </form>
+      
+      <div id="loginError" class="error-msg" style="display:none;">Senha incorreta ou erro ao carregar unidades.</div>
+    </div>
+
+    <footer class="login-footer">
+      <p>© 2026 • Desenvolvido por <strong>[Seu Nome/Empresa]</strong></p>
+      <small>Tecnologia para o Complexo Regulador</small>
+    </footer>
   </div>
 
+  <script src="js/login.js"></script>
 </body>
 </html>
