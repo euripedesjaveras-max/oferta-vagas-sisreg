@@ -3,37 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Agenda SISREG</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>Dashboard | SISREG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/theme.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    /* Estilos rápidos para botões e header */
-    .header-btns { display: flex; gap: 10px; align-items: center; }
-    .btn-logout { background: #f44336 !important; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-    .badge-dia { background: #e3f2fd; color: #1a2a6c; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
-  </style>
 </head>
-<body>
+<body class="dashboard-body">
 
-<header class="dash-header">
-  <div class="unit-info">
-    <h1 id="txtUnidade">Unidade...</h1>
-    <p>Painel de Gestão - <strong>Complexo Regulador</strong></p>
-  </div>
-  <div class="header-btns">
-    <button id="btnSincronizar" class="btn-main btn-sync">🔄 Sincronizar Sheets</button>
-    <a href="escalas.html" style="text-decoration: none;"><button class="btn-main">➕ Lançar Escala</button></a>
-    <button id="btnLogout" class="btn-logout">Sair</button>
+<header class="app-header">
+  <div class="header-content container">
+    <div class="welcome-text">
+      <h1 id="txtBoasVindas">Bem-vindo!</h1>
+      <p id="txtUnidade">Identificando unidade...</p>
+    </div>
+    <div class="header-actions">
+      <button id="btnSincronizar" class="btn-sync-cloud">🔄 Sincronizar Sheets</button>
+      <a href="escalas.html" class="btn-primary">Novo Lançamento</a>
+      <button id="btnLogout" class="btn-logout" style="background:#d32f2f; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer;">Sair</button>
+    </div>
   </div>
 </header>
 
-<div class="container">
-  <section class="filter-bar">
-    <div class="filter-group">
-      <label>Competência (Mês)</label>
-      <select id="selMes">
-        <option value="all">Todos os Meses</option>
+<main class="container">
+  <section class="card" style="margin-bottom: 20px; display: flex; gap: 15px; padding: 15px; align-items: flex-end; flex-wrap: wrap;">
+    <div style="display:flex; flex-direction:column;">
+      <label style="font-size:12px; font-weight:bold;">Mês Competência</label>
+      <select id="selMes" style="padding:8px; border-radius:5px;">
+        <option value="all">Todos</option>
         <option value="0">Janeiro</option><option value="1">Fevereiro</option>
         <option value="2">Março</option><option value="3">Abril</option>
         <option value="4">Maio</option><option value="5">Junho</option>
@@ -42,57 +38,55 @@
         <option value="10">Novembro</option><option value="11">Dezembro</option>
       </select>
     </div>
-    <div class="filter-group">
-      <label>Ano</label>
-      <input type="number" id="inpAno" value="2026">
-    </div>
-    <div class="filter-group">
-      <label>Profissional</label>
-      <select id="selProfissional"><option value="all">Todos</option></select>
+    <div style="display:flex; flex-direction:column;">
+      <label style="font-size:12px; font-weight:bold;">Ano</label>
+      <input type="number" id="inpAno" value="2026" style="padding:8px; border-radius:5px; width:80px;">
     </div>
   </section>
 
-  <div class="kpi-row">
-    <div class="kpi-card"><span>Total de Vagas</span><strong id="kpiVagas">0</strong></div>
-    <div class="kpi-card"><span>Procedimentos</span><strong id="kpiProc">0</strong></div>
-    <div class="kpi-card"><span>Profissionais</span><strong id="kpiProf">0</strong></div>
-    <div class="kpi-card"><span>Status</span><strong id="kpiStatus" style="font-size: 0.9rem;">Offline</strong></div>
-  </div>
+  <section class="kpi-grid">
+    <div class="card kpi-card">
+      <small>Oferta Total (Vagas)</small>
+      <h2 id="kpiVagas">0</h2>
+      <div id="kpiStatus" class="trend">Dados em Cache</div>
+    </div>
+    <div class="card kpi-card">
+      <small>Profissionais</small>
+      <h2 id="kpiProf">0</h2>
+      <div class="trend">Ativos</div>
+    </div>
+  </section>
 
-  <div class="grid-top">
-    <div class="card">
+  <section class="charts-grid">
+    <div class="card chart-container">
       <h3>Vagas por Profissional</h3>
-      <div style="height: 300px;"><canvas id="chartProf"></canvas></div>
+      <canvas id="chartProf"></canvas>
     </div>
-    <div class="card">
+    <div class="card chart-container">
       <h3>Distribuição por Dia</h3>
-      <div style="height: 300px;"><canvas id="chartDias"></canvas></div>
+      <canvas id="chartDias"></canvas>
     </div>
-  </div>
+  </section>
 
-  <div class="card" style="padding:0;">
-    <div class="table-wrapper">
-      <table id="tabEscalas">
-        <thead>
-          <tr>
-            <th>Profissional</th>
-            <th>Procedimento</th>
-            <th>Dias</th>
-            <th>Início</th>
-            <th>Fim</th>
-            <th>Vagas</th>
-            <th>Vigência Início</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+  <section class="card" style="margin-top:20px; overflow-x:auto;">
+    <table id="tabEscalas" style="width:100%; border-collapse: collapse;">
+      <thead>
+        <tr style="text-align:left; border-bottom: 2px solid #eee;">
+          <th style="padding:10px;">Profissional</th>
+          <th>Procedimento</th>
+          <th>Dias</th>
+          <th>Vagas</th>
+          <th>Vigência</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+
+<footer class="app-footer" style="text-align: center; padding: 20px; margin-top: 40px; border-top: 1px solid #eee;">
+  <div class="container" id="footerCreditos">
     </div>
-  </div>
-</div>
-
-<footer>
-  <p>© 2026 - Sistema de Gestão de Agendas SISREG</p>
-  <p>Desenvolvido por: <strong>[Seu Nome/Empresa]</strong> • Consultoria em Tecnologia da Saúde</p>
 </footer>
 
 <script src="js/dashboard.js"></script>
