@@ -2,77 +2,257 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Escalas | Agenda SISREG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nova Escala | Agenda SISREG</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="css/theme.css">
+
   <style>
-    .form-container {
-      background: white; padding: 30px; border-radius: 12px;
-      box-shadow: var(--am-shadow); margin: 20px auto; max-width: 800px;
+    /* [ESTILO] Integração com theme.css */
+    body { 
+      background: #f4f7f6; 
+      font-family: 'Inter', sans-serif; 
+      margin: 0; 
+      color: #333;
     }
-    .form-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+
+    /* Header com identidade Amazonas */
+    .app-header { 
+      background: var(--am-blue); 
+      color: white; 
+      padding: 1.2rem 2rem; 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-bottom: 4px solid var(--am-red);
     }
-    .form-group { display: flex; flex-direction: column; }
-    .form-group label { font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; color: var(--am-blue); }
-    .form-group input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
-    .full-width { grid-column: span 2; }
-    .btn-save { 
-      background: var(--am-green); color: white; padding: 15px; width: 100%;
-      border: none; border-radius: 8px; font-weight: 700; margin-top: 20px; cursor: pointer;
+    .app-header h1 { margin: 0; font-size: 1.4rem; font-weight: 600; }
+
+    .container { 
+      max-width: 1200px; 
+      margin: 30px auto; 
+      padding: 0 20px; 
     }
+
+    /* Cards */
+    .card { 
+      background: white; 
+      padding: 25px; 
+      border-radius: 12px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+      margin-bottom: 30px; 
+      border-top: 5px solid var(--am-blue);
+    }
+    .card h2 { 
+      margin-top: 0; 
+      font-size: 1.2rem; 
+      color: var(--am-blue); 
+      border-bottom: 1px solid #eee; 
+      padding-bottom: 10px; 
+      margin-bottom: 20px;
+    }
+
+    /* Formulário em Grid */
+    #formEscala { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+      gap: 15px; 
+    }
+
+    .campo { display: flex; flex-direction: column; }
+    .campo.full { grid-column: 1 / -1; }
+    .campo.campo-relativo { position: relative; }
+
+    .campo label { 
+      font-size: 0.85rem; 
+      font-weight: 600; 
+      color: var(--am-blue); 
+      margin-bottom: 6px; 
+    }
+
+    .campo input { 
+      padding: 10px; 
+      border: 1px solid #ccc; 
+      border-radius: 6px; 
+      font-family: inherit;
+      outline-color: var(--am-blue);
+    }
+
+    /* Autocomplete */
+    .autocomplete {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: white; border: 1px solid #ddd; border-top: none;
+      z-index: 100; max-height: 200px; overflow-y: auto; border-radius: 0 0 6px 6px;
+    }
+
+    /* Botão Inserir */
+    .campo button {
+      background: var(--am-blue);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+    .campo button:hover { background: var(--am-green); transform: translateY(-1px); }
+
+    /* Tabela */
+    .table-wrapper { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+    
+    thead th { 
+      background: var(--am-blue); 
+      color: white; 
+      padding: 12px; 
+      text-align: left; 
+    }
+    
+    tbody td { padding: 12px; border-bottom: 1px solid #eee; }
+    tbody tr:hover { background: #f9f9f9; }
+
+    /* Rodapé */
+    footer { text-align: center; padding: 20px; color: #888; font-size: 0.8rem; }
+    footer strong { color: var(--am-blue); }
   </style>
 </head>
 <body>
 
-  <header class="dash-header">
-    <div class="unit-info">
-      <h1>Nova Escala</h1>
-      <p>Preencha os dados para envio ao SISREG</p>
-    </div>
-    <div class="header-btns">
-      <a href="dashboard.html" style="text-decoration: none;">
-        <button class="btn-main" style="background: rgba(255,255,255,0.2);">Voltar</button>
-      </a>
-    </div>
-  </header>
-
-  <div class="form-container">
-    <form id="formEscala" class="form-grid">
-      <div class="form-group">
-        <label>CPF do Profissional</label>
-        <input type="text" placeholder="000.000.000-00">
-      </div>
-      <div class="form-group">
-        <label>Nome do Profissional</label>
-        <input type="text">
-      </div>
-      <div class="form-group full-width">
-        <label>Procedimento</label>
-        <input type="text" placeholder="Ex: CONSULTA EM CARDIOLOGIA">
-      </div>
-      <div class="form-group">
-        <label>Vagas</label>
-        <input type="number">
-      </div>
-      <div class="form-group">
-        <label>Vigência Início</label>
-        <input type="date">
-      </div>
-      <button type="submit" class="btn-save">Salvar e Enviar para Sheets</button>
-    </form>
+<header class="app-header">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h1>SISREG – Escala de Agendas</h1>
+    <a href="dashboard.html" style="color:#fff;text-decoration:none;font-weight:500;">
+      ⬅ Voltar ao Início
+    </a>
   </div>
+</header>
 
-  <footer></footer>
+<main class="container">
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Carregar Creditos do JSON
-      fetch("data/config.json").then(r => r.json()).then(d => {
-        document.querySelector("footer").innerHTML = `© ${d.ano} - <strong>${d.sistema}</strong> | ${d.desenvolvedor}`;
-      });
-    });
-  </script>
+  <section class="card">
+    <h2>Nova Escala</h2>
+
+    <form id="formEscala">
+
+      <div class="campo">
+        <label>CPF do Profissional</label>
+        <input type="text" id="cpfInput" maxlength="11" required>
+      </div>
+
+      <div class="campo campo-relativo">
+        <label>Nome do Profissional</label>
+        <input type="text" id="nomeInput" autocomplete="off" required>
+        <div id="listaNomes" class="autocomplete"></div>
+        <div id="avisoInativo" style="display:none;color:var(--am-red);font-size:13px;margin-top:4px;font-weight:bold;">
+          🔔 Profissional INATIVO — solicitar ativação via GLPI
+        </div>
+      </div>
+
+      <div class="campo campo-relativo">
+        <label>Procedimento</label>
+        <input type="text" id="procedimentoInput" autocomplete="off" required>
+        <div id="listaProcedimentos" class="autocomplete"></div>
+      </div>
+
+      <div class="campo">
+        <label>Exames</label>
+        <input
+          type="text"
+          id="examesInput"
+          placeholder="Separe os exames por ;"
+          disabled
+          required
+        >
+      </div>
+
+      <div class="campo">
+        <label>Dias da Semana</label>
+        <input
+          type="text"
+          id="dias"
+          placeholder="SEG TER QUA"
+          required
+        >
+      </div>
+
+      <div class="campo">
+        <label>Hora de Entrada</label>
+        <input type="time" id="horaInicio" required>
+      </div>
+
+      <div class="campo">
+        <label>Hora de Saída</label>
+        <input type="time" id="horaFim" required>
+      </div>
+
+      <div class="campo">
+        <label>Vagas</label>
+        <input type="number" id="vagas" min="1" required>
+      </div>
+
+      <div class="campo">
+        <label>Vigência Inicial</label>
+        <input type="date" id="vigenciaInicio" required>
+      </div>
+
+      <div class="campo">
+        <label>Vigência Final</label>
+        <input type="date" id="vigenciaFim" required>
+      </div>
+
+      <div class="campo full">
+        <button type="submit">Inserir Escala</button>
+      </div>
+
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Escalas Inseridas</h2>
+
+    <div class="table-wrapper">
+      <table id="tabelaEscalas">
+        <thead>
+          <tr>
+            <th>CPF</th>
+            <th>Profissional</th>
+            <th>Procedimento</th>
+            <th>Exames</th>
+            <th>Dias</th>
+            <th>Entrada</th>
+            <th>Saída</th>
+            <th>Vagas</th>
+            <th>Vig. Início</th>
+            <th>Vig. Fim</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer id="footerCreditos"></footer>
+
+<script src="js/escalas.js"></script>
+
+<script>
+  /* [LOGICA] Carregar Creditos do config.json */
+  fetch("data/config.json")
+    .then(response => response.json())
+    .then(dados => {
+      const footer = document.getElementById("footerCreditos");
+      if (footer) {
+        footer.innerHTML = `© ${dados.ano} - <strong>${dados.sistema}</strong> | ${dados.desenvolvedor}`;
+      }
+    })
+    .catch(error => console.error("Erro ao carregar créditos:", error));
+</script>
+
 </body>
 </html>
