@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const UNIDADE = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
     let charts = {};
 
-    // 1. Carregar Créditos (Apenas se o config.json existir)
+    // 1. Créditos
     fetch("data/config.json").then(r => r.json()).then(c => {
         const f = document.getElementById("footerCreditos");
         if(f) f.innerHTML = `<p>© ${c.ano} - ${c.sistema}</p><p>${c.desenvolvedor}</p>`;
@@ -12,26 +12,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("txtUnidade").textContent = UNIDADE;
 
-    // 2. FUNÇÃO PRINCIPAL: Preencher a Tabela
+    // --- LIMPEZA DE FORMATO (O que faz os dados parecerem iguais ao Sheets) ---
+    function formatarHora(valor) {
+        if (!valor) return '';
+        if (typeof valor === "string" && valor.includes('T')) {
+            return valor.split('T')[1].substring(0, 5);
+        }
+        return valor;
+    }
+
+    function formatarData(valor) {
+        if (!valor || typeof valor !== "string") return valor;
+        if (valor.includes('T')) {
+            const dataPura = valor.split('T')[0];
+            return dataPura.split('-').reverse().join('/');
+        }
+        return valor;
+    }
+
+    // 2. FUNÇÃO: Popular Tabela (O mapeamento que você perguntou)
     function popularTabela(dados) {
         const tbody = document.querySelector("#tabEscalas tbody");
         if (!tbody) return;
         tbody.innerHTML = ""; 
 
         dados.forEach(item => {
-            // Normaliza as chaves para evitar erro de Maiúscula/Minúscula
+            // Normaliza as chaves (etiquetas) para minúsculo
             const d = {};
             for (let k in item) { d[k.toLowerCase().trim()] = item[k]; }
 
             const tr = document.createElement("tr");
             tr.className = "linha-dinamica";
             
-            // Atributos ocultos para facilitar a leitura dos gráficos e filtros
+            // Grava os dados originais no "DNA" da linha para os gráficos usarem
             tr.setAttribute("data-prof", d.profissional || "");
             tr.setAttribute("data-vigencia", d.vigencia_inicio || "");
             tr.setAttribute("data-vagas", d.vagas || 0);
             tr.setAttribute("data-dias", d.dias_semana || "");
 
+            // Prepara a exibição igual ao Sheets
+            const hInicio = formatarHora(d.hora_inicio);
+            const hFim = formatarHora(d.hora_fim);
+            const vInicio = formatarData(d.vigencia_inicio);
+            const vFim = formatarData(d.vigencia_fim);
+
+            // Escreve na tabela seguindo a sua ordem de 11 colunas
             tr.innerHTML = `
                 <td>${d.cpf || ''}</td>
                 <td><strong>${d.profissional || ''}</strong></td>
@@ -39,11 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${d.procedimento || ''}</td>
                 <td>${d.exames || ''}</td>
                 <td>${d.dias_semana || ''}</td>
-                <td>${d.hora_inicio || ''}</td>
-                <td>${d.hora_fim || ''}</td>
+                <td>${hInicio}</td>
+                <td>${hFim}</td>
                 <td>${d.vagas || 0}</td>
-                <td>${d.vigencia_inicio || ''}</td>
-                <td>${d.vigencia_fim || ''}</td>
+                <td>${vInicio}</td>
+                <td>${vFim}</td>
             `;
             tbody.appendChild(tr);
         });
@@ -51,29 +76,27 @@ document.addEventListener("DOMContentLoaded", () => {
         atualizarGraficosPelaTabela();
     }
 
-    // 3. Ação de Sincronizar
+    // 3. Botão Sincronizar
     document.getElementById("btnSincronizar").onclick = async function() {
         this.textContent = "⌛ Sincronizando...";
         this.disabled = true;
-
         try {
             const resp = await fetch(`${URL_API}?unidade=${encodeURIComponent(UNIDADE)}&t=${Date.now()}`);
             const res = await resp.json();
-
             if (res.status === "OK") {
                 localStorage.setItem(`cache_${UNIDADE}`, JSON.stringify(res.dados));
                 popularTabela(res.dados);
                 alert("Sincronizado com sucesso!");
             }
         } catch (e) {
-            alert("Erro ao conectar com o servidor.");
+            alert("Erro na conexão.");
         } finally {
             this.textContent = "🔄 Sincronizar Sheets";
             this.disabled = false;
         }
     };
 
-    // 4. Lógica dos Gráficos (Lendo o que foi escrito na tabela acima)
+    // 4. Gráficos
     function atualizarGraficosPelaTabela() {
         const linhas = document.querySelectorAll(".linha-dinamica");
         let vTot = 0, profData = {}, diasData = {'Seg':0,'Ter':0,'Qua':0,'Qui':0,'Sex':0};
@@ -82,16 +105,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const v = parseInt(tr.getAttribute("data-vagas")) || 0;
             const n = tr.getAttribute("data-prof");
             const d = tr.getAttribute("data-dias");
-
             vTot += v;
             if(n) profData[n] = (profData[n] || 0) + v;
-            ['Seg','Ter','Qua','Qui','Sex'].forEach(dia => { if(d.includes(dia)) diasData[dia] += v; });
+            ['Seg','Ter','Qua','Qui','Sex'].forEach(dia => { if(d && d.includes(dia)) diasData[dia] += v; });
         });
 
-        // Atualiza os números (KPIs) na tela
         if(document.getElementById("kpiVagas")) document.getElementById("kpiVagas").textContent = vTot;
-
-        // Desenha os gráficos
         renderCharts(profData, diasData);
     }
 
@@ -105,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
             });
         }
-
         if(charts.d) charts.d.destroy();
         const ctxD = document.getElementById('chartDias');
         if(ctxD) {
@@ -117,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Inicialização
     const cache = localStorage.getItem(`cache_${UNIDADE}`);
     if(cache) popularTabela(JSON.parse(cache));
 });
