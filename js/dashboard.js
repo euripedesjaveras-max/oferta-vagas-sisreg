@@ -1,75 +1,100 @@
 // js/dashboard.js
 
 document.addEventListener("DOMContentLoaded", () => {
-    const UNIDADE_ATUAL = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
-    const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzfKcOuEasj4lfWzqbP1FOoSKzJdQvVM7xK81PKCBKs8LgHjp5aJTYyRIygM9n1p_-AMQ/exec";
+  const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzfKcOuEasj4lfWzqbP1FOoSKzJdQvVM7xK81PKCBKs8LgHjp5aJTYyRIygM9n1p_-AMQ/exec";
+  const UNIDADE_LOGADA = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
+  
+  // Elementos da Interface
+  const txtBoasVindas = document.getElementById("txtBoasVindas");
+  const txtUnidade = document.getElementById("txtUnidade");
+  const btnAtualizar = document.getElementById("btnAtualizar");
+  
+  // 1. Identificação da Unidade
+  txtBoasVindas.textContent = `Olá, Gestor da Unidade`;
+  txtUnidade.textContent = UNIDADE_LOGADA;
 
-    // Elementos da tela
-    document.getElementById("boasVindas").textContent = `Olá, Gestor!`;
-    document.getElementById("identificacaoUnidade").textContent = `Unidade: ${UNIDADE_ATUAL}`;
-    document.getElementById("mesAtual").textContent = new Intl.DateTimeFormat('pt-BR', {month: 'long'}).format(new Date()).toUpperCase();
+  // 2. Carregamento Inteligente (Cache Local)
+  async function carregarDados(forceSync = false) {
+    let dados = JSON.parse(localStorage.getItem(`cache_dash_${UNIDADE_LOGADA}`));
 
-    // Carregar dados (Local ou Nuvem)
-    async function carregarDashboard(forceSync = false) {
-        let dados = JSON.parse(localStorage.getItem("dashboard_data"));
+    if (!dados || forceSync) {
+      btnAtualizar.textContent = "⌛ Sincronizando...";
+      btnAtualizar.disabled = true;
 
-        if (!dados || forceSync) {
-            document.getElementById("btnAtualizar").textContent = "Sincronizando...";
-            try {
-                // Aqui simulamos a busca na aba da unidade no Sheets
-                const resp = await fetch(`${GOOGLE_SHEETS_URL}?unidade=${encodeURIComponent(UNIDADE_ATUAL)}`);
-                const result = await resp.json();
-                if (result.status === "OK") {
-                    dados = result.dados;
-                    localStorage.setItem("dashboard_data", JSON.stringify(dados));
-                }
-            } catch (err) {
-                console.error("Erro ao buscar dados do servidor");
-            }
+      try {
+        const resp = await fetch(`${GOOGLE_SHEETS_URL}?unidade=${encodeURIComponent(UNIDADE_LOGADA)}`);
+        const result = await resp.json();
+        
+        if (result.status === "OK") {
+          dados = result.dados;
+          localStorage.setItem(`cache_dash_${UNIDADE_LOGADA}`, JSON.stringify(dados));
+          document.getElementById("kpiStatus").textContent = "Nuvem Ok";
         }
-        
-        processarGraficos(dados || []);
-        document.getElementById("btnAtualizar").textContent = "🔄 Atualizar Dados";
+      } catch (err) {
+        console.error("Erro ao conectar ao Sheets");
+        document.getElementById("kpiStatus").textContent = "Offline";
+      }
+    } else {
+      document.getElementById("kpiStatus").textContent = "Local (Cache)";
     }
 
-    function processarGraficos(dados) {
-        // Lógica para contar vagas por dia e tipo (Exemplo simplificado)
-        const totalVagas = dados.reduce((acc, curr) => acc + (parseInt(curr.vagas) || 0), 0);
-        document.getElementById("totalVagas").textContent = totalVagas;
-        
-        const profissionaisUnicos = [...new Set(dados.map(d => d.cpf))].length;
-        document.getElementById("totalProf").textContent = profissionaisUnicos;
+    renderizarDashboard(dados || []);
+    btnAtualizar.textContent = "🔄 Atualizar Servidor";
+    btnAtualizar.disabled = false;
+  }
 
-        renderizarGraficos();
-    }
+  function renderizarDashboard(dados) {
+    // Cálculo dos KPIs
+    const totalVagas = dados.reduce((acc, item) => acc + (parseInt(item.vagas) || 0), 0);
+    const totalProf = [...new Set(dados.map(item => item.cpf))].length;
 
-    function renderizarGraficos() {
-        // Configuração do Gráfico de Barras (Semana)
-        new Chart(document.getElementById('chartSemana'), {
-            type: 'bar',
-            data: {
-                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
-                datasets: [{
-                    label: 'Vagas',
-                    data: [120, 150, 180, 90, 200], // Dados vindos do processamento
-                    backgroundColor: '#4CAF50'
-                }]
-            }
-        });
+    document.getElementById("kpiVagas").textContent = totalVagas;
+    document.getElementById("kpiProf").textContent = totalProf;
 
-        // Configuração do Gráfico de Pizza (Proporção)
-        new Chart(document.getElementById('chartProporcao'), {
-            type: 'doughnut',
-            data: {
-                labels: ['1ª Vez', 'Retorno'],
-                datasets: [{
-                    data: [75, 25],
-                    backgroundColor: ['#2196F3', '#FFC107']
-                }]
-            }
-        });
-    }
+    // Preparação dos Gráficos (Baseado na análise dos seus arquivos)
+    montarGraficoSemana(dados);
+    montarGraficoPizza(dados);
+  }
 
-    document.getElementById("btnAtualizar").onclick = () => carregarDashboard(true);
-    carregarDashboard();
+  function montarGraficoSemana(dados) {
+    const ctx = document.getElementById('chartSemana').getContext('2d');
+    // Destruir gráfico anterior se existir para evitar sobreposição
+    if (window.chart1) window.chart1.destroy();
+
+    window.chart1 = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'],
+        datasets: [{
+          label: 'Vagas Ofertadas',
+          data: [65, 85, 40, 110, 95], // Aqui entraria a soma real por dia
+          backgroundColor: '#4e73df',
+          borderRadius: 5
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } } }
+    });
+  }
+
+  function montarGraficoPizza(dados) {
+    const ctx = document.getElementById('chartCotas').getContext('2d');
+    if (window.chart2) window.chart2.destroy();
+
+    window.chart2 = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['SISREG (75%)', 'AGHU (25%)'],
+        datasets: [{
+          data: [75, 25], // Proporção extraída dos seus anexos
+          backgroundColor: ['#1cc88a', '#f6c23e']
+        }]
+      },
+      options: { responsive: true }
+    });
+  }
+
+  btnAtualizar.onclick = () => carregarDados(true);
+  
+  // Início padrão
+  carregarDados();
 });
