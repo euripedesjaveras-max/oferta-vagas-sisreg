@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const vigInicioInput = document.getElementById("vigenciaInicio");
   const vigFimInput = document.getElementById("vigenciaFim");
 
+  // Captura o botão que já existe no HTML
+  const btnExport = document.getElementById("btnExportarCSV");
+
   // =====================
   // GERENCIAMENTO DE TABELA LOCAL
   // =====================
@@ -76,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =====================
-  // LÓGICA DE EXPORTAÇÃO E ENVIO (NOVO)
+  // LÓGICA DE EXPORTAÇÃO E ENVIO
   // =====================
 
   async function exportarEEnviar() {
@@ -109,8 +112,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.removeChild(link);
 
     // 2. ENVIAR PARA O SHEETS (EM LOTE)
-    btnExport.textContent = "Enviando para Nuvem...";
-    btnExport.disabled = true;
+    if (btnExport) {
+      btnExport.textContent = "Enviando para Nuvem...";
+      btnExport.disabled = true;
+    }
 
     let erros = 0;
     for (let item of escalas) {
@@ -134,21 +139,19 @@ document.addEventListener("DOMContentLoaded", () => {
       alert(`CSV baixado, mas houve erro no envio de ${erros} itens para o Sheets. Verifique sua conexão.`);
     }
 
-    btnExport.textContent = "Exportar CSV e Sincronizar";
-    btnExport.disabled = false;
+    if (btnExport) {
+      btnExport.textContent = "Exportar CSV e Finalizar Escalas";
+      btnExport.disabled = false;
+    }
   }
 
-  // Criar Botão de Exportação
-  const btnExport = document.createElement("button");
-  btnExport.textContent = "Exportar CSV e Finalizar Escalas";
-  btnExport.style = "margin: 15px 0; background: #007bff; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%;";
-  btnExport.onclick = exportarEEnviar;
-  
-  const tabelaSecao = document.querySelector("#tabelaEscalas").parentNode;
-  tabelaSecao.insertBefore(btnExport, document.querySelector("#tabelaEscalas"));
+  // Vincula a função ao botão do HTML
+  if (btnExport) {
+    btnExport.onclick = exportarEEnviar;
+  }
 
   // =====================
-  // UTILITÁRIOS E AUTOCOMPLETE (MANTIDOS)
+  // UTILITÁRIOS E AUTOCOMPLETE
   // =====================
   function limparTexto(txt) { return txt ? txt.replace(/"/g, "").trim() : ""; }
   function obterCodigo(p) { return p.cod_int || p["cod int"] || ""; }
@@ -206,9 +209,6 @@ document.addEventListener("DOMContentLoaded", () => {
     listaProcedimentos.style.display = "block";
   });
 
-  // =====================
-  // SUBMIT (SALVA APENAS LOCAL)
-  // =====================
   form.addEventListener("submit", e => {
     e.preventDefault();
 
