@@ -1,5 +1,5 @@
 // js/escalas.js
-// Integração com Google Sheets (Versão Completa e Consolidada)
+// Versão: Fluxo de Trabalho Local com Exportação CSV e Sincronismo em Lote
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -31,80 +31,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const vigFimInput = document.getElementById("vigenciaFim");
 
   // =====================
-  // SELETOR DE COMPETÊNCIA (FILTRO)
-  // =====================
-  const seletorDiv = document.createElement("div");
-  seletorDiv.style = "margin-bottom: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; display: flex; gap: 15px; align-items: center; border: 1px solid #ddd;";
-  seletorDiv.innerHTML = `
-    <div>
-      <label style="font-weight:600; margin-right:5px;">Mês Competência:</label>
-      <select id="mesComp" style="padding: 5px; border-radius: 4px;">
-        <option value="0">Janeiro</option><option value="1">Fevereiro</option>
-        <option value="2">Março</option><option value="3">Abril</option>
-        <option value="4">Maio</option><option value="5">Junho</option>
-        <option value="6">Julho</option><option value="7">Agosto</option>
-        <option value="8">Setembro</option><option value="9">Outubro</option>
-        <option value="10">Novembro</option><option value="11">Dezembro</option>
-      </select>
-    </div>
-    <div>
-      <label style="font-weight:600; margin-right:5px;">Ano:</label>
-      <input type="number" id="anoComp" value="${new Date().getFullYear()}" style="width: 80px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;">
-    </div>
-    <button id="btnFiltrar" style="background: #4CAF50; color: white; border: none; padding: 7px 15px; border-radius: 4px; cursor: pointer; font-weight: 500;">Consultar Nuvem</button>
-  `;
-  
-  const tabelaSecao = document.querySelector("#tabelaEscalas").parentNode;
-  tabelaSecao.insertBefore(seletorDiv, document.querySelector("#tabelaEscalas"));
-
-  // Sincroniza o seletor com o mês atual por padrão
-  document.getElementById("mesComp").value = new Date().getMonth();
-
-  // =====================
-  // LÓGICA DE SINCRONIZAÇÃO E TABELA
+  // GERENCIAMENTO DE TABELA LOCAL
   // =====================
 
-  async function carregarDadosDaNuvem() {
-    const mes = document.getElementById("mesComp").value;
-    const ano = document.getElementById("anoComp").value;
+  function carregarTabelaLocal() {
     const tabelaBody = document.querySelector("#tabelaEscalas tbody");
-    
-    tabelaBody.innerHTML = "<tr><td colspan='11' style='text-align:center;'>Buscando escalas vigentes em " + (parseInt(mes)+1) + "/" + ano + "...</td></tr>";
-
-    try {
-      const url = `${GOOGLE_SHEETS_URL}?unidade=${encodeURIComponent(UNIDADE_ATUAL)}&mes=${mes}&ano=${ano}`;
-      const resp = await fetch(url);
-      const result = await resp.json();
-
-      if (result.status === "OK") {
-        renderizarTabela(result.dados);
-      } else {
-        tabelaBody.innerHTML = "<tr><td colspan='11' style='text-align:center;'>Nenhum dado encontrado para este período.</td></tr>";
-      }
-    } catch (err) {
-      console.error("Erro na nuvem:", err);
-      tabelaBody.innerHTML = "<tr><td colspan='11' style='text-align:center; color: red;'>Erro de conexão. Verifique os itens pendentes de sincronização abaixo.</td></tr>";
-      carregarTabelaLocal(); 
-    }
-  }
-
-  function renderizarTabela(dados) {
-    const tabelaBody = document.querySelector("#tabelaEscalas tbody");
+    const escalas = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
     tabelaBody.innerHTML = ""; 
 
-    dados.forEach((payload, index) => {
-      const tr = document.createElement("tr");
-      
-      // Ícone de Nuvem por Status
-      let iconeNuvem = "";
-      if (payload.status_envio === "sucesso" || payload.unidade) { // Se tem 'unidade' vindo do GET, já está no Sheets
-        iconeNuvem = '<span title="Sincronizado" style="color: #4CAF50; font-size: 1.2em;">☁️</span>';
-      } else if (payload.status_envio === "erro") {
-        iconeNuvem = '<span title="Erro no envio" style="color: #f44336; font-size: 1.2em;">☁️❗</span>';
-      } else {
-        iconeNuvem = '<span title="Aguardando conexão" style="color: #ffc107; font-size: 1.2em;">☁️⏳</span>';
-      }
+    if (escalas.length === 0) {
+      tabelaBody.innerHTML = "<tr><td colspan='11' style='text-align:center;'>Nenhuma escala lançada localmente.</td></tr>";
+      return;
+    }
 
+    escalas.forEach((payload, index) => {
+      const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${payload.cpf}</td>
         <td>${payload.profissional}</td>
@@ -116,92 +57,105 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${payload.vagas}</td>
         <td>${payload.vigencia_inicio}</td>
         <td>${payload.vigencia_fim}</td>
-        <td style="display: flex; align-items: center; gap: 10px; justify-content: center;">
-           ${iconeNuvem}
+        <td style="text-align:center;">
            <button class="btn-excluir" data-index="${index}" style="background:none; border:none; cursor:pointer; color:#f44336; font-weight:bold;">X</button>
         </td>
       `;
       tabelaBody.appendChild(tr);
     });
 
-    // Evento Excluir (Local)
     document.querySelectorAll(".btn-excluir").forEach(btn => {
       btn.onclick = (e) => {
         const idx = e.target.getAttribute("data-index");
         let atual = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
         atual.splice(idx, 1);
         localStorage.setItem("escalas_salvas", JSON.stringify(atual));
-        carregarDadosDaNuvem();
+        carregarTabelaLocal();
       };
     });
   }
 
-  function carregarTabelaLocal() {
+  // =====================
+  // LÓGICA DE EXPORTAÇÃO E ENVIO (NOVO)
+  // =====================
+
+  async function exportarEEnviar() {
     const escalas = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
-    renderizarTabela(escalas);
-  }
-
-  async function enviarParaSheets(dados) {
-    try {
-      await fetch(GOOGLE_SHEETS_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify(dados)
-      });
-      return true; 
-    } catch (err) {
-      return false;
-    }
-  }
-
-  // =====================
-  // BOTÃO SINCRONIZAR TUDO
-  // =====================
-  const btnSyncTudo = document.createElement("button");
-  btnSyncTudo.textContent = "Sincronizar Pendentes";
-  btnSyncTudo.style = "margin: 10px 0; background: #2196F3; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 600;";
-  btnSyncTudo.onclick = async () => {
-    const atual = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
-    const pendentes = atual.filter(i => i.status_envio !== "sucesso");
     
-    if(pendentes.length === 0) return alert("Não há itens pendentes de sincronização.");
-
-    btnSyncTudo.textContent = "Enviando...";
-    btnSyncTudo.disabled = true;
-
-    for (let item of pendentes) {
-      const sucesso = await enviarParaSheets(item);
-      item.status_envio = sucesso ? "sucesso" : "erro";
+    if (escalas.length === 0) {
+      alert("Não há dados para exportar.");
+      return;
     }
 
-    localStorage.setItem("escalas_salvas", JSON.stringify(atual));
-    carregarDadosDaNuvem();
-    btnSyncTudo.textContent = "Sincronizar Pendentes";
-    btnSyncTudo.disabled = false;
-  };
-  tabelaSecao.insertBefore(btnSyncTudo, document.querySelector("#tabelaEscalas"));
+    if (!confirm("Isso irá baixar o arquivo CSV e enviar os dados para o Sheets. Confirmar?")) return;
 
-  // =====================
-  // UTILITÁRIOS
-  // =====================
-  function limparTexto(txt) {
-    return txt ? txt.replace(/"/g, "").trim() : "";
+    // 1. GERAR E BAIXAR CSV
+    const cabecalhosCsv = ["CPF", "Profissional", "Cod_Procedimento", "Procedimento", "Exames", "Dias", "Inicio", "Fim", "Vagas", "Vig_Inicio", "Vig_Fim", "Unidade"];
+    const rows = escalas.map(e => [
+      e.cpf, e.profissional, e.cod_procedimento, e.procedimento, e.exames,
+      e.dias_semana, e.hora_inicio, e.hora_fim, e.vagas, e.vigencia_inicio, e.vigencia_fim, e.unidade
+    ]);
+
+    let csvContent = "data:text/csv;charset=utf-8," 
+      + cabecalhosCsv.join(",") + "\n"
+      + rows.map(e => e.join(",")).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `Escalas_${UNIDADE_ATUAL}_${new Date().toLocaleDateString()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // 2. ENVIAR PARA O SHEETS (EM LOTE)
+    btnExport.textContent = "Enviando para Nuvem...";
+    btnExport.disabled = true;
+
+    let erros = 0;
+    for (let item of escalas) {
+      try {
+        await fetch(GOOGLE_SHEETS_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(item)
+        });
+      } catch (err) {
+        erros++;
+      }
+    }
+
+    if (erros === 0) {
+      alert("Sucesso! CSV baixado e todos os dados enviados ao Sheets.");
+      localStorage.setItem("escalas_salvas", "[]"); // Limpa após sucesso total
+      carregarTabelaLocal();
+    } else {
+      alert(`CSV baixado, mas houve erro no envio de ${erros} itens para o Sheets. Verifique sua conexão.`);
+    }
+
+    btnExport.textContent = "Exportar CSV e Sincronizar";
+    btnExport.disabled = false;
   }
 
-  function obterCodigo(p) {
-    return p.cod_int || p["cod int"] || "";
-  }
+  // Criar Botão de Exportação
+  const btnExport = document.createElement("button");
+  btnExport.textContent = "Exportar CSV e Finalizar Escalas";
+  btnExport.style = "margin: 15px 0; background: #007bff; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%;";
+  btnExport.onclick = exportarEEnviar;
+  
+  const tabelaSecao = document.querySelector("#tabelaEscalas").parentNode;
+  tabelaSecao.insertBefore(btnExport, document.querySelector("#tabelaEscalas"));
 
   // =====================
-  // CARREGAMENTO DE DADOS LOCAIS (JSON)
+  // UTILITÁRIOS E AUTOCOMPLETE (MANTIDOS)
   // =====================
+  function limparTexto(txt) { return txt ? txt.replace(/"/g, "").trim() : ""; }
+  function obterCodigo(p) { return p.cod_int || p["cod int"] || ""; }
+
   fetch("data/profissionais.json").then(r => r.json()).then(d => profissionais = d);
   fetch("data/procedimentos_exames.json").then(r => r.json()).then(d => procedimentos = d);
 
-  // =====================
-  // EVENTOS DE BUSCA (AUTOCOMPLETE)
-  // =====================
   cpfInput.addEventListener("blur", () => {
     const prof = profissionais.find(p => p.cpf === cpfInput.value.trim());
     avisoInativo.style.display = "none";
@@ -216,7 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
     listaNomes.innerHTML = "";
     const termo = nomeInput.value.toLowerCase();
     if (termo.length < 2) { listaNomes.style.display = "none"; return; }
-    
     profissionais.filter(p => p.nome.toLowerCase().includes(termo)).slice(0, 10).forEach(p => {
       const div = document.createElement("div");
       div.textContent = `${p.nome} (${p.cpf})`;
@@ -236,7 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
     listaProcedimentos.innerHTML = "";
     const termo = procedimentoInput.value.toLowerCase();
     if (termo.length < 2) { listaProcedimentos.style.display = "none"; return; }
-
     procedimentos.filter(p => limparTexto(p.procedimento).toLowerCase().includes(termo)).slice(0, 10).forEach(p => {
       const codigo = obterCodigo(p);
       const texto = limparTexto(p.procedimento);
@@ -255,9 +207,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // SUBMIT DO FORMULÁRIO
+  // SUBMIT (SALVA APENAS LOCAL)
   // =====================
-  form.addEventListener("submit", async e => {
+  form.addEventListener("submit", e => {
     e.preventDefault();
 
     const payload = {
@@ -272,30 +224,19 @@ document.addEventListener("DOMContentLoaded", () => {
       vagas: vagasInput.value,
       vigencia_inicio: vigInicioInput.value,
       vigencia_fim: vigFimInput.value,
-      unidade: UNIDADE_ATUAL,
-      status_envio: "aguardando" 
+      unidade: UNIDADE_ATUAL
     };
 
-    // Tenta enviar imediatamente
-    const sucesso = await enviarParaSheets(payload);
-    payload.status_envio = sucesso ? "sucesso" : "erro";
-
-    // Salva localmente (histórico do navegador)
     let locais = JSON.parse(localStorage.getItem("escalas_salvas") || "[]");
     locais.push(payload);
     localStorage.setItem("escalas_salvas", JSON.stringify(locais));
 
-    // Recarrega a visualização
-    carregarDadosDaNuvem();
-
-    // Reseta o formulário
+    carregarTabelaLocal();
     form.reset();
     examesInput.disabled = true;
     profissionalSelecionado = null;
     procedimentoSelecionado = null;
   });
 
-  // Inicialização
-  document.getElementById("btnFiltrar").onclick = carregarDadosDaNuvem;
-  carregarDadosDaNuvem();
+  carregarTabelaLocal();
 });
