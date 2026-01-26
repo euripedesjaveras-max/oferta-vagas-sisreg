@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | SISREG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/theme.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-body">
+
+<header class="app-header">
+  <div class="header-content container">
+    <div class="welcome-text">
+      <h1 id="txtBoasVindas">Bem-vindo!</h1>
+      <p id="txtUnidade">Identificando unidade...</p>
+    </div>
+    <div class="header-actions">
+      <button id="btnAtualizar" class="btn-sync-cloud">🔄 Atualizar Servidor</button>
+      <a href="escalas.html" class="btn-primary">Novo Lançamento</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="kpi-grid">
+    <div class="card kpi-card">
+      <small>Oferta Total (Vagas)</small>
+      <h2 id="kpiVagas">0</h2>
+      <div class="trend up">Competência Atual</div>
+    </div>
+    <div class="card kpi-card">
+      <small>Profissionais na Escala</small>
+      <h2 id="kpiProf">0</h2>
+      <div class="trend">Ativos este mês</div>
+    </div>
+    <div class="card kpi-card">
+      <small>Status de Sincronia</small>
+      <h2 id="kpiStatus" style="font-size: 1.2rem; margin-top: 10px;">Local</h2>
+      <div class="trend">Dados em Cache</div>
+    </div>
+  </section>
+
+  <section class="charts-grid">
+    <div class="card chart-container">
+      <h3>Vagas por Dia da Semana</h3>
+      <canvas id="chartSemana"></canvas>
+    </div>
+    <div class="card chart-container">
+      <h3>Distribuição de Cotas</h3>
+      <canvas id="chartCotas"></canvas>
+    </div>
+  </section>
+</main>
+
+<footer class="app-footer">
+  <div class="container footer-content">
+    <p>© 2026 - Sistema de Gestão de Agendas SISREG</p>
+    <p>Desenvolvido por: <strong>[Seu Nome/Empresa]</strong> • Consultoria em Saúde & Tecnologia</p>
+  </div>
+</footer>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>
