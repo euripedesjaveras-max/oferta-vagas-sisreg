@@ -28,19 +28,40 @@ document.addEventListener("DOMContentLoaded", () => {
         return valor;
     }
 
+    /* [LOGICA] Funcao para Atualizar os Cards (KPIs) */
+    function atualizarCards(dadosFiltrados) {
+        const totalVagas = dadosFiltrados.reduce((acc, item) => acc + (Number(item.vagas) || 0), 0);
+        
+        // Contagem de itens unicos usando Set
+        const profsUnicos = new Set(dadosFiltrados.map(item => item.cpf)).size;
+        const procsUnicos = new Set(dadosFiltrados.map(item => item.cod_procedimento)).size;
+
+        document.getElementById("kpiVagas").textContent = totalVagas;
+        document.getElementById("kpiProfissionais").textContent = profsUnicos;
+        document.getElementById("kpiProcedimentos").textContent = procsUnicos;
+    }
+    
     /* [LOGICA] Funcao de Filtro Mensal */
     function filtrarTabela() {
         const mesSelecionado = document.getElementById("filtroMes").value;
         const linhas = document.querySelectorAll("#corpoTabela tr");
+        let dadosParaKPI = [];
 
-        linhas.forEach(linha => {
-            const dataVigencia = linha.getAttribute("data-mes"); // Pega o mês guardado no atributo da linha
+        // Recuperar dados do cache para recalcular os cards baseado no que esta visivel
+        const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "[]");
+
+        linhas.forEach((linha, index) => {
+            const dataVigencia = linha.getAttribute("data-mes");
             if (mesSelecionado === "todos" || dataVigencia === mesSelecionado) {
-                linha.style.display = ""; // Mostra
+                linha.style.display = ""; 
+                if(cache[index]) dadosParaKPI.push(cache[index]);
             } else {
-                linha.style.display = "none"; // Esconde
+                linha.style.display = "none"; 
             }
         });
+
+        // Se filtrar, os cards mostram apenas o resumo do mes selecionado
+        atualizarCards(dadosParaKPI);
     }
 
     /* [LOGICA] Funcao para Gerar o HTML da Tabela Dinamicamente */
@@ -78,7 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }).join('');
         
         // Aplica o filtro atual logo após renderizar (caso o usuário já tenha selecionado um mês)
-        filtrarTabela();
+        atualizarCards(dados); // Atualiza os cards com o total geral no carregamento
+        filtrarTabela(); // Aplica o filtro (e atualiza os cards conforme o filtro)
     }
 
     /* [LOGICA] Eventos de Interação */
