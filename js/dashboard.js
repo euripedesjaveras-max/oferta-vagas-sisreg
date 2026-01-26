@@ -7,123 +7,145 @@ document.addEventListener("DOMContentLoaded", () => {
     let dadosCompletos = [];
     let charts = {};
 
-    // ==========================================
-    // CONFIGURAÇÃO CENTRAL DE CRÉDITOS
-    // ==========================================
-    const configRodape = {
-        ano: "2026",
-        sistema: "Sistema de Gestão de Agendas SISREG",
-        desenvolvedor: "Seu Nome/Empresa",
-        detalhes: "Complexo Regulador do Amazonas"
-    };
+    // 1. CARREGAR CRÉDITOS E UNIDADE
+    document.getElementById("txtUnidade").textContent = UNIDADE;
+    
+    fetch("data/config.json")
+        .then(r => r.json())
+        .then(c => {
+            document.getElementById("footerDinamico").innerHTML = `
+                <p>© ${c.ano} - ${c.sistema}</p>
+                <p>Desenvolvido por: <strong>${c.desenvolvedor}</strong> • ${c.detalhes}</p>
+            `;
+        });
 
-    function carregarCreditos() {
-        document.getElementById("footerCreditos").innerHTML = `
-            <p>© ${configRodape.ano} - ${configRodape.sistema}</p>
-            <p>Desenvolvido por: <strong>${configRodape.desenvolvedor}</strong> • ${configRodape.detalhes}</p>
-        `;
-    }
-
-    // ==========================================
-    // FUNÇÃO DE SINCRONIZAÇÃO (SOMENTE NO CLIQUE)
-    // ==========================================
-    async function sincronizarDados() {
+    // 2. FUNÇÃO DE SINCRONIZAÇÃO (SOMENTE AO CLICAR)
+    async function sincronizar() {
         const btn = document.getElementById("btnSincronizar");
         btn.textContent = "⌛ Sincronizando...";
         btn.disabled = true;
 
         try {
-            const resp = await fetch(`${URL_API}?unidade=${encodeURIComponent(UNIDADE)}&t=${new Date().getTime()}`);
+            const resp = await fetch(`${URL_API}?unidade=${encodeURIComponent(UNIDADE)}&t=${Date.now()}`);
             const result = await resp.json();
 
             if (result.status === "OK") {
                 dadosCompletos = result.dados;
                 localStorage.setItem(`cache_${UNIDADE}`, JSON.stringify(dadosCompletos));
                 
-                popularFiltros();
-                processarEExibir();
+                popularFiltroProfissionais();
+                atualizarTela(); // Processa tabela e gráficos
                 
-                document.getElementById("kpiStatus").textContent = "Nuvem Atualizada";
-                alert("Dados atualizados com sucesso!");
+                document.getElementById("kpiStatus").textContent = "Nuvem";
+                alert("Dados sincronizados com sucesso!");
             }
         } catch (e) {
-            console.error(e);
-            alert("Erro ao conectar com o Sheets. Verifique o console.");
+            alert("Erro na comunicação com o Sheets.");
         } finally {
             btn.textContent = "🔄 Sincronizar Sheets";
             btn.disabled = false;
         }
     }
 
-    // ==========================================
-    // PROCESSAMENTO E FILTROS
-    // ==========================================
-    function processarEExibir() {
-        const mes = document.getElementById("selMes").value;
-        const ano = document.getElementById("inpAno").value;
+    // 3. ATUALIZAÇÃO DA TELA (TABELA COMPLETA + GRÁFICOS FILTRADOS)
+    function atualizarTela() {
+        const mesSel = document.getElementById("selMes").value;
+        const anoSel = document.getElementById("inpAno").value;
+        const profSel = document.getElementById("selProfissional").value;
 
-        const filtrados = dadosCompletos.filter(d => {
+        // FILTRO PARA GRÁFICOS E KPIS
+        const dadosFiltrados = dadosCompletos.filter(d => {
             if (!d.vigencia_inicio) return false;
             const dataV = new Date(d.vigencia_inicio + "T00:00:00");
-            return (mes === "all" || dataV.getMonth() == mes) && dataV.getFullYear() == ano;
+            const matchMes = mesSel === "all" || dataV.getMonth() == mesSel;
+            const matchAno = dataV.getFullYear() == anoSel;
+            const matchProf = profSel === "all" || d.profissional === profSel;
+            return matchMes && matchAno && matchProf;
         });
 
-        // Atualiza KPIs
-        document.getElementById("kpiVagas").textContent = filtrados.reduce((acc, curr) => acc + (parseInt(curr.vagas) || 0), 0);
-        document.getElementById("kpiProf").textContent = [...new Set(filtrados.map(d => d.profissional))].length;
-
-        // Atualiza Tabela
+        // TABELA: MOSTRA SEMPRE TUDO DO SHEETS (Conforme solicitado)
         const tbody = document.querySelector("#tabEscalas tbody");
-        tbody.innerHTML = filtrados.map(d => `
-            <tr style="border-bottom: 1px solid #f9f9f9;">
-                <td style="padding:10px;">${d.profissional}</td>
+        tbody.innerHTML = dadosCompletos.map(d => `
+            <tr>
+                <td><strong>${d.profissional}</strong></td>
                 <td>${d.procedimento}</td>
                 <td>${d.dias_semana}</td>
-                <td>${d.vagas}</td>
+                <td>${d.hora_inicio}</td>
+                <td>${d.hora_fim}</td>
+                <td style="font-weight:700; color:var(--p-blue)">${d.vagas}</td>
                 <td>${d.vigencia_inicio}</td>
             </tr>
-        `).join('') || "<tr><td colspan='5' style='text-align:center; padding:20px;'>Sem dados.</td></tr>";
+        `).join('') || "<tr><td colspan='7' style='text-align:center'>Clique em sincronizar para carregar.</td></tr>";
 
-        renderizarGraficos(filtrados);
+        // ATUALIZAR KPIS E GRÁFICOS COM OS DADOS FILTRADOS
+        document.getElementById("kpiVagas").textContent = dadosFiltrados.reduce((a, b) => a + (parseInt(b.vagas) || 0), 0);
+        document.getElementById("kpiProc").textContent = [...new Set(dadosFiltrados.map(d => d.procedimento))].length;
+        document.getElementById("kpiProf").textContent = [...new Set(dadosFiltrados.map(d => d.profissional))].length;
+
+        gerarGraficos(dadosFiltrados);
     }
 
-    function renderizarGraficos(dados) {
+    function gerarGraficos(dados) {
+        // Gráfico Profissionais
         const profMap = {};
         dados.forEach(d => profMap[d.profissional] = (profMap[d.profissional] || 0) + (parseInt(d.vagas) || 0));
 
-        // Gráfico Profissionais
         if(charts.p) charts.p.destroy();
         charts.p = new Chart(document.getElementById('chartProf'), {
             type: 'bar',
-            data: { labels: Object.keys(profMap), datasets: [{ label: 'Vagas', data: Object.values(profMap), backgroundColor: '#1a2a6c' }]},
-            options: { indexAxis: 'y', responsive: true }
+            data: { 
+                labels: Object.keys(profMap), 
+                datasets: [{ label: 'Vagas', data: Object.values(profMap), backgroundColor: '#1a2a6c' }]
+            },
+            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
+        });
+
+        // Gráfico Dias
+        const diasRef = { 'Seg': 0, 'Ter': 0, 'Qua': 0, 'Qui': 0, 'Sex': 0 };
+        dados.forEach(d => {
+            if (d.dias_semana.includes('Seg')) diasRef['Seg']++;
+            if (d.dias_semana.includes('Ter')) diasRef['Ter']++;
+            if (d.dias_semana.includes('Qua')) diasRef['Qua']++;
+            if (d.dias_semana.includes('Qui')) diasRef['Qui']++;
+            if (d.dias_semana.includes('Sex')) diasRef['Sex']++;
+        });
+
+        if(charts.d) charts.d.destroy();
+        charts.d = new Chart(document.getElementById('chartDias'), {
+            type: 'polarArea',
+            data: { 
+                labels: Object.keys(diasRef), 
+                datasets: [{ data: Object.values(diasRef), backgroundColor: ['#1a2a6c', '#b21f1f', '#fdbb2d', '#4CAF50', '#2196F3'] }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
         });
     }
 
-    function popularFiltros() {
-        // Lógica para carregar profissionais no select se desejar
+    function popularFiltroProfissionais() {
+        const select = document.getElementById("selProfissional");
+        const profs = [...new Set(dadosCompletos.map(d => d.profissional))].sort();
+        select.innerHTML = '<option value="all">Todos</option>';
+        profs.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`);
     }
 
-    // ==========================================
-    // EVENTOS E INICIALIZAÇÃO
-    // ==========================================
-    document.getElementById("txtUnidade").textContent = UNIDADE;
-    document.getElementById("btnSincronizar").onclick = sincronizarDados;
+    // 4. EVENTOS
+    document.getElementById("btnSincronizar").onclick = sincronizar;
     document.getElementById("btnLogout").onclick = () => {
-        if(confirm("Deseja sair?")) {
+        if(confirm("Deseja encerrar a sessão?")) {
             localStorage.removeItem("unidade_selecionada");
             window.location.href = "index.html";
         }
     };
-    
-    document.getElementById("selMes").onchange = processarEExibir;
-    document.getElementById("inpAno").oninput = processarEExibir;
 
-    // INÍCIO: Apenas lê o cache, não vai ao servidor.
-    carregarCreditos();
+    document.getElementById("selMes").onchange = atualizarTela;
+    document.getElementById("inpAno").oninput = atualizarTela;
+    document.getElementById("selProfissional").onchange = atualizarTela;
+
+    // CARGA INICIAL (LOCAL)
     const cache = localStorage.getItem(`cache_${UNIDADE}`);
     if (cache) {
         dadosCompletos = JSON.parse(cache);
-        processarEExibir();
+        popularFiltroProfissionais();
+        atualizarTela();
     }
 });
