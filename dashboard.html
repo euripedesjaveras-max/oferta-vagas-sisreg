@@ -8,54 +8,23 @@
   <link rel="stylesheet" href="css/theme.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root { --p-blue: #1a2a6c; --p-red: #b21f1f; --p-gold: #fdbb2d; --glass: rgba(255, 255, 255, 0.95); }
-    body { background: #f4f7f6; font-family: 'Inter', sans-serif; color: #333; margin: 0; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    
-    /* Header Responsivo */
-    .dash-header { background: white; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; }
-    .unit-info h1 { font-size: 1.4rem; color: var(--p-blue); margin: 0; }
-    .unit-info p { margin: 0; color: #666; font-size: 0.9rem; }
-    .header-btns { display: flex; gap: 10px; }
-
-    /* Filtros Estilizados */
-    .filter-bar { background: var(--p-blue); padding: 15px; border-radius: 12px; margin: 20px 0; display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; color: white; }
-    .filter-group { display: flex; flex-direction: column; gap: 5px; }
-    .filter-group label { font-size: 0.8rem; font-weight: 600; }
-    .filter-group select, .filter-group input { padding: 8px; border-radius: 6px; border: none; outline: none; }
-
-    /* Cards e Gráficos */
-    .grid-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
-    .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid #eee; }
-    .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
-    .kpi-card { background: white; padding: 15px; border-radius: 10px; text-align: center; border-left: 5px solid var(--p-blue); }
-    .kpi-card span { font-size: 0.8rem; color: #666; display: block; }
-    .kpi-card strong { font-size: 1.5rem; color: var(--p-blue); }
-
-    /* Tabela Responsiva */
-    .table-wrapper { overflow-x: auto; background: white; border-radius: 12px; border: 1px solid #eee; }
-    table { width: 100%; border-collapse: collapse; min-width: 800px; }
-    th { background: #f8f9fa; padding: 12px; text-align: left; font-size: 0.85rem; color: #666; border-bottom: 2px solid #eee; }
-    td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.85rem; }
-    tr:hover { background: #f1f4ff; }
-
-    .btn-main { background: var(--p-blue); color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
-    .btn-sync { background: #4CAF50; }
-    
-    footer { text-align: center; padding: 30px; color: #888; font-size: 0.8rem; }
-    @media (max-width: 600px) { .dash-header { text-align: center; justify-content: center; } }
+    /* Estilos rápidos para botões e header */
+    .header-btns { display: flex; gap: 10px; align-items: center; }
+    .btn-logout { background: #f44336 !important; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    .badge-dia { background: #e3f2fd; color: #1a2a6c; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
   </style>
 </head>
 <body>
 
 <header class="dash-header">
   <div class="unit-info">
-    <h1 id="txtUnidade">Unidade Carregando...</h1>
-    <p>Painel de Gestão de Escalas - <strong>SISREG</strong></p>
+    <h1 id="txtUnidade">Unidade...</h1>
+    <p>Painel de Gestão - <strong>Complexo Regulador</strong></p>
   </div>
   <div class="header-btns">
     <button id="btnSincronizar" class="btn-main btn-sync">🔄 Sincronizar Sheets</button>
-    <a href="escalas.html" style="text-decoration: none;"><button class="btn-main">➕ Nova Escala</button></a>
+    <a href="escalas.html" style="text-decoration: none;"><button class="btn-main">➕ Lançar Escala</button></a>
+    <button id="btnLogout" class="btn-logout">Sair</button>
   </div>
 </header>
 
@@ -87,24 +56,21 @@
     <div class="kpi-card"><span>Total de Vagas</span><strong id="kpiVagas">0</strong></div>
     <div class="kpi-card"><span>Procedimentos</span><strong id="kpiProc">0</strong></div>
     <div class="kpi-card"><span>Profissionais</span><strong id="kpiProf">0</strong></div>
-    <div class="kpi-card"><span>Status</span><strong id="kpiStatus" style="font-size: 1rem;">Local</strong></div>
+    <div class="kpi-card"><span>Status</span><strong id="kpiStatus" style="font-size: 0.9rem;">Offline</strong></div>
   </div>
 
   <div class="grid-top">
     <div class="card">
-      <h3>Produtividade por Profissional</h3>
-      <canvas id="chartProf"></canvas>
+      <h3>Vagas por Profissional</h3>
+      <div style="height: 300px;"><canvas id="chartProf"></canvas></div>
     </div>
     <div class="card">
-      <h3>Distribuição Semanal</h3>
-      <canvas id="chartDias"></canvas>
+      <h3>Distribuição por Dia</h3>
+      <div style="height: 300px;"><canvas id="chartDias"></canvas></div>
     </div>
   </div>
 
   <div class="card" style="padding:0;">
-    <div style="padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between;">
-      <h3 style="margin:0;">Escalas da Competência</h3>
-    </div>
     <div class="table-wrapper">
       <table id="tabEscalas">
         <thead>
@@ -115,7 +81,7 @@
             <th>Início</th>
             <th>Fim</th>
             <th>Vagas</th>
-            <th>Vigência</th>
+            <th>Vigência Início</th>
           </tr>
         </thead>
         <tbody></tbody>
