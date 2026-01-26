@@ -69,8 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const campoProc = String(d.procedimento || "").toUpperCase().trim();
             const campoExame = String(d.exames || "").toUpperCase().trim();
             
-            if (campoProc.indexOf("RETORNO") !== -1 || campoExame.indexOf("RETORNO") !== -1) {
-                vagasRetorno += qtdVagas;
+            if (campoProc.toUpperCase().includes("RETORNO") ||
+                campoExame.toUpperCase().includes("RETORNO")
+            ) {
+              vagasRetorno += qtdVagas;
             }
 
             if (d.cpf) cpfs.add(d.cpf);
