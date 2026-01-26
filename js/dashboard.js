@@ -28,14 +28,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return valor;
     }
 
-    /* [LOGICA] Funcao para Atualizar os Cards (KPIs) - Versão com % Retorno */
+    /* [LOGICA] Funcao para Atualizar os Cards (KPIs) com % de Retorno */
     function atualizarCards(dadosFiltrados) {
+        const kpiVagas = document.getElementById("kpiVagas");
+        const kpiProfs = document.getElementById("kpiProfissionais");
+        const kpiMedia = document.getElementById("kpiMedia");
+        const kpiLider = document.getElementById("kpiLider");
+        const kpiRetorno = document.getElementById("kpiRetorno");
+
         if (!dadosFiltrados || dadosFiltrados.length === 0) {
-            document.getElementById("kpiVagas").textContent = "0";
-            document.getElementById("kpiProfissionais").textContent = "0";
-            document.getElementById("kpiMedia").textContent = "0";
-            document.getElementById("kpiLider").textContent = "-";
-            document.getElementById("kpiRetorno").textContent = "0%";
+            kpiVagas.textContent = "0";
+            kpiProfs.textContent = "0";
+            kpiMedia.textContent = "0";
+            kpiLider.textContent = "-";
+            kpiRetorno.textContent = "0%";
             return;
         }
 
@@ -45,18 +51,22 @@ document.addEventListener("DOMContentLoaded", () => {
         const contagemProcs = {};
 
         dadosFiltrados.forEach(item => {
-            const qtdVagas = Number(item.vagas) || 0;
+            // Garante que estamos usando as chaves em minúsculo
+            const d = {};
+            for (let k in item) { d[k.toLowerCase().trim()] = item[k]; }
+
+            const qtdVagas = Number(d.vagas) || 0;
             totalVagas += qtdVagas;
             
-            // Identifica se é retorno (busca no procedimento ou exames)
-            const desc = ((item.procedimento || "") + (item.exames || "")).toUpperCase();
-            if (desc.includes("RETORNO")) {
+            // Lógica de Retorno: busca a palavra nos campos Procedimento ou Exames
+            const textoBusca = ((d.procedimento || "") + (d.exames || "")).toUpperCase();
+            if (textoBusca.includes("RETORNO")) {
                 vagasRetorno += qtdVagas;
             }
 
-            if (item.cpf) cpfs.add(item.cpf);
+            if (d.cpf) cpfs.add(d.cpf);
             
-            const nomeProc = item.procedimento || "N/I";
+            const nomeProc = d.procedimento || "N/I";
             contagemProcs[nomeProc] = (contagemProcs[nomeProc] || 0) + 1;
         });
 
@@ -64,14 +74,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const media = profsUnicos > 0 ? (totalVagas / profsUnicos).toFixed(1) : 0;
         const lider = Object.keys(contagemProcs).reduce((a, b) => contagemProcs[a] > contagemProcs[b] ? a : b);
         
-        // Cálculo da Porcentagem
+        // Cálculo da Porcentagem de Retorno
         const percRetorno = totalVagas > 0 ? ((vagasRetorno / totalVagas) * 100).toFixed(1) : 0;
 
-        document.getElementById("kpiVagas").textContent = totalVagas;
-        document.getElementById("kpiProfissionais").textContent = profsUnicos;
-        document.getElementById("kpiMedia").textContent = media;
-        document.getElementById("kpiLider").textContent = lider;
-        document.getElementById("kpiRetorno").textContent = `${percRetorno}%`;
+        kpiVagas.textContent = totalVagas;
+        kpiProfs.textContent = profsUnicos;
+        kpiMedia.textContent = media;
+        kpiLider.textContent = lider;
+        kpiLider.title = lider; 
+        kpiRetorno.textContent = `${percRetorno}%`;
     }
     
     /* [LOGICA] Funcao de Filtro Mensal */
