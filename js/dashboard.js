@@ -28,17 +28,50 @@ document.addEventListener("DOMContentLoaded", () => {
         return valor;
     }
 
-    /* [LOGICA] Funcao para Atualizar os Cards (KPIs) */
+    /* [LOGICA] Funcao para Atualizar os Cards (KPIs) - Versão com % Retorno */
     function atualizarCards(dadosFiltrados) {
-        const totalVagas = dadosFiltrados.reduce((acc, item) => acc + (Number(item.vagas) || 0), 0);
+        if (!dadosFiltrados || dadosFiltrados.length === 0) {
+            document.getElementById("kpiVagas").textContent = "0";
+            document.getElementById("kpiProfissionais").textContent = "0";
+            document.getElementById("kpiMedia").textContent = "0";
+            document.getElementById("kpiLider").textContent = "-";
+            document.getElementById("kpiRetorno").textContent = "0%";
+            return;
+        }
+
+        let totalVagas = 0;
+        let vagasRetorno = 0;
+        const cpfs = new Set();
+        const contagemProcs = {};
+
+        dadosFiltrados.forEach(item => {
+            const qtdVagas = Number(item.vagas) || 0;
+            totalVagas += qtdVagas;
+            
+            // Identifica se é retorno (busca no procedimento ou exames)
+            const desc = ((item.procedimento || "") + (item.exames || "")).toUpperCase();
+            if (desc.includes("RETORNO")) {
+                vagasRetorno += qtdVagas;
+            }
+
+            if (item.cpf) cpfs.add(item.cpf);
+            
+            const nomeProc = item.procedimento || "N/I";
+            contagemProcs[nomeProc] = (contagemProcs[nomeProc] || 0) + 1;
+        });
+
+        const profsUnicos = cpfs.size;
+        const media = profsUnicos > 0 ? (totalVagas / profsUnicos).toFixed(1) : 0;
+        const lider = Object.keys(contagemProcs).reduce((a, b) => contagemProcs[a] > contagemProcs[b] ? a : b);
         
-        // Contagem de itens unicos usando Set
-        const profsUnicos = new Set(dadosFiltrados.map(item => item.cpf)).size;
-        const procsUnicos = new Set(dadosFiltrados.map(item => item.cod_procedimento)).size;
+        // Cálculo da Porcentagem
+        const percRetorno = totalVagas > 0 ? ((vagasRetorno / totalVagas) * 100).toFixed(1) : 0;
 
         document.getElementById("kpiVagas").textContent = totalVagas;
         document.getElementById("kpiProfissionais").textContent = profsUnicos;
-        document.getElementById("kpiProcedimentos").textContent = procsUnicos;
+        document.getElementById("kpiMedia").textContent = media;
+        document.getElementById("kpiLider").textContent = lider;
+        document.getElementById("kpiRetorno").textContent = `${percRetorno}%`;
     }
     
     /* [LOGICA] Funcao de Filtro Mensal */
