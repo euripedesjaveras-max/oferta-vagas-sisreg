@@ -8,50 +8,107 @@
   <link rel="stylesheet" href="css/theme.css">
   <style>
     body { background: #f4f7f6; font-family: 'Inter', sans-serif; margin: 0; color: #333; }
-    .app-header { background: var(--am-blue); color: white; padding: 1.2rem 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-bottom: 4px solid var(--am-red); }
+    
+    /* Header Amazonas */
+    .app-header { 
+      background: var(--am-blue); 
+      color: white; 
+      padding: 1.2rem 2rem; 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+      border-bottom: 4px solid var(--am-red); 
+    }
     .app-header h1 { margin: 0; font-size: 1.4rem; font-weight: 600; }
-    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-    .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 30px; border-top: 5px solid var(--am-blue); }
-    .card h2 { margin-top: 0; font-size: 1.2rem; color: var(--am-blue); border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 25px; }
 
-    /* Ajuste de Grid e Gap do Formulário */
-    #formEscala { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; }
+    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+    
+    .card { 
+      background: white; 
+      padding: 30px; 
+      border-radius: 12px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+      margin-bottom: 30px; 
+      border-top: 5px solid var(--am-blue); 
+    }
+    .card h2 { 
+      margin-top: 0; 
+      font-size: 1.2rem; 
+      color: var(--am-blue); 
+      border-bottom: 1px solid #eee; 
+      padding-bottom: 10px; 
+      margin-bottom: 25px; 
+    }
+
+    /* FORMULÁRIO: Melhoria de Espaçamento (Gap) */
+    #formEscala { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+      gap: 25px; 
+    }
     .campo { display: flex; flex-direction: column; }
     .campo.full { grid-column: 1 / -1; }
     .campo.campo-relativo { position: relative; }
     .campo label { font-size: 0.85rem; font-weight: 600; color: var(--am-blue); margin-bottom: 8px; }
-    .campo input { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; transition: 0.2s; }
-    .campo input:focus { border-color: var(--am-blue); box-shadow: 0 0 0 3px rgba(26,42,108,0.1); outline: none; }
-
-    .autocomplete { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ddd; z-index: 100; max-height: 200px; overflow-y: auto; }
-
-    /* Estilização dos Botões de Ação */
-    .btn-acao { background: var(--am-blue); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; width: 100%; }
-    .btn-acao:hover { background: var(--am-green); transform: translateY(-2px); }
     
-    /* Botão Exportar CSV com o novo padrão */
-    .btn-export { 
+    .campo input { 
+      padding: 12px; 
+      border: 1px solid #ddd; 
+      border-radius: 8px; 
+      font-family: inherit; 
+      transition: 0.2s; 
+    }
+    .campo input:focus { 
+      border-color: var(--am-blue); 
+      box-shadow: 0 0 0 3px rgba(26,42,108,0.1); 
+      outline: none; 
+    }
+
+    .autocomplete { 
+      position: absolute; top: 100%; left: 0; right: 0; 
+      background: white; border: 1px solid #ddd; z-index: 100; 
+      max-height: 200px; overflow-y: auto; 
+    }
+
+    /* BOTÕES PADRONIZADOS */
+    .btn-acao { 
       background: var(--am-blue); 
       color: white; 
       border: none; 
-      padding: 14px 24px; 
+      padding: 14px; 
       border-radius: 8px; 
       font-weight: 700; 
       cursor: pointer; 
-      margin-bottom: 20px; 
-      width: 100%; 
-      transition: 0.3s;
+      transition: 0.3s; 
+      width: 100%;
     }
-    .btn-export:hover { background: var(--am-green); }
+    .btn-acao:hover { background: var(--am-green); transform: translateY(-2px); }
+    
+    /* Botão Exportar (Estilo aplicado via classe para evitar conflito de ID) */
+    .btn-exportar-estilo { 
+      background: var(--am-blue) !important; 
+      color: white !important; 
+      border: none !important; 
+      padding: 14px 24px !important; 
+      border-radius: 8px !important; 
+      font-weight: 700 !important; 
+      cursor: pointer !important; 
+      margin-bottom: 20px !important; 
+      width: 100% !important; 
+      transition: 0.3s !important;
+      display: block !important;
+    }
+    .btn-exportar-estilo:hover { background: var(--am-green) !important; }
 
+    /* TABELA */
     .table-wrapper { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     thead th { background: var(--am-blue); color: white; padding: 12px; text-align: left; }
     tbody td { padding: 12px; border-bottom: 1px solid #eee; }
+    
     footer { text-align: center; padding: 20px; color: #888; font-size: 0.8rem; }
   </style>
 </head>
 <body>
+
 <header class="app-header">
   <div style="display:flex;justify-content:space-between;align-items:center;">
     <h1>SISREG – Escala de Agendas</h1>
@@ -63,33 +120,81 @@
   <section class="card">
     <h2>Nova Escala</h2>
     <form id="formEscala">
-      <div class="campo"><label>CPF do Profissional</label><input type="text" id="cpfInput" maxlength="11" required></div>
-      <div class="campo campo-relativo"><label>Nome do Profissional</label><input type="text" id="nomeInput" autocomplete="off" required><div id="listaNomes" class="autocomplete"></div><div id="avisoInativo" style="display:none;color:var(--am-red);font-size:12px;margin-top:4px;font-weight:bold;">🔔 Profissional INATIVO</div></div>
-      <div class="campo campo-relativo"><label>Procedimento</label><input type="text" id="procedimentoInput" autocomplete="off" required><div id="listaProcedimentos" class="autocomplete"></div></div>
-      <div class="campo"><label>Exames</label><input type="text" id="examesInput" placeholder="Separe por ;" disabled required></div>
-      <div class="campo"><label>Dias da Semana</label><input type="text" id="dias" placeholder="SEG TER QUA" required></div>
-      <div class="campo"><label>Hora de Entrada</label><input type="time" id="horaInicio" required></div>
-      <div class="campo"><label>Hora de Saída</label><input type="time" id="horaFim" required></div>
-      <div class="campo"><label>Vagas</label><input type="number" id="vagas" min="1" required></div>
-      <div class="campo"><label>Vigência Inicial</label><input type="date" id="vigenciaInicio" required></div>
-      <div class="campo"><label>Vigência Final</label><input type="date" id="vigenciaFim" required></div>
-      <div class="campo full"><button type="submit" class="btn-acao">Inserir Escala</button></div>
+      <div class="campo">
+        <label>CPF do Profissional</label>
+        <input type="text" id="cpfInput" maxlength="11" required>
+      </div>
+      <div class="campo campo-relativo">
+        <label>Nome do Profissional</label>
+        <input type="text" id="nomeInput" autocomplete="off" required>
+        <div id="listaNomes" class="autocomplete"></div>
+        <div id="avisoInativo" style="display:none;color:var(--am-red);font-size:12px;margin-top:4px;font-weight:bold;">🔔 Profissional INATIVO</div>
+      </div>
+      <div class="campo campo-relativo">
+        <label>Procedimento</label>
+        <input type="text" id="procedimentoInput" autocomplete="off" required>
+        <div id="listaProcedimentos" class="autocomplete"></div>
+      </div>
+      <div class="campo">
+        <label>Exames</label>
+        <input type="text" id="examesInput" placeholder="Separe por ;" disabled required>
+      </div>
+      <div class="campo">
+        <label>Dias da Semana</label>
+        <input type="text" id="dias" placeholder="SEG TER QUA" required>
+      </div>
+      <div class="campo">
+        <label>Hora de Entrada</label>
+        <input type="time" id="horaInicio" required>
+      </div>
+      <div class="campo">
+        <label>Hora de Saída</label>
+        <input type="time" id="horaFim" required>
+      </div>
+      <div class="campo">
+        <label>Vagas</label>
+        <input type="number" id="vagas" min="1" required>
+      </div>
+      <div class="campo">
+        <label>Vigência Inicial</label>
+        <input type="date" id="vigenciaInicio" required>
+      </div>
+      <div class="campo">
+        <label>Vigência Final</label>
+        <input type="date" id="vigenciaFim" required>
+      </div>
+      <div class="campo full">
+        <button type="submit" class="btn-acao">Inserir Escala</button>
+      </div>
     </form>
   </section>
 
   <section class="card">
     <h2>Escalas Inseridas</h2>
-    <button id="btnExportarCSV" class="btn-export">Exportar CSV e Finalizar Escalas</button>
     
+    <div id="containerExportar">
+      <button id="btnExportarCSV" class="btn-exportar-estilo">Exportar CSV e Finalizar Escalas</button>
+    </div>
+
     <div class="table-wrapper">
       <table id="tabelaEscalas">
         <thead>
           <tr>
-            <th>CPF</th><th>Profissional</th><th>Procedimento</th><th>Exames</th><th>Dias</th>
-            <th>Entrada</th><th>Saída</th><th>Vagas</th><th>Vig. Início</th><th>Vig. Fim</th><th>Ação</th>
+            <th>CPF</th>
+            <th>Profissional</th>
+            <th>Procedimento</th>
+            <th>Exames</th>
+            <th>Dias</th>
+            <th>Entrada</th>
+            <th>Saída</th>
+            <th>Vagas</th>
+            <th>Vig. Início</th>
+            <th>Vig. Fim</th>
+            <th>Ação</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          </tbody>
       </table>
     </div>
   </section>
@@ -98,10 +203,28 @@
 <footer id="footerCreditos"></footer>
 
 <script src="js/escalas.js"></script>
+
 <script>
+  /* 1. Carregar Créditos */
   fetch("data/config.json").then(r => r.json()).then(d => {
     document.getElementById("footerCreditos").innerHTML = `© ${d.ano} - <strong>${d.sistema}</strong> | ${d.desenvolvedor}`;
   });
+
+  /* 2. Correção de segurança para o Botão não duplicar e funcionar */
+  window.onload = function() {
+    // Se o JS criou um segundo botão, removemos o manual.
+    // Se o JS não criou, o nosso manual assume o comando.
+    const botoes = document.querySelectorAll('button');
+    let encontrado = 0;
+    botoes.forEach(btn => {
+      if(btn.innerText.includes("Exportar CSV")) {
+        encontrado++;
+        if(encontrado > 1) btn.remove(); // Remove o duplicado
+        btn.classList.add("btn-exportar-estilo"); // Garante a cor Azul Oxford
+      }
+    });
+  };
 </script>
+
 </body>
 </html>
