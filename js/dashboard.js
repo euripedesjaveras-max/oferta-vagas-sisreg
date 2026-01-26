@@ -4,25 +4,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const URL_API = "https://script.google.com/macros/s/AKfycbzrzuSOFKgHFbLpjKOpGqzK7gAAIK3ucbDYgsTvDi1RoFcClepilJwRtF0GTFteOFjfBQ/exec";
     const UNIDADE = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
     
-    let dadosCompletos = [];
     let charts = {};
 
-    // --- CARREGAR CRÉDITOS CENTRALIZADOS ---
+    // --- 1. CARREGAR CRÉDITOS (Ajustado para garantir exibição) ---
     fetch("data/config.json")
         .then(r => r.json())
         .then(c => {
-            document.getElementById("footerCreditos").innerHTML = `
-                <p>© ${c.ano} - ${c.sistema}</p>
-                <p>Desenvolvido por: <strong>${c.desenvolvedor}</strong> • ${c.detalhes}</p>
-            `;
-        }).catch(() => console.log("Arquivo config.json não encontrado."));
+            const footer = document.getElementById("footerCreditos");
+            if (footer) {
+                footer.innerHTML = `
+                    <p>© ${c.ano} - ${c.sistema}</p>
+                    <p>Desenvolvido por: <strong>${c.desenvolvedor}</strong> • ${c.detalhes}</p>
+                `;
+            }
+        }).catch(err => console.error("Erro ao carregar créditos:", err));
 
     document.getElementById("txtUnidade").textContent = UNIDADE;
 
-    // --- FUNÇÃO DE SINCRONISMO (SOMENTE NO CLIQUE) ---
+    // --- 2. SINCRONISMO (Lê do Sheets e joga na Tabela) ---
     async function sincronizar() {
         const btn = document.getElementById("btnSincronizar");
-        btn.textContent = "⌛ Conectando...";
+        btn.textContent = "⌛ Sincronizando...";
         btn.disabled = true;
 
         try {
@@ -30,92 +32,134 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await resp.json();
 
             if (result.status === "OK") {
-                dadosCompletos = result.dados;
-                localStorage.setItem(`cache_${UNIDADE}`, JSON.stringify(dadosCompletos));
-                
-                popularFiltroProfissionais();
-                atualizarInterface(); 
+                localStorage.setItem(`cache_${UNIDADE}`, JSON.stringify(result.dados));
+                renderizarTabela(result.dados);
+                popularFiltroProfissionais(result.dados);
+                aplicarFiltros(); // Filtra e atualiza gráficos após sincronizar
                 
                 document.getElementById("kpiStatus").textContent = "Nuvem";
-                alert("Sincronização concluída!");
+                alert("Dados sincronizados com sucesso!");
             }
         } catch (e) {
-            alert("Erro ao ler dados do Sheets.");
+            alert("Erro na comunicação com o Sheets.");
         } finally {
             btn.textContent = "🔄 Sincronizar Sheets";
             btn.disabled = false;
         }
     }
 
-    // --- ATUALIZAÇÃO DA TELA (Tabela Geral + Gráficos Filtrados) ---
-    function atualizarInterface() {
-        const mesSel = document.getElementById("selMes").value;
-        const anoSel = document.getElementById("inpAno").value;
-        const profSel = document.getElementById("selProfissional").value;
-
-        // 1. FILTRAR DADOS APENAS PARA GRÁFICOS E KPIS
-        const filtradosParaGraficos = dadosCompletos.filter(d => {
-            if (!d.vigencia_inicio) return false;
-            const dataV = new Date(d.vigencia_inicio + "T00:00:00");
-            const matchMes = mesSel === "all" || dataV.getMonth() == mesSel;
-            const matchAno = dataV.getFullYear() == anoSel;
-            const matchProf = profSel === "all" || d.profissional === profSel;
-            return matchMes && matchAno && matchProf;
-        });
-
-        // 2. PREENCHER TABELA (MOSTRA TUDO SEM FILTRO - Regra solicitada)
+    // --- 3. RENDERIZAR TABELA (A fonte de dados) ---
+    function renderizarTabela(dados) {
         const tbody = document.querySelector("#tabEscalas tbody");
-        tbody.innerHTML = dadosCompletos.map(d => `
-            <tr>
+        tbody.innerHTML = dados.map(d => `
+            <tr class="linha-dados" 
+                data-prof="${d.profissional}" 
+                data-vigencia="${d.vigencia_inicio}"
+                data-vagas="${d.vagas}"
+                data-dias="${d.dias_semana}">
                 <td><strong>${d.profissional}</strong></td>
                 <td>${d.procedimento}</td>
                 <td>${d.dias_semana}</td>
                 <td>${d.hora_inicio}</td>
                 <td>${d.hora_fim}</td>
-                <td>${d.vagas}</td>
+                <td class="col-vagas">${d.vagas}</td>
                 <td>${d.vigencia_inicio}</td>
             </tr>
-        `).join('') || "<tr><td colspan='7'>Nenhum dado. Clique em sincronizar.</td></tr>";
-
-        // 3. ATUALIZAR GRÁFICOS E KPIS COM OS FILTRADOS
-        document.getElementById("kpiVagas").textContent = filtradosParaGraficos.reduce((a, b) => a + (parseInt(b.vagas) || 0), 0);
-        document.getElementById("kpiProc").textContent = [...new Set(filtradosParaGraficos.map(d => d.procedimento))].length;
-        document.getElementById("kpiProf").textContent = [...new Set(filtradosParaGraficos.map(d => d.profissional))].length;
-
-        desenharGraficos(filtradosParaGraficos);
+        `).join('');
     }
 
-    function desenharGraficos(dados) {
-        // Gráfico Profissional
-        const profMap = {};
-        dados.forEach(d => profMap[d.profissional] = (profMap[d.profissional] || 0) + (parseInt(d.vagas) || 0));
+    // --- 4. APLICAR FILTROS NA TABELA ---
+    function aplicarFiltros() {
+        const mesSel = document.getElementById("selMes").value;
+        const anoSel = document.getElementById("inpAno").value;
+        const profSel = document.getElementById("selProfissional").value;
+        
+        const linhas = document.querySelectorAll(".linha-dados");
 
-        if(charts.p) charts.p.destroy();
-        charts.p = new Chart(document.getElementById('chartProf'), {
-            type: 'bar',
-            data: { labels: Object.keys(profMap), datasets: [{ label: 'Vagas', data: Object.values(profMap), backgroundColor: '#1a2a6c' }] },
-            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
+        linhas.forEach(tr => {
+            const dataV = new Date(tr.dataset.vigencia + "T00:00:00");
+            const prof = tr.dataset.prof;
+
+            const matchMes = mesSel === "all" || dataV.getMonth() == mesSel;
+            const matchAno = dataV.getFullYear() == anoSel;
+            const matchProf = profSel === "all" || prof === profSel;
+
+            if (matchMes && matchAno && matchProf) {
+                tr.style.display = ""; // Mostra
+            } else {
+                tr.style.display = "none"; // Esconde
+            }
         });
 
-        // Gráfico Dias
+        atualizarGraficosDosVisiveis();
+    }
+
+    // --- 5. LER TABELA LOCAL E ATUALIZAR GRÁFICOS ---
+    function atualizarGraficosDosVisiveis() {
+        const linhasVisiveis = Array.from(document.querySelectorAll(".linha-dados")).filter(tr => tr.style.display !== "none");
+        
+        const profMap = {};
         const diasRef = { 'Seg': 0, 'Ter': 0, 'Qua': 0, 'Qui': 0, 'Sex': 0 };
-        dados.forEach(d => {
+        let totalVagas = 0;
+        let procedimentos = new Set();
+        let profissionais = new Set();
+
+        linhasVisiveis.forEach(tr => {
+            const vagas = parseInt(tr.dataset.vagas) || 0;
+            const prof = tr.dataset.prof;
+            const dias = tr.dataset.dias;
+            const proc = tr.children[1].textContent;
+
+            // Acumular Vagas
+            totalVagas += vagas;
+            profissionais.add(prof);
+            procedimentos.add(proc);
+
+            // Mapa para Gráfico de Barras
+            profMap[prof] = (profMap[prof] || 0) + vagas;
+
+            // Mapa para Gráfico de Dias
             ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'].forEach(dia => {
-                if (d.dias_semana.includes(dia)) diasRef[dia] += (parseInt(d.vagas) || 0);
+                if (dias.includes(dia)) diasRef[dia] += vagas;
             });
         });
 
+        // Atualizar KPIs
+        document.getElementById("kpiVagas").textContent = totalVagas;
+        document.getElementById("kpiProc").textContent = procedimentos.size;
+        document.getElementById("kpiProf").textContent = profissionais.size;
+
+        // Renderizar Gráficos
+        desenharCharts(profMap, diasRef);
+    }
+
+    function desenharCharts(profData, diasData) {
+        // Profissionais
+        if(charts.p) charts.p.destroy();
+        charts.p = new Chart(document.getElementById('chartProf'), {
+            type: 'bar',
+            data: { 
+                labels: Object.keys(profData), 
+                datasets: [{ label: 'Vagas', data: Object.values(profData), backgroundColor: '#1a2a6c' }]
+            },
+            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
+        });
+
+        // Distribuição Semanal
         if(charts.d) charts.d.destroy();
         charts.d = new Chart(document.getElementById('chartDias'), {
             type: 'doughnut',
-            data: { labels: Object.keys(diasRef), datasets: [{ data: Object.values(diasRef), backgroundColor: ['#1a2a6c', '#b21f1f', '#fdbb2d', '#4CAF50', '#2196F3'] }] },
+            data: { 
+                labels: Object.keys(diasData), 
+                datasets: [{ data: Object.values(diasData), backgroundColor: ['#1a2a6c', '#b21f1f', '#fdbb2d', '#4CAF50', '#2196F3'] }]
+            },
             options: { responsive: true, maintainAspectRatio: false }
         });
     }
 
-    function popularFiltroProfissionais() {
+    function popularFiltroProfissionais(dados) {
         const select = document.getElementById("selProfissional");
-        const profs = [...new Set(dadosCompletos.map(d => d.profissional))].sort();
+        const profs = [...new Set(dados.map(d => d.profissional))].sort();
         select.innerHTML = '<option value="all">Todos</option>';
         profs.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`);
     }
@@ -124,20 +168,22 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btnSincronizar").onclick = sincronizar;
     document.getElementById("btnLogout").onclick = () => {
         if(confirm("Deseja sair?")) {
-            localStorage.removeItem("unidade_selecionada");
+            localStorage.clear();
             window.location.href = "index.html";
         }
     };
     
-    document.getElementById("selMes").onchange = atualizarInterface;
-    document.getElementById("inpAno").oninput = atualizarInterface;
-    document.getElementById("selProfissional").onchange = atualizarInterface;
+    document.getElementById("selMes").onchange = aplicarFiltros;
+    document.getElementById("inpAno").oninput = aplicarFiltros;
+    document.getElementById("selProfissional").onchange = aplicarFiltros;
 
-    // CARGA INICIAL: SÓ CACHE
+    // CARGA INICIAL DO CACHE
     const cache = localStorage.getItem(`cache_${UNIDADE}`);
     if (cache) {
-        dadosCompletos = JSON.parse(cache);
-        popularFiltroProfissionais();
-        atualizarInterface();
+        const dados = JSON.parse(cache);
+        dadosCompletos = dados;
+        renderizarTabela(dados);
+        popularFiltroProfissionais(dados);
+        aplicarFiltros();
     }
 });
