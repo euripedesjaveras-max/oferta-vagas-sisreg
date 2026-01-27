@@ -156,7 +156,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function limparTexto(txt) { return txt ? txt.replace(/"/g, "").trim() : ""; }
   function obterCodigo(p) { return p.cod_int || p["cod int"] || ""; }
 
-  fetch("data/profissionais.json").then(r => r.json()).then(d => profissionais = d);
+  fetch("data/profissionais.json").then(r => r.json())
+    
+    .then(d => {
+        // Filtro de profissionais por unidade
+        profissionais = d.filter(p => p.unidade === UNIDADE_ATUAL);
+    });
+  
   fetch("data/procedimentos_exames.json").then(r => r.json()).then(d => procedimentos = d);
 
   cpfInput.addEventListener("blur", () => {
@@ -165,7 +171,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (prof) {
       profissionalSelecionado = prof;
       nomeInput.value = prof.nome;
-      if (prof.ativo === "INATIVO") avisoInativo.style.display = "block";
+      if (prof.status === "INATIVO") {
+        avisoInativo.style.display = "block";
+      }
     }
   });
 
@@ -173,14 +181,15 @@ document.addEventListener("DOMContentLoaded", () => {
     listaNomes.innerHTML = "";
     const termo = nomeInput.value.toLowerCase();
     if (termo.length < 2) { listaNomes.style.display = "none"; return; }
-    profissionais.filter(p => p.nome.toLowerCase().includes(termo)).slice(0, 10).forEach(p => {
+    profissionais.filter(p => p.status === "ATIVO").filter(p => p.nome.toLowerCase().includes(termo))
+      .slice(0, 10).forEach(p => {
       const div = document.createElement("div");
       div.textContent = `${p.nome} (${p.cpf})`;
       div.onclick = () => {
         profissionalSelecionado = p;
         cpfInput.value = p.cpf;
         nomeInput.value = p.nome;
-        avisoInativo.style.display = p.ativo === "INATIVO" ? "block" : "none";
+        avisoInativo.style.display = p.status === "INATIVO" ? "block" : "none";
         listaNomes.style.display = "none";
       };
       listaNomes.appendChild(div);
