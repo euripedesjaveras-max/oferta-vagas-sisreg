@@ -234,7 +234,8 @@
     pdf.addImage(img, "PNG", 0, 10, w, h);
     pdf.save(`Dashboard_${document.getElementById("txtUnidade").textContent}.pdf`);
   };
-
+</script>
+<script>
   fetch("data/config.json").then(r => r.json()).then(d => {
     document.getElementById("footerCreditos").innerHTML = `© ${d.ano} - <strong>${d.sistema}</strong> | ${d.desenvolvedor}`;
   });
