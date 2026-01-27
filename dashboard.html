@@ -26,6 +26,25 @@ Este HTML só garante: estrutura, IDs corretos, tabela oculta, botões (sync/pdf
     body{ margin:0; font-family:'Inter',sans-serif; }
     #secTabela{ display:none; }
     .full-width{ grid-column: 1 / -1; }
+
+    /* [AJUSTE] Botão "Ver Tabela" dentro do card Insights */
+    #cardInsights .card-head{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    
+    /* override do .card h3 (pra não dar margem duplicada) */
+    #cardInsights .card-head h3{
+      margin: 0;
+    }
+    
+    #cardInsights #btnToggleTabela{
+      white-space: nowrap;
+    }
+
   </style>
 </head>
 
@@ -93,11 +112,6 @@ Este HTML só garante: estrutura, IDs corretos, tabela oculta, botões (sync/pdf
       </div>
     </section>
 
-    <!-- AÇÕES -->
-    <section class="actions-bar">
-      <button class="btn btn-toggle" id="btnToggleTabela">📋 Ver Tabela</button>
-    </section>
-
     <!-- GRID DE GRÁFICOS -->
     <section class="dashboard-grid">
 
@@ -131,10 +145,14 @@ Este HTML só garante: estrutura, IDs corretos, tabela oculta, botões (sync/pdf
         <canvas id="chartLinha"></canvas>
       </div>
 
-      <div class="card full-width">
-        <h3>🧠 Insights Automáticos</h3>
+      <div class="card full-width" id="cardInsights">
+        <div class="card-head">
+          <h3>🧠 Insights Automáticos</h3>
+          <button class="btn btn-toggle" id="btnToggleTabela">📋 Ver Tabela</button>
+        </div>
         <ul id="listaInsights"></ul>
       </div>
+
 
       <!-- (Opcional) se seu JS da Fase 3 usar KPI de média, mantenha este id (não quebra se não usar) -->
       <span id="kpiMedia" style="display:none;"></span>
@@ -169,10 +187,8 @@ Este HTML só garante: estrutura, IDs corretos, tabela oculta, botões (sync/pdf
   </main>
 
   <!-- FOOTER (dashboard.js preenche esse id) -->
-  <div style="display:flex;justify-content:space-between;align-items:center;">
-    <footer id="footerCreditos"></footer>
-  </div>
-
+  <footer id="footerCreditos"></footer>
+  
   <!-- Seu JS principal -->
   <script src="js/dashboard.js"></script>
 
