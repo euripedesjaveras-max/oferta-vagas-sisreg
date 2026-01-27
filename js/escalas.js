@@ -7,7 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // CONFIGURAÇÕES
   // =====================
   const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzrzuSOFKgHFbLpjKOpGqzK7gAAIK3ucbDYgsTvDi1RoFcClepilJwRtF0GTFteOFjfBQ/exec";
-  const UNIDADE_ATUAL = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE"; 
+  const UNIDADE_ATUAL = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
+
+  // [INSERÇÃO] Preenche a identificação da unidade na tela
+  const txtUnidade = document.getElementById("txtUnidade");
+  if (txtUnidade) txtUnidade.innerText = UNIDADE_ATUAL;
 
   let profissionais = [];
   let procedimentos = [];
