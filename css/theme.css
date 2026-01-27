@@ -326,31 +326,6 @@ tbody tr:hover{
   font-weight: 600;
 }
 
-/* ---------- Footer ---------- */
-footer{
-  width: min(1260px, calc(100% - 40px)) !important;
-  margin: 10px auto 18px auto !important;
-  background: transparent !important;
-  border-top: none !important;
-  color: rgba(0,0,0,.55) !important;
-  font-weight: 600;
-}
-
-/* ---------- Footer (centralizar texto) ---------- */
-footer{
-  text-align: center !important;
-}
-
-footer p{
-  margin: 0 !important;
-  text-align: center !important;
-}
-
-
-/* ---------- Pequenos ajustes de compatibilidade ---------- */
-a{ color: inherit; }
-a button{ cursor: pointer; }
-
 /* =========================================================
    PADRÃO UI (Base)
    ========================================================= */
@@ -510,26 +485,48 @@ body.login-page{
    FOOTER PADRÃO (reaproveitável)
    ========================================================= */
 
-.app-footer{
-  text-align: center;
-  padding: 12px;
-  font-size: .8rem;
-}
+      /* ---------- Footer ---------- */
+      footer{
+        width: min(1260px, calc(100% - 40px)) !important;
+        margin: 10px auto 18px auto !important;
+        background: transparent !important;
+        border-top: none !important;
+        color: rgba(0,0,0,.55) !important;
+        font-weight: 600;
+      /* ---------- Footer (centralizar texto) ---------- */
+        text-align: center !important;
+      }
+      
+      footer p{
+        margin: 0 !important;
+        text-align: center !important;
+      }
 
-.app-footer--login{
-  width: 100%;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  color: rgba(255,255,255,.85);
-}
+      /* ---------- Pequenos ajustes de compatibilidade ---------- */
+      a{ color: inherit; }
+      a button{ cursor: pointer; }
 
-.app-footer--login strong{
-  color: var(--am-yellow);
-}
+      .app-footer{
+        text-align: center;
+        padding: 12px;
+        font-size: .8rem;
+      }
+      
+      .app-footer--login{
+        width: 100%;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        color: rgba(255,255,255,.85);
+      }
+      
+      .app-footer--login strong{
+        color: var(--am-yellow);
+      }
 
 /* Responsivo */
 @media (max-width: 420px){
   .login-card{ padding: 28px; }
   .login-brand__text h1{ font-size: 1.55rem; }
 }
+
