@@ -335,6 +335,17 @@ footer{
   font-weight: 600;
 }
 
+/* ---------- Footer (centralizar texto) ---------- */
+footer{
+  text-align: center !important;
+}
+
+footer p{
+  margin: 0 !important;
+  text-align: center !important;
+}
+
+
 /* ---------- Pequenos ajustes de compatibilidade ---------- */
 a{ color: inherit; }
 a button{ cursor: pointer; }
