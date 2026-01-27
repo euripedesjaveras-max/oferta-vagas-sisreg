@@ -1,235 +1,431 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Escalas | Agenda SISREG</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/theme.css">
+
   <style>
-    body { background: #f4f7f6; font-family: 'Inter', sans-serif; margin: 0; color: #333; }
-    
-    /* Header Amazonas */
-    .app-header { 
-      background: var(--am-blue); 
-      color: white; 
-      padding: 1.2rem 2rem; 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-      border-bottom: 4px solid var(--am-red); 
-    }
-    .unit-info h1 { font-size: 1.2rem; color: white; margin: 0; }
-    .unit-info p { margin: 0; color: rgba(255,255,255,0.8); font-size: 0.8rem; }
-    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-    
-    .card { 
-      background: white; 
-      padding: 30px; 
-      border-radius: 12px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-      margin-bottom: 30px; 
-      border-top: 5px solid var(--am-blue); 
-    }
-    .card h2 { 
-      margin-top: 0; 
-      font-size: 1.2rem; 
-      color: var(--am-blue); 
-      border-bottom: 1px solid #eee; 
-      padding-bottom: 10px; 
-      margin-bottom: 25px; 
+    /* =========================================================
+       PÁGINA: ESCALAS (PADRÃO VISUAL DO DASHBOARD)
+       ========================================================= */
+    body{
+      background:#f4f7f6;
+      font-family:'Inter', sans-serif;
+      margin:0;
+      color:#333;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
     }
 
-    /* FORMULÁRIO: Melhoria de Espaçamento (Gap) */
-    #formEscala { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-      gap: 25px; 
+    /* Header no mesmo padrão do dashboard */
+    .dash-header{
+      background: var(--am-blue);
+      padding: 15px 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 12px;
+      border-bottom: 4px solid var(--am-red);
+      z-index: 10;
     }
-    .campo { display: flex; flex-direction: column; }
-    .campo.full { grid-column: 1 / -1; }
-    .campo.campo-relativo { position: relative; }
-    .campo label { font-size: 0.85rem; font-weight: 600; color: var(--am-blue); margin-bottom: 8px; }
-    
-    .campo input { 
-      padding: 12px; 
-      border: 1px solid #ddd; 
-      border-radius: 8px; 
-      font-family: inherit; 
-      transition: 0.2s; 
+    .unit-info h1{
+      font-size: 1.2rem;
+      color:#fff;
+      margin:0;
+      font-weight: 800;
+      letter-spacing: .2px;
     }
-    .campo input:focus { 
-      border-color: var(--am-blue); 
-      box-shadow: 0 0 0 3px rgba(26,42,108,0.1); 
-      outline: none; 
+    .unit-info p{
+      margin:0;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .header-btns{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
     }
 
-    .autocomplete { 
-      position: absolute; top: 100%; left: 0; right: 0; 
-      background: white; border: 1px solid #ddd; z-index: 100; 
-      max-height: 200px; overflow-y: auto; 
+    /* Botões alinhados ao padrão */
+    .btn-main{
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.9rem;
+      transition: 0.25s;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .btn-main:hover{ transform: translateY(-1px); }
+    .btn-back{ background: rgba(255,255,255,0.15); color:#fff; }
+    .btn-back:hover{ background: rgba(255,255,255,0.22); }
+    .btn-logout{ background:#fff; color: var(--am-red); }
+    .btn-logout:hover{ background: #fff; }
+
+    /* Container central (mesma “largura útil” do dashboard) */
+    .page{
+      width: min(1260px, calc(100% - 40px));
+      margin: 18px auto 0 auto;
+      flex: 1;
     }
 
-    /* BOTÕES PADRONIZADOS */
-    .btn-acao { 
-      background: var(--am-blue); 
-      color: white; 
-      border: none; 
-      padding: 14px; 
-      border-radius: 8px; 
-      font-weight: 700; 
-      cursor: pointer; 
-      transition: 0.3s; 
+    /* Cards padrão */
+    .card{
+      background:#fff;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.06);
+      margin-bottom: 18px;
+    }
+    .card h2{
+      margin: 0 0 14px 0;
+      font-size: 1.05rem;
+      color: var(--am-blue);
+      font-weight: 900;
+      letter-spacing: .2px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .card h2::before{
+      content:"";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--am-yellow);
+      box-shadow: 0 0 0 4px rgba(253,187,45,0.18);
+      display:inline-block;
+    }
+    .subtext{
+      margin: -6px 0 18px 0;
+      color: rgba(0,0,0,0.60);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Form grid */
+    #formEscala{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .campo{
+      display:flex;
+      flex-direction:column;
+      gap: 7px;
+      position: relative;
+      grid-column: span 4;
+      min-width: 0;
+    }
+    .campo.w6{ grid-column: span 6; }
+    .campo.w12{ grid-column: 1 / -1; }
+
+    .campo label{
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: var(--am-blue);
+    }
+    .campo input{
+      width: 100%;
+      padding: 12px 12px;
+      border: 2px solid rgba(0,0,0,0.08);
+      border-radius: 12px;
+      outline: none;
+      font-family: inherit;
+      transition: 0.2s;
+      background: #fff;
+      font-weight: 600;
+    }
+    .campo input:focus{
+      border-color: rgba(26,42,108,0.55);
+      box-shadow: 0 0 0 4px rgba(26,42,108,0.10);
+    }
+    .campo input:disabled{
+      background: rgba(0,0,0,0.03);
+      color: rgba(0,0,0,0.55);
+      cursor: not-allowed;
+    }
+
+    /* Autocomplete */
+    .autocomplete{
+      position:absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background:#fff;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.10);
+      max-height: 260px;
+      overflow:auto;
+      z-index: 50;
+      display:none; /* o JS controla */
+    }
+    .autocomplete div{
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 700;
+      color: rgba(0,0,0,0.80);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .autocomplete div:last-child{ border-bottom:none; }
+    .autocomplete div:hover{
+      background: rgba(26,42,108,0.06);
+    }
+
+    #avisoInativo{
+      display:none;
+      color: var(--am-red);
+      font-size: 12px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+
+    /* Ações do formulário */
+    .actions-row{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .btn-acao{
+      background: var(--am-blue);
+      color:#fff;
+      border:none;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.25s;
       width: 100%;
     }
-    .btn-acao:hover { background: var(--am-green); transform: translateY(-2px); }
-    
-    /* Botão Exportar (Estilo aplicado via classe para evitar conflito de ID) */
-    .btn-exportar-estilo { 
-      background: var(--am-blue) !important; 
-      color: white !important; 
-      border: none !important; 
-      padding: 14px 24px !important; 
-      border-radius: 8px !important; 
-      font-weight: 700 !important; 
-      cursor: pointer !important; 
-      margin-bottom: 20px !important; 
-      width: 100% !important; 
-      transition: 0.3s !important;
-      display: block !important;
-    }
-    .btn-exportar-estilo:hover { background: var(--am-green) !important; }
+    .btn-acao:hover{ background: var(--am-green); transform: translateY(-1px); }
 
-    /* TABELA */
-    .table-wrapper { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    thead th { background: var(--am-blue); color: white; padding: 12px; text-align: left; }
-    tbody td { padding: 12px; border-bottom: 1px solid #eee; }
-    
-    footer { text-align: center; padding: 20px; color: #888; font-size: 0.8rem; }
+    /* Bloco Exportar */
+    #btnExportarCSV{
+      background: var(--am-blue);
+      color:#fff;
+      border:none;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-weight: 900;
+      cursor:pointer;
+      width: 100%;
+      transition: 0.25s;
+      margin-bottom: 14px;
+    }
+    #btnExportarCSV:hover{ background: var(--am-green); transform: translateY(-1px); }
+
+    /* Tabela */
+    .table-wrapper{
+      overflow:auto;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      font-size: 0.9rem;
+    }
+    thead th{
+      position: sticky;
+      top: 0;
+      background: var(--am-blue);
+      color:#fff;
+      text-align:left;
+      padding: 12px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      z-index: 2;
+    }
+    tbody td{
+      padding: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    tbody tr:hover{
+      background: rgba(26,42,108,0.05);
+    }
+
+    /* Footer centralizado */
+    footer{
+      width: min(1260px, calc(100% - 40px));
+      margin: 10px auto 18px auto;
+      background: transparent;
+      border-top: none;
+      color: rgba(0,0,0,.55);
+      font-weight: 700;
+      text-align: center; /* centraliza créditos */
+    }
+
+    /* Responsivo */
+    @media (max-width: 980px){
+      #formEscala{ grid-template-columns: repeat(6, 1fr); }
+      .campo{ grid-column: span 6; }
+      .campo.w6{ grid-column: span 6; }
+      .dash-header{ align-items:flex-start; }
+    }
+    @media (max-width: 560px){
+      .page{ width: calc(100% - 24px); }
+      .dash-header{ padding: 14px 14px; }
+      .btn-main{ width: 100%; justify-content:center; }
+      .header-btns{ width: 100%; }
+    }
   </style>
 </head>
+
 <body>
 
-<header class="app-header">
-  <div style="display:flex;justify-content:space-between;align-items:center;">
+  <header class="dash-header">
     <div class="unit-info">
       <h1 id="txtUnidade">Carregando unidade...</h1>
-      <p>Lançamento de Escalas - <strong>SISREG Amazonas</strong></p>
-    </div>
-    <div>
-      <a href="dashboard.html" style="color:#fff;text-decoration:none;font-weight:500; font-size: 0.9rem;">⬅ Voltar ao Dashboard</a>
-    </div>
-  </div>
-</header>
-
-<main class="container">
-  <section class="card">
-    <h2>Nova Escala</h2>
-    <form id="formEscala">
-      <div class="campo">
-        <label>CPF do Profissional</label>
-        <input type="text" id="cpfInput" maxlength="11" required>
-      </div>
-      <div class="campo campo-relativo">
-        <label>Nome do Profissional</label>
-        <input type="text" id="nomeInput" autocomplete="off" required>
-        <div id="listaNomes" class="autocomplete"></div>
-        <div id="avisoInativo" style="display:none;color:var(--am-red);font-size:12px;margin-top:4px;font-weight:bold;">🔔 Profissional INATIVO</div>
-      </div>
-      <div class="campo campo-relativo">
-        <label>Procedimento</label>
-        <input type="text" id="procedimentoInput" autocomplete="off" required>
-        <div id="listaProcedimentos" class="autocomplete"></div>
-      </div>
-      <div class="campo">
-        <label>Exames</label>
-        <input type="text" id="examesInput" placeholder="Separe por ;" disabled required>
-      </div>
-      <div class="campo">
-        <label>Dias da Semana</label>
-        <input type="text" id="dias" placeholder="SEG TER QUA" required>
-      </div>
-      <div class="campo">
-        <label>Hora de Entrada</label>
-        <input type="time" id="horaInicio" required>
-      </div>
-      <div class="campo">
-        <label>Hora de Saída</label>
-        <input type="time" id="horaFim" required>
-      </div>
-      <div class="campo">
-        <label>Vagas</label>
-        <input type="number" id="vagas" min="1" required>
-      </div>
-      <div class="campo">
-        <label>Vigência Inicial</label>
-        <input type="date" id="vigenciaInicio" required>
-      </div>
-      <div class="campo">
-        <label>Vigência Final</label>
-        <input type="date" id="vigenciaFim" required>
-      </div>
-      <div class="campo full">
-        <button type="submit" class="btn-acao">Inserir Escala</button>
-      </div>
-    </form>
-  </section>
-
-  <section class="card">
-    <h2>Escalas Inseridas</h2>
-    
-    <div id="containerExportar">
-      <button id="btnExportarCSV" class="btn-exportar-estilo">Exportar CSV e Finalizar Escalas</button>
+      <p>Lançamento de Escalas • <strong>SISREG Amazonas</strong></p>
     </div>
 
-    <div class="table-wrapper">
-      <table id="tabelaEscalas">
-        <thead>
-          <tr>
-            <th>CPF</th>
-            <th>Profissional</th>
-            <th>Procedimento</th>
-            <th>Exames</th>
-            <th>Dias</th>
-            <th>Entrada</th>
-            <th>Saída</th>
-            <th>Vagas</th>
-            <th>Vig. Início</th>
-            <th>Vig. Fim</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody>
-          </tbody>
-      </table>
+    <div class="header-btns">
+      <a class="btn-main btn-back" href="dashboard.html">⬅ Voltar</a>
+      <button id="btnLogoutTopo" class="btn-main btn-logout" type="button">Sair</button>
     </div>
-  </section>
-</main>
+  </header>
 
-<footer id="footerCreditos"></footer>
+  <main class="page">
+    <section class="card">
+      <h2>Nova Escala</h2>
+      <p class="subtext">Preencha os dados e salve localmente. Depois, exporte e envie ao Sheets.</p>
 
-<script src="js/escalas.js"></script>
+      <form id="formEscala">
+        <div class="campo">
+          <label>CPF do Profissional</label>
+          <input type="text" id="cpfInput" maxlength="11" required />
+        </div>
 
-<script>
-  /* 1. Carregar Créditos */
-  fetch("data/config.json").then(r => r.json()).then(d => {
-    document.getElementById("footerCreditos").innerHTML = `© ${d.ano} - <strong>${d.sistema}</strong> | ${d.desenvolvedor}`;
-  });
+        <div class="campo w6">
+          <label>Nome do Profissional</label>
+          <input type="text" id="nomeInput" autocomplete="off" required />
+          <div id="listaNomes" class="autocomplete"></div>
+          <div id="avisoInativo">🔔 Profissional INATIVO</div>
+        </div>
 
-  /* 2. Correção de segurança para o Botão não duplicar e funcionar */
-  window.onload = function() {
-    // Se o JS criou um segundo botão, removemos o manual.
-    // Se o JS não criou, o nosso manual assume o comando.
-    const botoes = document.querySelectorAll('button');
-    let encontrado = 0;
-    botoes.forEach(btn => {
-      if(btn.innerText.includes("Exportar CSV")) {
-        encontrado++;
-        if(encontrado > 1) btn.remove(); // Remove o duplicado
-        btn.classList.add("btn-exportar-estilo"); // Garante a cor Azul Oxford
-      }
+        <div class="campo w6">
+          <label>Procedimento</label>
+          <input type="text" id="procedimentoInput" autocomplete="off" required />
+          <div id="listaProcedimentos" class="autocomplete"></div>
+        </div>
+
+        <div class="campo">
+          <label>Exames</label>
+          <input type="text" id="examesInput" placeholder="Separe por ;" disabled required />
+        </div>
+
+        <div class="campo">
+          <label>Dias da Semana</label>
+          <input type="text" id="dias" placeholder="SEG TER QUA" required />
+        </div>
+
+        <div class="campo">
+          <label>Hora de Entrada</label>
+          <input type="time" id="horaInicio" required />
+        </div>
+
+        <div class="campo">
+          <label>Hora de Saída</label>
+          <input type="time" id="horaFim" required />
+        </div>
+
+        <div class="campo">
+          <label>Vagas</label>
+          <input type="number" id="vagas" min="1" required />
+        </div>
+
+        <div class="campo">
+          <label>Vigência Inicial</label>
+          <input type="date" id="vigenciaInicio" required />
+        </div>
+
+        <div class="campo">
+          <label>Vigência Final</label>
+          <input type="date" id="vigenciaFim" required />
+        </div>
+
+        <div class="campo w12">
+          <button type="submit" class="btn-acao">Inserir Escala</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Escalas Inseridas</h2>
+      <p class="subtext">Itens salvos no navegador. Ao finalizar, exporte e envie para a nuvem.</p>
+
+      <button id="btnExportarCSV" type="button">Exportar CSV e Finalizar Escalas</button>
+
+      <div class="table-wrapper">
+        <table id="tabelaEscalas">
+          <thead>
+            <tr>
+              <th>CPF</th>
+              <th>Profissional</th>
+              <th>Procedimento</th>
+              <th>Exames</th>
+              <th>Dias</th>
+              <th>Entrada</th>
+              <th>Saída</th>
+              <th>Vagas</th>
+              <th>Vig. Início</th>
+              <th>Vig. Fim</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footerCreditos"></footer>
+
+  <script src="js/escalas.js"></script>
+
+  <script>
+    // Ajusta título/unidade (sem mexer no escalas.js)
+    document.addEventListener("DOMContentLoaded", () => {
+      const unidade = localStorage.getItem("unidade_selecionada") || "AGENDA TESTE";
+      const el = document.getElementById("txtUnidade");
+      if (el) el.textContent = unidade;
+
+      // Créditos
+      fetch("data/config.json")
+        .then(r => r.json())
+        .then(d => {
+          const f = document.getElementById("footerCreditos");
+          if (f) f.innerHTML = `© ${d.ano} - <strong>${d.sistema}</strong> | ${d.desenvolvedor}`;
+        })
+        .catch(() => {});
+      
+      // Logout topo (mesmo comportamento do dashboard: volta para index)
+      const btn = document.getElementById("btnLogoutTopo");
+      if (btn) btn.onclick = () => window.location.href = "index.html";
     });
-  };
-</script>
+  </script>
 
 </body>
 </html>
