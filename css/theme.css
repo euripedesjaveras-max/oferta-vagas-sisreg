@@ -12,6 +12,7 @@
   --am-red:  #e24a3b;
   --am-yellow:#f2b01e;
   --am-green:#39a84b;
+  --am-white:#ffffff;
 
   --bg: #e9edf3;
   --card:#ffffff;
@@ -349,3 +350,186 @@ footer p{
 /* ---------- Pequenos ajustes de compatibilidade ---------- */
 a{ color: inherit; }
 a button{ cursor: pointer; }
+
+/* =========================================================
+   PADRÃO UI (Base)
+   ========================================================= */
+
+*{ box-sizing: border-box; }
+
+body{
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Botões padrão */
+.btn{
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: .2s ease;
+}
+
+.btn:disabled{
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+.btn-block{
+  width: 100%;
+}
+
+.btn-primary{
+  background: var(--am-blue);
+  color: #fff;
+  border-bottom: 4px solid rgba(0,0,0,.25);
+  padding: 14px 16px;
+  font-size: 1rem;
+}
+
+.btn-primary:hover{
+  background: var(--am-green);
+  transform: translateY(-2px);
+}
+
+/* Inputs padrão */
+.form-group{
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.form-group label{
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: .85rem;
+  color: var(--am-blue);
+}
+
+.form-group input,
+.form-group select{
+  width: 100%;
+  padding: 12px 12px;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  outline: none;
+  font: inherit;
+  transition: .2s ease;
+  background: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+  border-color: var(--am-blue);
+}
+
+/* Mensagem de erro */
+.form-error{
+  display: none; /* login.js pode ligar quando houver erro */
+  margin-top: 14px;
+  font-weight: 800;
+  font-size: .85rem;
+  color: var(--am-red);
+}
+
+/* =========================================================
+   LOGIN PAGE (Padrão Visual)
+   ========================================================= */
+
+body.login-page{
+  background: var(--am-blue);
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.login-container{
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.login-brand{
+  margin-bottom: 28px;
+  color: #fff;
+}
+
+.login-brand__icon{
+  background: var(--am-white);
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.30);
+}
+
+.login-brand__icon svg{
+  stroke: var(--am-blue);
+}
+
+.login-brand__text h1{
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  font-weight: 800;
+  text-shadow: 0 2px 4px rgba(0,0,0,.2);
+  margin: 0;
+}
+
+.login-brand__text p{
+  margin: 6px 0 0;
+  font-size: .9rem;
+  opacity: .9;
+  font-weight: 300;
+}
+
+.login-card{
+  background: rgba(255, 255, 255, 0.98);
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.25);
+  border-top: 5px solid var(--am-red);
+}
+
+.login-card h2{
+  color: var(--am-blue);
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+}
+
+.login-card__subtitle{
+  color: #666;
+  margin: 0 0 22px;
+  font-size: .95rem;
+}
+
+/* =========================================================
+   FOOTER PADRÃO (reaproveitável)
+   ========================================================= */
+
+.app-footer{
+  text-align: center;
+  padding: 12px;
+  font-size: .8rem;
+}
+
+.app-footer--login{
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  color: rgba(255,255,255,.85);
+}
+
+.app-footer--login strong{
+  color: var(--am-yellow);
+}
+
+/* Responsivo */
+@media (max-width: 420px){
+  .login-card{ padding: 28px; }
+  .login-brand__text h1{ font-size: 1.55rem; }
+}
