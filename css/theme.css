@@ -1,112 +1,340 @@
-/* [TEMA] Cores Identidade Amazonas */
-:root {
-  --am-blue: #1a2a6c;     /* Azul Principal */
-  --am-red: #b21f1f;      /* Detalhes e Sair */
-  --am-green: #2d5a27;    /* Sucesso e Sincronia */
-  --am-yellow: #fdbb2d;   /* Alertas e Destaques */
-  --am-white: #ffffff;
-  --am-gray-light: #f8f9fa;
-  --am-text: #333333;
-  --am-shadow: 0 4px 15px rgba(0,0,0,0.1);
+/* =========================================================
+   THEME.CSS — Agenda SISREG (layout “Imagem 1”)
+   Arquivo: css/theme.css
+   ========================================================= */
+
+/* ---------- Paleta / Tokens ---------- */
+:root{
+  --am-blue: #163a63;
+  --am-blue-2:#1b4d86;
+  --am-blue-3:#102c4a;
+
+  --am-red:  #e24a3b;
+  --am-yellow:#f2b01e;
+  --am-green:#39a84b;
+
+  --bg: #e9edf3;
+  --card:#ffffff;
+
+  --text:#2b2f36;
+  --muted:#6b7785;
+
+  --shadow: 0 10px 22px rgba(12, 24, 38, .08);
+  --shadow-soft: 0 6px 16px rgba(12, 24, 38, .06);
+
+  --radius: 14px;
 }
 
-/* [PADRAO] Reset e Fontes */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { 
-  font-family: 'Inter', sans-serif; 
-  background-color: var(--am-gray-light); 
-  color: var(--am-text);
-  line-height: 1.6;
+/* ---------- Base ---------- */
+*{ box-sizing: border-box; }
+html, body{ height:100%; }
+body{
+  margin:0;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
 
-/* [PADRAO] Header Moderno */
-.dash-header {
-  background: var(--am-blue);
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 4px solid var(--am-red); /* Detalhe Amazonas */
-  box-shadow: var(--am-shadow);
+/* ---------- Containers (centralização como no print) ---------- */
+.container{
+  width: min(1260px, calc(100% - 40px)) !important;
+  margin: 0 auto !important;
 }
 
-.unit-info h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; }
-.unit-info p { font-size: 0.8rem; opacity: 0.8; }
-
-/* [PADRAO] Cards de Indicadores (KPIs) */
-.kpi-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  padding: 20px;
+/* ---------- HEADER (barra azul da unidade) ---------- */
+.dash-header{
+  background: linear-gradient(90deg, var(--am-blue), var(--am-blue-3)) !important;
+  border-bottom: 0 !important;
+  padding: 16px 20px !important;
+  box-shadow: var(--shadow-soft) !important;
+  position: relative;
 }
 
-.kpi-card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: var(--am-shadow);
-  border-top: 3px solid var(--am-blue); /* Base azul */
-  transition: transform 0.3s ease;
+/* linha amarela abaixo do nome da unidade (estilo print) */
+.dash-header::after{
+  content:"";
+  position:absolute;
+  left: 20px;
+  bottom: 10px;
+  width: 210px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--am-yellow);
+  opacity: .95;
 }
 
-.kpi-card:hover { transform: translateY(-5px); }
-.kpi-card h3 { font-size: 0.7rem; color: #666; text-transform: uppercase; }
-.kpi-card p { font-size: 1.6rem; font-weight: 800; color: var(--am-blue); }
-
-/* [PADRAO] Tabela Profissional */
-.table-container {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--am-shadow);
-  margin: 0 20px 20px 20px;
-}
-
-table { width: 100%; border-collapse: collapse; }
-thead th {
-  background: var(--am-blue);
-  color: white;
-  padding: 15px;
-  font-size: 0.75rem;
+.unit-info h1{
+  margin:0 !important;
+  font-size: 1.35rem !important;
+  letter-spacing: .4px;
+  color: var(--am-yellow) !important; /* unidade em amarelo como no print */
+  font-weight: 800 !important;
   text-transform: uppercase;
-  text-align: left;
 }
+.unit-info p{
+  margin:4px 0 0 0 !important;
+  color: rgba(255,255,255,.78) !important;
+  font-size: .86rem !important;
+}
+.header-btns{ gap:12px !important; }
 
-tbody tr:nth-child(even) { background: #fdfdfd; }
-tbody tr:hover { background: #f1f4ff; border-left: 4px solid var(--am-yellow); /* Detalhe amarelo */ }
-td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.85rem; }
-
-/* [PADRAO] Botoes Customizados */
-.btn-main {
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
+/* ---------- Botões (topo) ---------- */
+.btn-main{
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 10px 16px !important;
+  font-weight: 800 !important;
   cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+  transition: transform .12s ease, filter .12s ease;
+}
+.btn-main:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+.btn-main:active{ transform: translateY(0px); filter: brightness(.99); }
+
+.btn-sync{
+  background: linear-gradient(180deg, #43b657, #2f9741) !important;
+  color: #fff !important;
+}
+.btn-new{
+  background: linear-gradient(180deg, #f7c340, #f0ad12) !important;
+  color: #17375e !important;
+}
+.btn-logout{
+  background: linear-gradient(180deg, #f05a4d, #d94135) !important;
+  color:#fff !important;
 }
 
-.btn-sync { background: var(--am-green); color: white; }
-.btn-sync:hover { background: #1e3d1a; box-shadow: 0 0 10px var(--am-green); }
-
-.btn-new { background: var(--am-blue); color: white; border: 1px solid var(--am-yellow); }
-
-.btn-logout { background: var(--am-red); color: white; }
-.btn-logout:hover { background: #8e1a1a; }
-
-/* [PADRAO] Rodapé Dinâmico */
-footer {
-  margin-top: auto;
-  padding: 15px;
-  background: white;
-  text-align: center;
-  font-size: 0.8rem;
-  color: #777;
-  border-top: 1px solid #ddd;
+/* botão PDF (quando usar btn-main sem classe específica) */
+#btnExportarPDF.btn-main{
+  background: linear-gradient(180deg, #295a92, #1a3f6f) !important;
+  color:#fff !important;
 }
-footer strong { color: var(--am-blue); }
+
+/* ---------- Filtro (faixa logo abaixo do header) ---------- */
+.filter-section{
+  width: min(1260px, calc(100% - 40px)) !important;
+  margin: 14px auto 0 auto !important;
+  background: rgba(255,255,255,.92) !important;
+  border: 1px solid rgba(0,0,0,.06) !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  box-shadow: var(--shadow-soft);
+}
+.filter-section label{
+  color: var(--am-blue) !important;
+  font-weight: 800 !important;
+}
+.filter-section select{
+  border: 1px solid rgba(0,0,0,.12) !important;
+  border-radius: 10px !important;
+  padding: 8px 12px !important;
+  outline: none !important;
+  background: #fff !important;
+  font-weight: 700;
+}
+
+/* ---------- KPIs (cards superiores) ---------- */
+.kpi-container{
+  width: min(1260px, calc(100% - 40px)) !important;
+  margin: 14px auto 0 auto !important;
+  padding: 0 !important;
+  display:grid;
+  grid-template-columns: repeat(5, minmax(180px, 1fr));
+  gap: 18px !important;
+}
+
+.kpi-card{
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px !important;
+  padding: 18px 18px 16px 18px !important;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,.22);
+  min-height: 92px;
+}
+
+/* “brilho” diagonal do print */
+.kpi-card::before{
+  content:"";
+  position:absolute;
+  right:-40px;
+  top:-40px;
+  width: 160px;
+  height: 160px;
+  background: rgba(255,255,255,.14);
+  transform: rotate(25deg);
+  filter: blur(.2px);
+}
+
+/* ícone branco no canto (pseudo-elemento) */
+.kpi-card::after{
+  content:"";
+  position:absolute;
+  right: 14px;
+  top: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.18);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
+}
+
+/* título e valor */
+.kpi-card h3{
+  margin:0 !important;
+  font-size:.78rem !important;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.86) !important;
+  font-weight: 800 !important;
+}
+.kpi-card p{
+  margin: 10px 0 0 0 !important;
+  font-size: 2.1rem !important;
+  font-weight: 900 !important;
+  color: #fff !important;
+  line-height: 1;
+}
+
+/* Variações por posição (como no print: azul, roxo, verde, laranja, azul escuro) */
+.kpi-container .kpi-card:nth-child(1){
+  background: linear-gradient(135deg, #0f3f7c, #0a2f5c) !important;
+}
+.kpi-container .kpi-card:nth-child(2){
+  background: linear-gradient(135deg, #5c71d6, #3b4fb3) !important;
+}
+.kpi-container .kpi-card:nth-child(3){
+  background: linear-gradient(135deg, #43b657, #2f9741) !important;
+}
+.kpi-container .kpi-card:nth-child(4){
+  background: linear-gradient(135deg, #f05a4d, #f2b01e) !important;
+}
+.kpi-container .kpi-card:nth-child(5){
+  background: linear-gradient(135deg, #163a63, #102c4a) !important;
+}
+
+/* valor amarelo no “Procedimento Líder” (fica parecido ao print) */
+.kpi-container .kpi-card:nth-child(5) p{
+  font-size: 1.05rem !important;
+  color: var(--am-yellow) !important;
+  line-height: 1.2;
+}
+
+/* ---------- Área principal / cards de gráficos ---------- */
+#dashboardArea{
+  width: min(1260px, calc(100% - 40px)) !important;
+  margin: 18px auto 0 auto !important;
+  padding: 0 0 20px 0 !important;
+}
+
+.actions-bar{
+  width: 100%;
+  display:flex;
+  justify-content: flex-end;
+  margin: 0 0 12px 0 !important;
+}
+.btn{
+  border:none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 800;
+  cursor:pointer;
+  box-shadow: var(--shadow-soft);
+}
+.btn-toggle{
+  background: linear-gradient(180deg, #2a5b93, #1a3f6f);
+  color:#fff;
+}
+
+/* grid 2 colunas como no print */
+.dashboard-grid{
+  display:grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  align-items: stretch;
+}
+@media (max-width: 980px){
+  .dashboard-grid{ grid-template-columns: 1fr !important; }
+  .kpi-container{ grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important; }
+}
+
+/* cards brancos com borda suave e sombra */
+.card{
+  background: rgba(255,255,255,.92) !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(0,0,0,.06) !important;
+  box-shadow: var(--shadow-soft) !important;
+  padding: 14px 16px !important;
+}
+
+.card h3{
+  margin: 2px 0 12px 0 !important;
+  font-size: 1.05rem !important;
+  font-weight: 900 !important;
+  color: #3a3f46 !important;
+  text-transform: none !important;
+  letter-spacing: .2px !important;
+}
+
+/* canvas com altura estável */
+.card canvas{
+  width: 100% !important;
+  height: 280px !important;
+  display:block;
+}
+
+/* full width (insights / tabela) */
+.full-width{ grid-column: 1 / -1 !important; }
+
+/* ---------- Tabela (quando abrir) ---------- */
+#secTabela{
+  background: rgba(255,255,255,.96) !important;
+}
+table{
+  width: 100%;
+  border-collapse: collapse;
+}
+thead th{
+  background: #1b3f6f !important;
+  color:#fff !important;
+  font-size: .78rem !important;
+  padding: 12px !important;
+  position: sticky;
+  top: 0;
+}
+td{
+  padding: 12px !important;
+  border-bottom: 1px solid rgba(0,0,0,.06) !important;
+  font-size: .86rem !important;
+}
+tbody tr:hover{
+  background: rgba(26,63,111,.06) !important;
+}
+
+/* ---------- Insights (lista) ---------- */
+#listaInsights{
+  margin: 0;
+  padding-left: 18px;
+}
+#listaInsights li{
+  margin: 8px 0;
+  color: #3b4048;
+  font-weight: 600;
+}
+
+/* ---------- Footer ---------- */
+footer{
+  width: min(1260px, calc(100% - 40px)) !important;
+  margin: 10px auto 18px auto !important;
+  background: transparent !important;
+  border-top: none !important;
+  color: rgba(0,0,0,.55) !important;
+  font-weight: 600;
+}
+
+/* ---------- Pequenos ajustes de compatibilidade ---------- */
+a{ color: inherit; }
+a button{ cursor: pointer; }
