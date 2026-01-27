@@ -17,7 +17,8 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
       border-bottom: 4px solid var(--am-red); 
     }
-    .app-header h1 { margin: 0; font-size: 1.4rem; font-weight: 600; }
+    .unit-info h1 { font-size: 1.2rem; color: white; margin: 0; }
+    .unit-info p { margin: 0; color: rgba(255,255,255,0.8); font-size: 0.8rem; }
     .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
     
     .card { 
@@ -109,9 +110,12 @@
 <body>
 
 <header class="app-header">
-  <div style="display:flex;justify-content:space-between;align-items:center;">
-    <h1>SISREG – Escala de Agendas</h1>
-    <a href="dashboard.html" style="color:#fff;text-decoration:none;font-weight:500;">⬅ Voltar ao Início</a>
+  <div class="unit-info">
+    <h1 id="txtUnidade">Carregando unidade...</h1>
+    <p>Lançamento de Escalas - <strong>SISREG Amazonas</strong></p>
+  </div>
+  <div>
+    <a href="dashboard.html" style="color:#fff;text-decoration:none;font-weight:500; font-size: 0.9rem;">⬅ Voltar ao Dashboard</a>
   </div>
 </header>
 
