@@ -1,244 +1,228 @@
+<!--
+Arquivo: dashboard.html
+Cole este arquivo INTEIRO, substituindo o seu dashboard.html atual.
+Observação: NÃO inclui lógica de gráficos aqui — isso fica em js/dashboard.js.
+Este HTML só garante: estrutura, IDs corretos, tabela oculta, botões (sync/pdf/tabela), áreas dos gráficos e insights.
+-->
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard | Agenda SISREG</title>
-  
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/theme.css">
 
+  <!-- Libs -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
   <style>
-    body { 
-      background: #f4f7f6;
-      font-family: 'Inter', sans-serif;
-      color: #333;
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* [ALTERAÇÃO] Header com Azul e Linha Vermelha (Padrão Escala) */
-    .dash-header { 
-      background: var(--am-blue); 
-      padding: 15px 20px; 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-      display: flex; justify-content: space-between; align-items: center; 
-      z-index: 10;
-      border-bottom: 4px solid var(--am-red);
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-    }
-
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 0.9rem;
-      color: var(--am-blue);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .full-width {
-      grid-column: 1 / -1;
-    }
-
-    .actions-bar {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      margin-bottom: 15px;
-    }
-    
-    .unit-info h1 { font-size: 1.2rem; color: white; margin: 0; }
-    .unit-info p { margin: 0; color: rgba(255,255,255,0.8); font-size: 0.8rem; }
-    .header-btns { display: flex; gap: 10px; }
-
-    /* [ALTERAÇÃO] Botão Nova Escala em Amarelo para contraste no Azul */
-    .btn { padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
-    .btn-toggle { background: var(--am-blue); color: white; }
-    .btn-pdf { background: var(--am-yellow); color: var(--am-blue); }
-    .btn-main { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: 0.3s; }
-    .btn-new { background: var(--am-yellow); color: var(--am-blue); }
-    .btn-new:hover { background: white; transform: scale(1.05); }
-    .btn-sync { background: var(--am-green); color: white; }
-    .btn-logout { background: white; color: var(--am-red); }
-
-    /* [ALTERAÇÃO] Cards com fundo azul e texto branco/amarelo */
-    .kpi-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; padding: 20px; }
-    .kpi-card { background: var(--am-blue); padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 5px solid var(--am-yellow); }
-    .kpi-card h3 { margin: 0; font-size: 0.7rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; }
-    /* Valor em Amarelo Ouro para contraste máximo */
-    .kpi-card p { margin: 5px 0 0 0; font-size: 1.6rem; font-weight: 700; color: var(--am-yellow); } 
-
-    .filter-section { background: #fff; padding: 10px 20px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 15px; }
-    .filter-section label { font-size: 0.85rem; font-weight: 600; color: var(--am-blue); }
-    .filter-section select { padding: 6px 12px; border-radius: 6px; border: 1px solid #ccc; outline: none; }
-
-    .container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 0 20px 20px 20px;
-      overflow: hidden;
-    }
-    
-    .table-container { flex: 1; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid #eee; overflow: auto; }
-    table { width: 100%; border-collapse: collapse; min-width: 1200px; }
-    thead th { position: sticky; top: 0; background: var(--am-blue); color: white; z-index: 5; padding: 12px; text-align: left; font-size: 0.75rem; }
-    td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.8rem; white-space: nowrap; }
-    tr:hover { background: #f1f4ff; }
-
-    #secTabela { display: none; }
-
-    footer { 
-      text-align: center;
-      padding: 12px;
-      color: #666;
-      font-size: 0.8rem;
-      background: white;
-      border-top: 1px solid #eee;
-    }
+    /* Mantive APENAS o mínimo para a página não “quebrar”
+       (o visual deve vir do theme.css) */
+    body{ margin:0; font-family:'Inter',sans-serif; }
+    #secTabela{ display:none; }
+    .full-width{ grid-column: 1 / -1; }
   </style>
 </head>
+
 <body>
-<header class="dash-header">
-  <div class="unit-info">
-    <h1 id="txtUnidade">Carregando unidade...</h1>
-    <p>Painel de Gestão de Escalas - <strong>SISREG Amazonas</strong></p>
-  </div>
-  <div class="header-btns">
-    <button id="btnSincronizar" class="btn-main btn-sync">🔄 Sincronizar</button>
-    <button id="btnExportarPDF" class="btn-main">📄 Exportar PDF</button>
-    <a href="escalas.html" style="text-decoration: none;"><button class="btn-main btn-new">➕ Nova Escala</button></a>
-    <button id="btnLogout" class="btn-main btn-logout">Sair</button>
-  </div>
-</header>
 
-<div class="filter-section">
-  <label for="filtroMes">Filtrar por Mês de Vigência:</label>
-  <select id="filtroMes">
-    <option value="todos">Mostrar Todos</option>
-    <option value="01">Janeiro</option><option value="02">Fevereiro</option><option value="03">Março</option>
-    <option value="04">Abril</option><option value="05">Maio</option><option value="06">Junho</option>
-    <option value="07">Julho</option><option value="08">Agosto</option><option value="09">Setembro</option>
-    <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
-  </select>
-</div>
-
-  <div class="container" id="dashboardArea">
-    
-    <div class="kpi-container">
-      <div class="kpi-card"><h3>Total de Vagas</h3><p id="kpiVagas">0</p></div>
-      <div class="kpi-card" style="border-left-color: #9c27b0;"><h3>% Vagas Retorno</h3><p id="kpiRetorno">0%</p></div>
-      <div class="kpi-card" style="border-left-color: var(--am-green);"><h3>Profissionais</h3><p id="kpiProfissionais">0</p></div>
-      <div class="kpi-card" style="border-left-color: var(--am-red);"><h3>Procs. Únicos</h3><p id="kpiProcedimentos">0</p></div>
-      <div class="kpi-card" style="border-left-color: #fff;"><h3>Procedimento Líder</h3><p id="kpiLider" style="font-size: 1rem;">-</p></div>
+  <!-- HEADER -->
+  <header class="dash-header">
+    <div class="unit-info">
+      <h1 id="txtUnidade">Carregando unidade...</h1>
+      <p>Painel Gerencial de Escalas • <strong>SISREG Amazonas</strong></p>
     </div>
 
-    <div class="actions-bar">
+    <div class="header-btns">
+      <button id="btnSincronizar" class="btn-main btn-sync">🔄 Sincronizar</button>
+      <button id="btnExportarPDF" class="btn-main">📄 Exportar PDF</button>
+      <a href="escalas.html" style="text-decoration:none;">
+        <button class="btn-main btn-new">➕ Nova Escala</button>
+      </a>
+      <button id="btnLogout" class="btn-main btn-logout">Sair</button>
+    </div>
+  </header>
+
+  <!-- FILTRO (Fase 2/3 usam esse id) -->
+  <section class="filter-section">
+    <label for="filtroMes">Filtrar por Mês de Vigência:</label>
+    <select id="filtroMes">
+      <option value="todos">Mostrar Todos</option>
+      <option value="01">Janeiro</option><option value="02">Fevereiro</option><option value="03">Março</option>
+      <option value="04">Abril</option><option value="05">Maio</option><option value="06">Junho</option>
+      <option value="07">Julho</option><option value="08">Agosto</option><option value="09">Setembro</option>
+      <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+    </select>
+  </section>
+
+  <!-- ÁREA DO DASHBOARD (usada no PDF) -->
+  <main class="container" id="dashboardArea">
+
+    <!-- KPIs (IDs devem bater com dashboard.js) -->
+    <section class="kpi-container">
+      <div class="kpi-card">
+        <h3>Total de Vagas</h3>
+        <p id="kpiVagas">0</p>
+      </div>
+
+      <div class="kpi-card">
+        <h3>% Vagas Retorno</h3>
+        <p id="kpiRetorno">0%</p>
+      </div>
+
+      <div class="kpi-card">
+        <h3>Profissionais</h3>
+        <p id="kpiProfissionais">0</p>
+      </div>
+
+      <div class="kpi-card">
+        <h3>Procs. Únicos</h3>
+        <p id="kpiProcedimentos">0</p>
+      </div>
+
+      <div class="kpi-card">
+        <h3>Procedimento Líder</h3>
+        <p id="kpiLider" style="font-size:1rem;">-</p>
+      </div>
+    </section>
+
+    <!-- AÇÕES -->
+    <section class="actions-bar">
       <button class="btn btn-toggle" id="btnToggleTabela">📋 Ver Tabela</button>
-    </div>
+    </section>
 
-    <div class="dashboard-grid">
+    <!-- GRID DE GRÁFICOS -->
+    <section class="dashboard-grid">
 
       <div class="card">
         <h3>🔥 Oferta por Dia e Horário</h3>
         <canvas id="chartHeatmap"></canvas>
       </div>
-  
+
       <div class="card">
         <h3>🎯 Funil de Oferta</h3>
         <canvas id="chartFunil"></canvas>
       </div>
-  
+
       <div class="card">
         <h3>🧬 Perfil da Unidade</h3>
         <canvas id="chartRadar"></canvas>
       </div>
-  
+
       <div class="card">
         <h3>🫧 Profissionais por Impacto</h3>
         <canvas id="chartBolhas"></canvas>
       </div>
-  
+
       <div class="card">
         <h3>🟡 Distribuição de Vagas</h3>
         <canvas id="chartDonut"></canvas>
       </div>
-  
+
       <div class="card">
         <h3>📈 Evolução da Vigência</h3>
         <canvas id="chartLinha"></canvas>
       </div>
-  
+
       <div class="card full-width">
         <h3>🧠 Insights Automáticos</h3>
         <ul id="listaInsights"></ul>
       </div>
-    </div>
-    
-    <!-- TABELA OCULTA -->
+
+      <!-- (Opcional) se seu JS da Fase 3 usar KPI de média, mantenha este id (não quebra se não usar) -->
+      <span id="kpiMedia" style="display:none;"></span>
+
+    </section>
+
+    <!-- TABELA (OCULTA) — IDs precisam bater com dashboard.js -->
     <section id="secTabela" class="card full-width" style="margin-top:20px;">
       <h3>📋 Tabela Detalhada</h3>
       <div style="overflow:auto;">
         <table id="tabEscalas">
           <thead>
             <tr>
-              <th>CPF</th><th>Profissional</th><th>Cód.</th><th>Procedimento</th>
-              <th>Exames</th><th>Dias</th><th>Início</th><th>Fim</th>
-              <th>Vagas</th><th>Vig. Início</th><th>Vig. Fim</th>
+              <th>CPF</th>
+              <th>Profissional</th>
+              <th>Cód. Proc.</th>
+              <th>Procedimento</th>
+              <th>Exames</th>
+              <th>Dias</th>
+              <th>Início</th>
+              <th>Fim</th>
+              <th>Vagas</th>
+              <th>Vig. Início</th>
+              <th>Vig. Fim</th>
             </tr>
           </thead>
           <tbody id="corpoTabela"></tbody>
         </table>
       </div>
     </section>
-  </div>
-    
-<footer id="footerCreditos"></footer>
-<script src="js/dashboard.js"></script>
-<script>
-  document.getElementById("btnToggleTabela").onclick = () => {
-    const sec = document.getElementById("secTabela");
-    sec.style.display = sec.style.display === "none" ? "block" : "none";
-  };
 
-  document.getElementById("btnExportarPDF").onclick = async () => {
-    const area = document.getElementById("dashboardArea");
-    const canvas = await html2canvas(area, { scale: 2 });
-    const img = canvas.toDataURL("image/png");
+  </main>
 
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF("p", "mm", "a4");
-    const w = 210;
-    const h = (canvas.height * w) / canvas.width;
+  <!-- FOOTER (dashboard.js preenche esse id) -->
+  <footer id="footerCreditos"></footer>
 
-    pdf.addImage(img, "PNG", 0, 10, w, h);
-    pdf.save(`Dashboard_${document.getElementById("txtUnidade").textContent}.pdf`);
-  };
-</script>
-<script>
-  fetch("data/config.json").then(r => r.json()).then(d => {
-    document.getElementById("footerCreditos").innerHTML = `© ${d.ano} - <strong>${d.sistema}</strong> | ${d.desenvolvedor}`;
-  });
-</script>
+  <!-- Seu JS principal -->
+  <script src="js/dashboard.js"></script>
+
+  <!-- Somente eventos “de tela” (não mexe na lógica do dashboard.js) -->
+  <script>
+    // Toggle da tabela
+    document.getElementById("btnToggleTabela").onclick = () => {
+      const sec = document.getElementById("secTabela");
+      const aberto = sec.style.display === "block";
+      sec.style.display = aberto ? "none" : "block";
+      document.getElementById("btnToggleTabela").textContent = aberto ? "📋 Ver Tabela" : "📋 Ocultar Tabela";
+    };
+
+    // Exportar PDF do dashboardArea
+    document.getElementById("btnExportarPDF").onclick = async () => {
+      const area = document.getElementById("dashboardArea");
+
+      // melhora captura: espera 1 frame
+      await new Promise(r => requestAnimationFrame(r));
+
+      const canvas = await html2canvas(area, { scale: 2, useCORS: true });
+      const img = canvas.toDataURL("image/png");
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF("p", "mm", "a4");
+
+      const pageW = 210;
+      const pageH = 297;
+
+      const imgW = pageW;
+      const imgH = (canvas.height * imgW) / canvas.width;
+
+      let y = 10;
+      if (imgH <= pageH - 20) {
+        pdf.addImage(img, "PNG", 0, y, imgW, imgH);
+      } else {
+        // Paginação simples se ficar maior que A4
+        let remaining = imgH;
+        let position = 10;
+        pdf.addImage(img, "PNG", 0, position, imgW, imgH);
+        remaining -= (pageH - 20);
+
+        while (remaining > 0) {
+          pdf.addPage();
+          position = 10 - (imgH - remaining);
+          pdf.addImage(img, "PNG", 0, position, imgW, imgH);
+          remaining -= (pageH - 20);
+        }
+      }
+
+      const unidade = (document.getElementById("txtUnidade").textContent || "UNIDADE").trim();
+      pdf.save(`Dashboard_${unidade}.pdf`);
+    };
+  </script>
+
 </body>
 </html>
