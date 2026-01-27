@@ -33,18 +33,20 @@ Este HTML só garante: estrutura, IDs corretos, tabela oculta, botões (sync/pdf
 
   <!-- HEADER -->
   <header class="dash-header">
-    <div class="unit-info">
-      <h1 id="txtUnidade">Carregando unidade...</h1>
-      <p>Painel Gerencial de Escalas • <strong>SISREG Amazonas</strong></p>
-    </div>
-
-    <div class="header-btns">
-      <button id="btnSincronizar" class="btn-main btn-sync">🔄 Sincronizar</button>
-      <button id="btnExportarPDF" class="btn-main">📄 Exportar PDF</button>
-      <a href="escalas.html" style="text-decoration:none;">
-        <button class="btn-main btn-new">➕ Nova Escala</button>
-      </a>
-      <button id="btnLogout" class="btn-main btn-logout">Sair</button>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="unit-info">
+        <h1 id="txtUnidade">Carregando unidade...</h1>
+        <p>Painel Gerencial de Escalas • <strong>SISREG Amazonas</strong></p>
+      </div>
+  
+      <div class="header-btns">
+        <button id="btnSincronizar" class="btn-main btn-sync">🔄 Sincronizar</button>
+        <button id="btnExportarPDF" class="btn-main">📄 Exportar PDF</button>
+        <a href="escalas.html" style="text-decoration:none;">
+          <button class="btn-main btn-new">➕ Nova Escala</button>
+        </a>
+        <button id="btnLogout" class="btn-main btn-logout">Sair</button>
+      </div>
     </div>
   </header>
 
