@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
     listaProcedimentos.innerHTML = "";
     const termo = procedimentoInput.value.toLowerCase();
     if (termo.length < 2) { listaProcedimentos.style.display = "none"; return; }
-    procedimentos.filter(p => limparTexto(p.procedimento).toLowerCase().includes(termo)).slice(0, 10).forEach(p => {
+    procedimentos.filter(p => limparTexto(p.procedimento).toLowerCase().includes(termo)).slice(0, 30).forEach(p => {
       const codigo = obterCodigo(p);
       const texto = limparTexto(p.procedimento);
       const div = document.createElement("div");
