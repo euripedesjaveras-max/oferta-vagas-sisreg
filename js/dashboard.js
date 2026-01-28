@@ -637,92 +637,136 @@ document.addEventListener("DOMContentLoaded", () => {
        - anel interno: tipo de procedimento
        - anel externo: distribuição por dia
        ============================================================ */
-            function gerarDonut(dados) {
-                const c = safeCanvas("chartDonut");
-                if (!c) return;
-            
-                if (charts.donut) charts.donut.destroy();
-            
-                // 1️⃣ Processa dados corretamente
-                const tipos = { "CONSULTA": 0, "GRUPO": 0, "RETORNO": 0, "EXAME": 0, "OUTROS": 0 };
-                const diasMapa = { "DOM":0,"SEG":0,"TER":0,"QUA":0,"QUI":0,"SEX":0,"SAB":0 };
-            
-                dados.forEach(d => {
-                    const v = Number(d.vagas) || 0;
-                    tipos[tipoProcedimento(d.procedimento)] += v;
-            
-                    const diasSel = extrairDias(d.dias_semana);
-                    if (diasSel.length === 0) diasMapa["SEG"] += v;
-                    else diasSel.forEach(di => diasMapa[di] += v);
-                });
-            
-                // 2️⃣ CORREÇÃO CHAVE: Cria dois gráficos SEPARADOS
-                // (não é possível fazer um único gráfico com categorias diferentes)
-                
-                // Gráfico 1: Tipos de procedimento (círculo interno)
-                const chartTipos = {
-                    labels: Object.keys(tipos),
-                    datasets: [{
-                        data: Object.values(tipos),
-                        backgroundColor: [COLORS.yellow, COLORS.green, COLORS.red, COLORS.blue, COLORS.gray],
-                        borderWidth: 0,
-                        radius: "55%",
-                        cutout: "35%"
-                    }]
-                };
-            
-                // Gráfico 2: Dias da semana (círculo externo)
-                const chartDias = {
-                    labels: Object.keys(diasMapa),
-                    datasets: [{
-                        data: Object.values(diasMapa),
-                        backgroundColor: [
-                            "rgba(26,42,108,0.12)",
-                            "rgba(26,42,108,0.18)",
-                            "rgba(26,42,108,0.24)",
-                            "rgba(26,42,108,0.30)",
-                            "rgba(26,42,108,0.36)",
-                            "rgba(26,42,108,0.42)",
-                            "rgba(26,42,108,0.48)"
-                        ],
-                        borderWidth: 0,
-                        radius: "95%",
-                        cutout: "60%"
-                    }]
-                };
-            
-                // 3️⃣ Combina os dois gráficos em um único canvas
-                charts.donut = new Chart(c, {
-                    type: "doughnut",
+        function gerarDonut(dados) {
+            // ✅ DESTROI CORRETAMENTE AMBOS OS GRÁFICOS
+            if (Chart.getChart('chartDonutOuter')) {
+                Chart.getChart('chartDonutOuter').destroy();
+            }
+            if (Chart.getChart('chartDonutInner')) {
+                Chart.getChart('chartDonutInner').destroy();
+            }
+        
+            // 1️⃣ PROCESSA DADOS PARA O GRÁFICO EXTERNO (DIAS)
+            const diasMapa = { "DOM":0,"SEG":0,"TER":0,"QUA":0,"QUI":0,"SEX":0,"SAB":0 };
+            dados.forEach(d => {
+                const v = Number(d.vagas) || 0;
+                const diasSel = extrairDias(d.dias_semana);
+                if (diasSel.length === 0) diasMapa["SEG"] += v;
+                else diasSel.forEach(di => diasMapa[di] += v);
+            });
+        
+            // 2️⃣ PROCESSA DADOS PARA O GRÁFICO INTERNO (TIPOS)
+            const tipos = { "CONSULTA": 0, "GRUPO": 0, "RETORNO": 0, "EXAME": 0, "OUTROS": 0 };
+            dados.forEach(d => {
+                const v = Number(d.vagas) || 0;
+                tipos[tipoProcedimento(d.procedimento)] += v;
+            });
+        
+            // 3️⃣ CRIA O GRÁFICO EXTERNO (DIAS)
+            const canvasOuter = safeCanvas('chartDonutOuter');
+            if (canvasOuter) {
+                new Chart(canvasOuter, {
+                    type: 'doughnut',
                     data: {
-                        labels: [...chartDias.labels, ...chartTipos.labels], // Junta labels
-                        datasets: [
-                            ...chartDias.datasets,
-                            ...chartTipos.datasets
-                        ]
+                        labels: Object.keys(diasMapa),
+                        datasets: [{
+                            data: Object.values(diasMapa),
+                            backgroundColor: [
+                                "rgba(26,42,108,0.12)", // DOM
+                                "rgba(26,42,108,0.18)", // SEG
+                                "rgba(26,42,108,0.24)", // TER
+                                "rgba(26,42,108,0.30)", // QUA
+                                "rgba(26,42,108,0.36)", // QUI
+                                "rgba(26,42,108,0.42)", // SEX
+                                "rgba(26,42,108,0.48)"  // SAB
+                            ],
+                            borderWidth: 0,
+                            radius: '95%',
+                            cutout: '60%'
+                        }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: "bottom",
-                                labels: {
-                                    filter: (item, chart) => 
-                                        chart.data.labels[item.index].length <= 3,
-                                    // Personaliza as cores da legenda
-                                    generateLabels: (chart) => {
-                                        return chart.data.labels.map((label, i) => ({
-                                            text: label,
-                                            fillStyle: chart.data.datasets[0].backgroundColor[i]
-                                        }));
-                                    }
-                                }
-                            }
-                        }
+                        plugins: { legend: { display: false } }
                     }
                 });
             }
+        
+            // 4️⃣ CRIA O GRÁFICO INTERNO (TIPOS)
+            const canvasInner = safeCanvas('chartDonutInner');
+            if (canvasInner) {
+                new Chart(canvasInner, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(tipos),
+                        datasets: [{
+                            data: Object.values(tipos),
+                            backgroundColor: [
+                                COLORS.yellow,   // Consulta Clínica
+                                COLORS.blue,     // Grupo Terapêutico
+                                COLORS.red,      // Retorno
+                                COLORS.orange,   // Exame
+                                COLORS.gray      // Emergência
+                            ],
+                            borderWidth: 0,
+                            radius: '95%',
+                            cutout: '60%'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+        
+            // 5️⃣ CRIA LEGENDA PERSONALIZADA (fora do gráfico)
+            criarLegendaPersonalizada(diasMapa, tipos);
+        }
+        
+        // Função para criar legenda combinada
+        function criarLegendaPersonalizada(diasMapa, tipos) {
+            const legendContainer = document.getElementById('legendContainer');
+            if (!legendContainer) return;
+            
+            legendContainer.innerHTML = '';
+            
+            // Adiciona legenda para DIAS
+            Object.keys(diasMapa).forEach(dia => {
+                const color = [
+                    "rgba(26,42,108,0.12)",
+                    "rgba(26,42,108,0.18)",
+                    "rgba(26,42,108,0.24)",
+                    "rgba(26,42,108,0.30)",
+                    "rgba(26,42,108,0.36)",
+                    "rgba(26,42,108,0.42)",
+                    "rgba(26,42,108,0.48)"
+                ][Object.keys(diasMapa).indexOf(dia)];
+                
+                legendContainer.innerHTML += `
+                    <span style="display: inline-block; margin: 5px; background: ${color}; width: 20px; height: 20px; border-radius: 50%;"></span>
+                    <span>${dia}</span>
+                `;
+            });
+            
+            // Adiciona legenda para TIPOS
+            Object.keys(tipos).forEach(tipo => {
+                const color = [
+                    COLORS.yellow,
+                    COLORS.blue,
+                    COLORS.red,
+                    COLORS.orange,
+                    COLORS.gray
+                ][Object.keys(tipos).indexOf(tipo)];
+                
+                legendContainer.innerHTML += `
+                    <span style="display: inline-block; margin: 5px; background: ${color}; width: 20px; height: 20px; border-radius: 50%;"></span>
+                    <span>${tipo}</span>
+                `;
+            });
+        }
 
     /* ============================================================
        [GRAFICO 6] Evolução da Vigência (linha por tipo + fill)
