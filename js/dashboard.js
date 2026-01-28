@@ -85,6 +85,84 @@ document.addEventListener("DOMContentLoaded", () => {
         return valor;
     }
 
+    /* [NOVO] Calcula o total de vagas considerando: vagas * ocorrências dos dias na vigência */
+    function calcularTotalVagasPorVigencia(dados) {
+        if (!Array.isArray(dados) || dados.length === 0) return 0;
+    
+        // Normaliza "dias_semana" para um Set de dias (0=DOM ... 6=SAB)
+        function extrairDiasDaSemana(diasStr) {
+            const s = String(diasStr || "").toUpperCase();
+    
+            // Aceita variações comuns: SEG, TER, QUA, QUI, SEX, SAB, DOM
+            // e também textos longos (SEGUNDA, TERCA/TERÇA, QUARTA...)
+            const mapa = [
+                { re: /\bDOM(INGO)?\b/g, idx: 0 },
+                { re: /\bSEG(UNDA)?\b/g, idx: 1 },
+                { re: /\bTER(CA|ÇA|CEIRA)?\b/g, idx: 2 },
+                { re: /\bQUA(RTA)?\b/g, idx: 3 },
+                { re: /\bQUI(NTA)?\b/g, idx: 4 },
+                { re: /\bSEX(TA)?\b/g, idx: 5 },
+                { re: /\bS[ÁA]B(ADO)?\b|\bSAB(ADO)?\b/g, idx: 6 },
+            ];
+    
+            const set = new Set();
+            mapa.forEach(m => { if (m.re.test(s)) set.add(m.idx); });
+            return set;
+        }
+    
+        // Converte "YYYY-MM-DD" (ou "YYYY-MM-DDTHH...") em Date local (meia-noite)
+        function parseDataISO(valor) {
+            if (!valor) return null;
+            const v = String(valor).split("T")[0]; // mantém só data
+            const p = v.split("-");
+            if (p.length !== 3) return null;
+            const y = Number(p[0]), m = Number(p[1]), d = Number(p[2]);
+            if (!y || !m || !d) return null;
+            return new Date(y, m - 1, d);
+        }
+    
+        // Conta quantas vezes os dias (Set de 0-6) ocorrem entre inicio e fim (inclusive)
+        function contarOcorrenciasDias(inicio, fim, diasSet) {
+            if (!inicio || !fim || !(diasSet instanceof Set) || diasSet.size === 0) return 0;
+    
+            // Garante ordem
+            let start = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
+            let end = new Date(fim.getFullYear(), fim.getMonth(), fim.getDate());
+            if (start > end) { const tmp = start; start = end; end = tmp; }
+    
+            // Itera dia a dia (intervalos pequenos/médios isso é ok e simples/seguro)
+            let count = 0;
+            for (let dt = new Date(start); dt <= end; dt.setDate(dt.getDate() + 1)) {
+                if (diasSet.has(dt.getDay())) count++;
+            }
+            return count;
+        }
+    
+        let totalGeral = 0;
+    
+        dados.forEach(item => {
+            // Normalização das chaves (igual seu padrão)
+            const d = {};
+            for (let k in item) d[k.toLowerCase().trim()] = item[k];
+    
+            const vagas = Number(d.vagas) || 0;
+            if (vagas <= 0) return;
+    
+            const diasSet = extrairDiasDaSemana(d.dias_semana);
+            const inicio = parseDataISO(d.vigencia_inicio);
+            const fim = parseDataISO(d.vigencia_fim);
+            if (!inicio || !fim || diasSet.size === 0) return;
+    
+            const ocorrencias = contarOcorrenciasDias(inicio, fim, diasSet);
+            const totalLinha = vagas * ocorrencias;
+    
+            totalGeral += totalLinha;
+        });
+    
+        return totalGeral;
+    }
+
+
     /* ============================================================
        [NOVO - SUPORTE] Datas ISO (para linha de vigência)
        ============================================================ */
@@ -152,8 +230,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Soma de Vagas
-            const qtdVagas = Number(d.vagas) || 0;
-            totalVagas += qtdVagas;
+            // [NOVO] Total de vagas considerando vigência e dias
+            totalVagas = calcularTotalVagasPorVigencia(dadosFiltrados);
+
 
             // BUSCA DE RETORNO (Mais abrangente)
             const campoProc = String(d.procedimento || "").toUpperCase().trim();
