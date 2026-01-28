@@ -162,6 +162,58 @@ document.addEventListener("DOMContentLoaded", () => {
         return totalGeral;
     }
 
+    /* [NOVO] Calcula o TOTAL de vagas de um registro considerando dias_semana e vigência */
+    function calcularVagasPorVigenciaDoRegistro(d) {
+        // d = objeto já normalizado (chaves em minúsculo)
+        const vagasBase = Number(d.vagas) || 0;
+        if (!vagasBase) return 0;
+    
+        const ini = String(d.vigencia_inicio || "").split("T")[0];
+        const fim = String(d.vigencia_fim || "").split("T")[0];
+        if (!ini || !fim) return 0;
+    
+        // Normaliza string de dias: aceita "SEG TER", "SEG;TER", "SEG,TER", etc.
+        const diasTxt = String(d.dias_semana || "")
+            .toUpperCase()
+            .replace(/[,;/]/g, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+    
+        if (!diasTxt) return 0;
+    
+        const mapaDias = {
+            "DOM": 0,
+            "SEG": 1,
+            "TER": 2,
+            "QUA": 3,
+            "QUI": 4,
+            "SEX": 5,
+            "SAB": 6
+        };
+    
+        // Quais dias da semana esse registro atende?
+        const diasAtendidos = Object.keys(mapaDias).filter(sigla => diasTxt.includes(sigla));
+        if (diasAtendidos.length === 0) return 0;
+    
+        // Conta quantos desses dias existem dentro da vigência (inclusivo)
+        const dtIni = new Date(ini + "T00:00:00");
+        const dtFim = new Date(fim + "T00:00:00");
+        if (isNaN(dtIni.getTime()) || isNaN(dtFim.getTime())) return 0;
+    
+        // garante ordem correta
+        let start = dtIni, end = dtFim;
+        if (start > end) { const tmp = start; start = end; end = tmp; }
+    
+        const diasSet = new Set(diasAtendidos.map(dia => mapaDias[dia]));
+        let ocorrencias = 0;
+    
+        // itera dia a dia
+        for (let dt = new Date(start); dt <= end; dt.setDate(dt.getDate() + 1)) {
+            if (diasSet.has(dt.getDay())) ocorrencias++;
+        }
+    
+        return vagasBase * ocorrencias;
+    }
 
     /* ============================================================
        [NOVO - SUPORTE] Datas ISO (para linha de vigência)
@@ -229,10 +281,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 d[k.toLowerCase().trim()] = item[k];
             }
 
-            // Soma de Vagas
             // [NOVO] Total de vagas considerando vigência e dias
             totalVagas = calcularTotalVagasPorVigencia(dadosFiltrados);
-
 
             // BUSCA DE RETORNO (Mais abrangente)
             const campoProc = String(d.procedimento || "").toUpperCase().trim();
@@ -241,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (campoProc.toUpperCase().includes("RETORNO") ||
                 campoExame.toUpperCase().includes("RETORNO")
             ) {
-                vagasRetorno += qtdVagas;
+                vagasRetorno += calcularVagasPorVigenciaDoRegistro(d);
             }
 
             if (d.cpf) cpfs.add(d.cpf);
