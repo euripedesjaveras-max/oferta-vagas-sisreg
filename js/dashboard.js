@@ -637,52 +637,45 @@ document.addEventListener("DOMContentLoaded", () => {
        - anel interno: tipo de procedimento
        - anel externo: distribuição por dia
        ============================================================ */
-    function gerarDonut(dados) {
-        const c = safeCanvas("chartDonut");
-        if (!c) return;
-
-        if (charts.donut) charts.donut.destroy();
-
-        // interno: tipos
-        const tipos = { "CONSULTA": 0, "GRUPO": 0, "RETORNO": 0, "EXAME": 0, "OUTROS": 0 };
-        // externo: dias
-        const diasMapa = { "DOM":0,"SEG":0,"TER":0,"QUA":0,"QUI":0,"SEX":0,"SAB":0 };
-
-        dados.forEach(d => {
-            const v = Number(d.vagas) || 0;
-            tipos[tipoProcedimento(d.procedimento)] = (tipos[tipoProcedimento(d.procedimento)] || 0) + v;
-
-            const diasSel = extrairDias(d.dias_semana);
-            if (diasSel.length === 0) {
-                // se não vier dia, joga em SEG (evita “sumir” no gráfico)
-                diasMapa["SEG"] += v;
-            } else {
-                diasSel.forEach(di => diasMapa[di] += v);
-            }
-        });
-
-        const labelsTipos = Object.keys(tipos);
-        const valsTipos = labelsTipos.map(k => tipos[k]);
-
-        const labelsDias = Object.keys(diasMapa);
-        const valsDias = labelsDias.map(k => diasMapa[k]);
-
-        charts.donut = new Chart(c, {
-            type: "doughnut",
-            data: {
-                labels: labelsDias,
-                datasets: [
-                    {
-                        label: "Tipos",
-                        data: valsTipos,
+            function gerarDonut(dados) {
+                const c = safeCanvas("chartDonut");
+                if (!c) return;
+            
+                if (charts.donut) charts.donut.destroy();
+            
+                // 1️⃣ Processa dados corretamente
+                const tipos = { "CONSULTA": 0, "GRUPO": 0, "RETORNO": 0, "EXAME": 0, "OUTROS": 0 };
+                const diasMapa = { "DOM":0,"SEG":0,"TER":0,"QUA":0,"QUI":0,"SEX":0,"SAB":0 };
+            
+                dados.forEach(d => {
+                    const v = Number(d.vagas) || 0;
+                    tipos[tipoProcedimento(d.procedimento)] += v;
+            
+                    const diasSel = extrairDias(d.dias_semana);
+                    if (diasSel.length === 0) diasMapa["SEG"] += v;
+                    else diasSel.forEach(di => diasMapa[di] += v);
+                });
+            
+                // 2️⃣ CORREÇÃO CHAVE: Cria dois gráficos SEPARADOS
+                // (não é possível fazer um único gráfico com categorias diferentes)
+                
+                // Gráfico 1: Tipos de procedimento (círculo interno)
+                const chartTipos = {
+                    labels: Object.keys(tipos),
+                    datasets: [{
+                        data: Object.values(tipos),
                         backgroundColor: [COLORS.yellow, COLORS.green, COLORS.red, COLORS.blue, COLORS.gray],
                         borderWidth: 0,
                         radius: "55%",
                         cutout: "35%"
-                    },
-                    {
-                        label: "Dias",
-                        data: valsDias,
+                    }]
+                };
+            
+                // Gráfico 2: Dias da semana (círculo externo)
+                const chartDias = {
+                    labels: Object.keys(diasMapa),
+                    datasets: [{
+                        data: Object.values(diasMapa),
                         backgroundColor: [
                             "rgba(26,42,108,0.12)",
                             "rgba(26,42,108,0.18)",
@@ -695,27 +688,41 @@ document.addEventListener("DOMContentLoaded", () => {
                         borderWidth: 0,
                         radius: "95%",
                         cutout: "60%"
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: "bottom" },
-                    tooltip: {
-                        callbacks: {
-                            label: (ctx) => {
-                                const lbl = ctx.label || "";
-                                const v = ctx.parsed || 0;
-                                return `${lbl}: ${v} vagas`;
+                    }]
+                };
+            
+                // 3️⃣ Combina os dois gráficos em um único canvas
+                charts.donut = new Chart(c, {
+                    type: "doughnut",
+                    data: {
+                        labels: [...chartDias.labels, ...chartTipos.labels], // Junta labels
+                        datasets: [
+                            ...chartDias.datasets,
+                            ...chartTipos.datasets
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: "bottom",
+                                labels: {
+                                    filter: (item, chart) => 
+                                        chart.data.labels[item.index].length <= 3,
+                                    // Personaliza as cores da legenda
+                                    generateLabels: (chart) => {
+                                        return chart.data.labels.map((label, i) => ({
+                                            text: label,
+                                            fillStyle: chart.data.datasets[0].backgroundColor[i]
+                                        }));
+                                    }
+                                }
                             }
                         }
                     }
-                }
+                });
             }
-        });
-    }
 
     /* ============================================================
        [GRAFICO 6] Evolução da Vigência (linha por tipo + fill)
